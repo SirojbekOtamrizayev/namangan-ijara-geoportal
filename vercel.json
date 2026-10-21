@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/namangan_interaktiv_xarita.html"
+    }
+  ]
+}

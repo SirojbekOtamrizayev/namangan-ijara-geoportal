@@ -1,0 +1,2274 @@
+{
+  "pop": {
+    "name": "Pop tumani",
+    "shortName": "Pop",
+    "number": 1,
+    "boshYerHa": "5 200 ga",
+    "tuproqQatlami": "Qumloq va sug'oriladigan bo'z tuproq (Bonitet: 64 ball)",
+    "mosEkinlar": "Poliz (tarvuz, qovun), eksportbop mosh, sarimsoqpiyoz, loviya",
+    "kutilayotganDaromad": "31.5 mln so'm / 50 sotix",
+    "tuproqNamligi": "58% - 65% (Mo'tadil)",
+    "hosilTonna": "25 - 35 tonna / ga",
+    "textPos": [
+      140,
+      195
+    ],
+    "fontSize": 12,
+    "color": "#357963",
+    "points": "118,88 111,94 92,98 71,122 57,123 49,152 36,166 21,174 21,182 34,182 39,187 40,197 33,209 35,224 50,232 52,246 74,255 74,262 64,273 86,292 98,284 112,289 114,299 145,327 142,339 129,342 144,358 158,382 157,396 171,396 187,407 198,404 213,391 229,392 229,305 216,290 215,259 197,245 199,227 213,224 217,216 191,191 185,207 176,217 164,216 155,207 152,188 157,177 148,158 151,132 124,88",
+    "center": [
+      135,
+      244
+    ],
+    "bbox": {
+      "minX": 21.0,
+      "minY": 88.0,
+      "maxX": 229.0,
+      "maxY": 407.0,
+      "w": 208.0,
+      "h": 319.0
+    },
+    "mfys": [
+      {
+        "id": "pop-guzar",
+        "name": "G'urumsaroy MFY",
+        "area": "185 ga",
+        "spec": "Poliz va Eksportbop Mosh",
+        "poorFamilies": 142,
+        "parcels": [
+          {
+            "id": "POP-GUR-01",
+            "contourNumber": "142-kontur",
+            "farmerName": "Rustamov Jamshid Qodirovich",
+            "familyStatus": "Ijtimoiy himoya reyestrida",
+            "allocatedAreaHa": 0.5,
+            "contractYear": "2024 - 2034 (10 yil)",
+            "specialization": "Polizchilik (Tarvuz, Qovun) va Dukkakli",
+            "soil": {
+              "type": "Qumloq-bo'z tuproq",
+              "bonitetScore": 64,
+              "moisture": "58% (O'rtacha namlik)",
+              "salinity": "Kuchsiz sho'rlangan (yuvilgan)",
+              "groundwaterDepth": "2.2 metr",
+              "waterSource": "Shimoliy Farg'ona kanali (Ariq orqali oqim suv)"
+            },
+            "recommendation": {
+              "primaryCrop": "Mosh va Qovun/Tarvuz",
+              "secondaryCrop": "Kuzgi sarimsoqpiyoz",
+              "rationale": "Qumloq va quyoshli yer bo'lgani sababli ertapishar poliz ekinlari va dukkakli mosh yuqori hosil beradi.",
+              "cycleMonths": "Aprel - Iyul (Poliz), Avgust - Oktyabr (Mosh)"
+            },
+            "economics": {
+              "expensesUzs": 6500000,
+              "expectedYield": "12 tonna tarvuz + 900 kg mosh",
+              "grossRevenueUzs": 38000000,
+              "netProfitUzs": 31500000,
+              "paybackMonths": 4
+            }
+          }
+        ],
+        "latlon": [
+          40.892,
+          71.085
+        ]
+      },
+      {
+        "id": "pop-chorkesar",
+        "name": "Chorkesar MFY",
+        "area": "210 ga",
+        "spec": "Adir uzumchiligi va Bodomzor",
+        "poorFamilies": 165,
+        "parcels": [
+          {
+            "id": "POP-CHO-01",
+            "contourNumber": "88-kontur",
+            "farmerName": "Tursunov Sherzod Baxtiyorovich",
+            "familyStatus": "Temir daftar ro'yxatida",
+            "allocatedAreaHa": 0.5,
+            "contractYear": "2023 - 2033 (10 yil)",
+            "specialization": "Kishmish uzum va No'xat",
+            "soil": {
+              "type": "Adir bo'z tuprog'i, toshloq-qumloq",
+              "bonitetScore": 59,
+              "moisture": "52% (Qo'shimcha sug'orish talab etiladi)",
+              "salinity": "Sho'rlanmagan",
+              "groundwaterDepth": "4.5 metr",
+              "waterSource": "Tomchilatib sug'orish hovuzi (Artezian quduq)"
+            },
+            "recommendation": {
+              "primaryCrop": "Uzum (Kishmish) va Bodom ko'chatlari",
+              "secondaryCrop": "Qator oralariga mosh va no'xat",
+              "rationale": "Adir relyefiga uzum va bodom eng chidamli bo'lib, tomchilatib sug'orishda juda yuqori rentabellik beradi.",
+              "cycleMonths": "Muntazam hosil"
+            },
+            "economics": {
+              "expensesUzs": 8000000,
+              "expectedYield": "4 tonna uzum + 400 kg dukkakli",
+              "grossRevenueUzs": 45000000,
+              "netProfitUzs": 37000000,
+              "paybackMonths": 6
+            }
+          }
+        ],
+        "latlon": [
+          40.945,
+          71.032
+        ]
+      },
+      {
+        "id": "pop-sang",
+        "name": "Sang MFY",
+        "area": "195 ga",
+        "spec": "Ertapishar Sabzi va Piyoz",
+        "poorFamilies": 150,
+        "parcels": [
+          {
+            "id": "POP-SNG-01",
+            "contourNumber": "102-kontur",
+            "farmerName": "Qo'chqorov Alijon Valiyevich",
+            "familyStatus": "Ijtimoiy himoya reyestrida",
+            "allocatedAreaHa": 0.45,
+            "contractYear": "2024 - 2034 (10 yil)",
+            "specialization": "Sabzi va Qizil piyoz",
+            "soil": {
+              "type": "Sug'oriladigan bo'z tuproq",
+              "bonitetScore": 65,
+              "moisture": "62% (Me'yorda)",
+              "salinity": "Kuchsiz yuvilgan",
+              "groundwaterDepth": "2.4 metr",
+              "waterSource": "Sirdaryo kanali"
+            },
+            "recommendation": {
+              "primaryCrop": "Ertapishar Sariq va Qizil Sabzi",
+              "secondaryCrop": "Kuzgi piyoz",
+              "rationale": "Sabzi hosildorligi yuqori va saqlashga chidamli.",
+              "cycleMonths": "Mart - Iyul, Avgust - Oktyabr"
+            },
+            "economics": {
+              "expensesUzs": 5500000,
+              "expectedYield": "13 tonna sabzi",
+              "grossRevenueUzs": 36000000,
+              "netProfitUzs": 30500000,
+              "paybackMonths": 3.5
+            }
+          }
+        ],
+        "latlon": [
+          40.852,
+          71.125
+        ]
+      },
+      {
+        "id": "pop-chorkesar-extra",
+        "name": "Chorkesar MFY",
+        "area": "420 ga",
+        "spec": "Urug'chilik va sabzavotchilik",
+        "poorFamilies": 74,
+        "parcels": [
+          {
+            "id": "POP-CK-01",
+            "contourNumber": "18-kontur",
+            "farmerName": "Hasanov Jamshidbek Nuriddinovich",
+            "familyStatus": "Temir daftar",
+            "allocatedAreaHa": 0.5,
+            "contractYear": "2023 - 2033 (10 yil)",
+            "specialization": "Mosh va poliz",
+            "soil": {
+              "type": "Qumloq bo'z tuproq",
+              "bonitetScore": 66,
+              "moisture": "62% (Mo'tadil)"
+            },
+            "recommendation": {
+              "primaryCrop": "Eksportbop Yashil Mosh",
+              "secondaryCrop": "Kuzgi sarimsoqpiyoz"
+            },
+            "economics": {
+              "netProfitUzs": 34000000,
+              "expectedYield": "3.2 tonna / ga"
+            }
+          },
+          {
+            "id": "POP-CK-02",
+            "contourNumber": "19-kontur",
+            "farmerName": "Qodirova Nilufar Baxtiyorovna",
+            "familyStatus": "Ayollar daftari",
+            "allocatedAreaHa": 0.4,
+            "contractYear": "2024 - 2034 (10 yil)",
+            "specialization": "Sabzavotchilik",
+            "soil": {
+              "type": "Qumloq tuproq",
+              "bonitetScore": 65,
+              "moisture": "60% (Mo'tadil)"
+            },
+            "recommendation": {
+              "primaryCrop": "Poliz (Qovun, Tarvuz)",
+              "secondaryCrop": "Loviya"
+            },
+            "economics": {
+              "netProfitUzs": 29000000,
+              "expectedYield": "28 tonna / ga"
+            }
+          }
+        ],
+        "latlon": [
+          40.9,
+          71.1
+        ]
+      },
+      {
+        "id": "pop-pungon",
+        "name": "Pungon MFY",
+        "area": "510 ga",
+        "spec": "Poliz va sarimsoqpiyoz",
+        "poorFamilies": 92,
+        "parcels": [
+          {
+            "id": "POP-PNG-01",
+            "contourNumber": "32-kontur",
+            "farmerName": "Normatov Erkin Rustamovich",
+            "familyStatus": "Yoshlar daftari",
+            "allocatedAreaHa": 0.6,
+            "contractYear": "2023 - 2033 (10 yil)",
+            "specialization": "Sarimsoqpiyoz va poliz",
+            "soil": {
+              "type": "Sug'oriladigan bo'z tuproq",
+              "bonitetScore": 67,
+              "moisture": "64% (Yaxshi)"
+            },
+            "recommendation": {
+              "primaryCrop": "Eksportbop Sarimsoqpiyoz",
+              "secondaryCrop": "Takroriy mosh"
+            },
+            "economics": {
+              "netProfitUzs": 38500000,
+              "expectedYield": "18 tonna / ga"
+            }
+          }
+        ],
+        "latlon": [
+          40.9,
+          71.1
+        ]
+      }
+    ]
+  },
+  "chust": {
+    "name": "Chust tumani",
+    "shortName": "Chust",
+    "number": 2,
+    "boshYerHa": "4 100 ga",
+    "tuproqQatlami": "Tipik tog'oldi bo'z tuproq (Bonitet: 72 ball)",
+    "mosEkinlar": "Achchiq qalampir (Chust brendi), sabzi, karam, pomidor",
+    "kutilayotganDaromad": "36.2 mln so'm / 50 sotix",
+    "tuproqNamligi": "66% - 72% (Optimal)",
+    "hosilTonna": "28 - 40 tonna / ga",
+    "textPos": [
+      295,
+      260
+    ],
+    "fontSize": 12,
+    "color": "#2f6f9f",
+    "points": "207,234 207,241 226,256 226,289 236,299 250,298 263,306 265,311 271,311 273,315 278,307 292,298 310,297 323,324 336,323 345,329 350,329 347,325 347,319 356,314 356,299 359,296 366,296 367,291 375,284 370,268 370,255 373,250 373,245 368,236 370,221 366,207 359,201 354,201 351,204 350,215 346,223 340,229 332,229 329,226 328,201 322,193 316,193 313,202 307,202 302,197 283,215 269,213 261,203 256,203 245,197 238,202 238,218 235,221 226,221 219,234",
+    "center": [
+      298,
+      257
+    ],
+    "bbox": {
+      "minX": 207.0,
+      "minY": 193.0,
+      "maxX": 375.0,
+      "maxY": 329.0,
+      "w": 168.0,
+      "h": 136.0
+    },
+    "mfys": [
+      {
+        "id": "chust-ogasaroy",
+        "name": "O'g'asaroy MFY",
+        "area": "145 ga",
+        "spec": "Chust Qalampiri va Sabzi",
+        "poorFamilies": 120,
+        "parcels": [
+          {
+            "id": "CHU-OGA-01",
+            "contourNumber": "56-kontur",
+            "farmerName": "Ismoilov Otabek Shokirovich",
+            "familyStatus": "Kam ta'minlangan yosh oila",
+            "allocatedAreaHa": 0.4,
+            "contractYear": "2024 - 2034 (10 yil)",
+            "specialization": "Achchiq qalampir va Sabzi",
+            "soil": {
+              "type": "Tipik bo'z tuproq",
+              "bonitetScore": 72,
+              "moisture": "66% (Yuqori namlik)",
+              "salinity": "Sho'rlanmagan",
+              "groundwaterDepth": "2.8 metr",
+              "waterSource": "Chustsoy arig'i (Kafolatlangan oqim)"
+            },
+            "recommendation": {
+              "primaryCrop": "Chust achchiq qalampiri va Sabzi",
+              "secondaryCrop": "Kuzgi karam",
+              "rationale": "Tuproqda mikroelementlar boy, o'tkir ta'mli Chust qalampiri eksportbop hisoblanadi.",
+              "cycleMonths": "Aprel - Oktyabr"
+            },
+            "economics": {
+              "expensesUzs": 5800000,
+              "expectedYield": "6.8 tonna qalampir + 4 tonna sabzi",
+              "grossRevenueUzs": 42000000,
+              "netProfitUzs": 36200000,
+              "paybackMonths": 4
+            }
+          }
+        ],
+        "latlon": [
+          41.025,
+          71.218
+        ]
+      },
+      {
+        "id": "chust-varzik",
+        "name": "Varzik MFY",
+        "area": "190 ga",
+        "spec": "Tog' Olxo'risi va Kartoshka",
+        "poorFamilies": 155,
+        "parcels": [
+          {
+            "id": "CHU-VAR-01",
+            "contourNumber": "21-kontur",
+            "farmerName": "Yuldasheva Dilnoza Axmedovna",
+            "familyStatus": "Nogironligi bor a'zosi mavjud oila",
+            "allocatedAreaHa": 0.3,
+            "contractYear": "2024 - 2034 (10 yil)",
+            "specialization": "Olxo'ri, Kartoshka va Sarimsoq",
+            "soil": {
+              "type": "Unumdor tog' oldi bo'z tuprog'i",
+              "bonitetScore": 75,
+              "moisture": "70% (Optimal namlik)",
+              "salinity": "Sho'rlanmagan",
+              "groundwaterDepth": "3.2 metr",
+              "waterSource": "Buloq suvi va Varzik soyi"
+            },
+            "recommendation": {
+              "primaryCrop": "Olxo'ri (Qora olxo'ri) va Kartoshka",
+              "secondaryCrop": "Sarimsoqpiyoz",
+              "rationale": "Quritishbop olxo'ri va erta pishar kartoshka xonadonga barqaror yuqori daromad keltiradi.",
+              "cycleMonths": "Mavsumiy"
+            },
+            "economics": {
+              "expensesUzs": 4900000,
+              "expectedYield": "8 tonna kartoshka + mevalar",
+              "grossRevenueUzs": 36000000,
+              "netProfitUzs": 31100000,
+              "paybackMonths": 3.8
+            }
+          }
+        ],
+        "latlon": [
+          41.082,
+          71.255
+        ]
+      },
+      {
+        "id": "chust-gova",
+        "name": "G'ova MFY",
+        "area": "170 ga",
+        "spec": "Dukkakli Loviya va Yong'oq",
+        "poorFamilies": 135,
+        "parcels": [
+          {
+            "id": "CHU-GOV-01",
+            "contourNumber": "38-kontur",
+            "farmerName": "Mamatov Dilmurod Ikromovich",
+            "familyStatus": "Ijtimoiy reyestr",
+            "allocatedAreaHa": 0.45,
+            "contractYear": "2023 - 2033 (10 yil)",
+            "specialization": "Oq loviya va Dorivor o'simliklar",
+            "soil": {
+              "type": "Tog' oldi qoramtir tuproq",
+              "bonitetScore": 71,
+              "moisture": "68%",
+              "salinity": "Sho'rlanmagan",
+              "groundwaterDepth": "3.5 metr",
+              "waterSource": "G'ovasoy chashmasi"
+            },
+            "recommendation": {
+              "primaryCrop": "Eksportbop Loviya va No'xat",
+              "secondaryCrop": "Kuzgi sarimsoq",
+              "rationale": "Tog' havosi va mo'l quyosh nuri loviya donining to'liq va yirik pishishini ta'minlaydi.",
+              "cycleMonths": "Aprel - Sentyabr"
+            },
+            "economics": {
+              "expensesUzs": 4500000,
+              "expectedYield": "1.4 tonna loviya + 800 kg no'xat",
+              "grossRevenueUzs": 34000000,
+              "netProfitUzs": 29500000,
+              "paybackMonths": 4
+            }
+          }
+        ],
+        "latlon": [
+          41.115,
+          71.215
+        ]
+      },
+      {
+        "id": "chust-karkidon",
+        "name": "Karkidon MFY",
+        "area": "420 ga",
+        "spec": "Chust achchiq qalampiri va sabzi",
+        "poorFamilies": 85,
+        "parcels": [
+          {
+            "id": "CHS-KRK-01",
+            "contourNumber": "14-kontur",
+            "farmerName": "Mamatov Botirali Fayzullayevich",
+            "familyStatus": "Temir daftar",
+            "allocatedAreaHa": 0.5,
+            "contractYear": "2023 - 2033 (10 yil)",
+            "specialization": "Achchiq qalampir",
+            "soil": {
+              "type": "Tog'oldi bo'z tuproq",
+              "bonitetScore": 73,
+              "moisture": "70% (Optimal)"
+            },
+            "recommendation": {
+              "primaryCrop": "Chust Qalampiri",
+              "secondaryCrop": "Kuzgi sabzi"
+            },
+            "economics": {
+              "netProfitUzs": 41000000,
+              "expectedYield": "22 tonna / ga"
+            }
+          }
+        ],
+        "latlon": [
+          41.0,
+          71.35
+        ]
+      },
+      {
+        "id": "chust-olmos",
+        "name": "Olmos MFY",
+        "area": "410 ga",
+        "spec": "Qalampirchilik va piyoz",
+        "poorFamilies": 78,
+        "parcels": [
+          {
+            "id": "CHS-OLM-01",
+            "contourNumber": "27-kontur",
+            "farmerName": "Yo'ldoshev Akromjon Sobirovich",
+            "familyStatus": "Kam ta'minlangan",
+            "allocatedAreaHa": 0.5,
+            "contractYear": "2024 - 2034 (10 yil)",
+            "specialization": "Qalampir va piyoz",
+            "soil": {
+              "type": "Bo'z tuproq",
+              "bonitetScore": 72,
+              "moisture": "68% (Optimal)"
+            },
+            "recommendation": {
+              "primaryCrop": "Achchiq qalampir",
+              "secondaryCrop": "Qizil piyoz"
+            },
+            "economics": {
+              "netProfitUzs": 37000000,
+              "expectedYield": "25 tonna / ga"
+            }
+          }
+        ],
+        "latlon": [
+          41.0,
+          71.35
+        ]
+      }
+    ]
+  },
+  "mingbuloq": {
+    "name": "Mingbuloq tumani",
+    "shortName": "Mingbuloq",
+    "number": 3,
+    "boshYerHa": "5 100 ga",
+    "tuproqQatlami": "Sug'oriladigan qadimgi o'tloqi bo'z tuproq (Bonitet: 70 ball)",
+    "mosEkinlar": "Ertapishar poliz, qovun, tarvuz, eksportbop mosh, loviya",
+    "kutilayotganDaromad": "33.0 mln so'm / 50 sotix",
+    "tuproqNamligi": "60% - 68% (Kafolatlangan oqim)",
+    "hosilTonna": "30 - 45 tonna / ga",
+    "textPos": [
+      345,
+      385
+    ],
+    "fontSize": 11,
+    "color": "#b0803a",
+    "points": "460,327 453,327 446,321 442,321 430,328 418,330 407,330 402,326 378,329 365,329 359,327 350,337 339,337 321,349 313,349 307,358 305,367 292,377 284,379 279,389 279,395 274,407 284,407 302,419 313,422 336,436 347,434 356,424 367,418 377,407 390,406 398,397 440,373 439,368 431,358 431,351 450,333",
+    "center": [
+      361,
+      375
+    ],
+    "bbox": {
+      "minX": 274.0,
+      "minY": 321.0,
+      "maxX": 460.0,
+      "maxY": 436.0,
+      "w": 186.0,
+      "h": 115.0
+    },
+    "mfys": [
+      {
+        "id": "ming-jomashoy",
+        "name": "Jomasho'y MFY",
+        "area": "230 ga",
+        "spec": "Sholichilik va Dukkakli Mosh",
+        "poorFamilies": 180,
+        "parcels": [
+          {
+            "id": "MIN-JOM-01",
+            "contourNumber": "105-kontur",
+            "farmerName": "Qambarov O'tkir Ne'matovich",
+            "familyStatus": "Mavsumiy band xonadon",
+            "allocatedAreaHa": 0.6,
+            "contractYear": "2024 - 2034 (10 yil)",
+            "specialization": "Lazer navli sholi va poliz",
+            "soil": {
+              "type": "O'tloqi allyuvial tuproq",
+              "bonitetScore": 66,
+              "moisture": "78% (Yuqori namlik, yerosti suvi yaqin)",
+              "salinity": "Kuchsiz sho'rlangan",
+              "groundwaterDepth": "1.2 metr",
+              "waterSource": "Sirdaryo va zovur suvlari (doimiy suv)"
+            },
+            "recommendation": {
+              "primaryCrop": "Lazer navli Sholi va Mosh",
+              "secondaryCrop": "Poliz (Qovun)",
+              "rationale": "Sizot suvlari yaqin va tuproq loyli bo'lgani sababli sholi hamda mosh juda yaxshi hosil beradi.",
+              "cycleMonths": "May - Oktyabr"
+            },
+            "economics": {
+              "expensesUzs": 8400000,
+              "expectedYield": "3.8 tonna sholi (tozalangan guruch)",
+              "grossRevenueUzs": 49000000,
+              "netProfitUzs": 40600000,
+              "paybackMonths": 5
+            }
+          }
+        ],
+        "latlon": [
+          40.775,
+          71.465
+        ]
+      },
+      {
+        "id": "ming-boston",
+        "name": "Bo'ston MFY",
+        "area": "200 ga",
+        "spec": "Gurvak Qovun va Tarvuz",
+        "poorFamilies": 155,
+        "parcels": [
+          {
+            "id": "MIN-BOS-01",
+            "contourNumber": "119-kontur",
+            "farmerName": "Hamdamov Baxtiyor Rasulovich",
+            "familyStatus": "Temir daftar",
+            "allocatedAreaHa": 0.5,
+            "contractYear": "2024 - 2034 (10 yil)",
+            "specialization": "Polizchilik (Qovun, Tarvuz)",
+            "soil": {
+              "type": "Qumloq to'qay tuprog'i",
+              "bonitetScore": 64,
+              "moisture": "72%",
+              "salinity": "Kuchsiz sho'rlangan",
+              "groundwaterDepth": "1.5 metr",
+              "waterSource": "Sirdaryo irmog'i"
+            },
+            "recommendation": {
+              "primaryCrop": "Eksportbop Gurvak Qovun va Qora Tarvuz",
+              "secondaryCrop": "Dukkakli mosh",
+              "rationale": "Qumloq tuproqda poliz shirin pishadi, Rossiya bozoriga eksport qilish mumkin.",
+              "cycleMonths": "Aprel - Sentyabr"
+            },
+            "economics": {
+              "expensesUzs": 6100000,
+              "expectedYield": "18 tonna poliz mahsulotlari",
+              "grossRevenueUzs": 41000000,
+              "netProfitUzs": 34900000,
+              "paybackMonths": 4
+            }
+          }
+        ],
+        "latlon": [
+          40.795,
+          71.505
+        ]
+      },
+      {
+        "id": "ming-qizilqum",
+        "name": "Qizilqum MFY",
+        "area": "68 ga",
+        "spec": "Poliz va sabzavot",
+        "poorFamilies": 65,
+        "parcels": [
+          {
+            "id": "MNG-QZQ-01",
+            "contourNumber": "07-kontur",
+            "farmerName": "Tojiyev Ilhomjon Karimovich",
+            "familyStatus": "Temir daftar",
+            "allocatedAreaHa": 0.5,
+            "contractYear": "2023 - 2033 (10 yil)",
+            "specialization": "Gurvak qovun va poliz",
+            "soil": {
+              "type": "Qadimgi o'tloqi tuproq",
+              "bonitetScore": 71,
+              "moisture": "65% (Kafolatlangan)"
+            },
+            "recommendation": {
+              "primaryCrop": "Gurvak qovun va tarvuz",
+              "secondaryCrop": "Dukkakli mosh"
+            },
+            "economics": {
+              "netProfitUzs": 35000000,
+              "expectedYield": "35 tonna / ga"
+            }
+          }
+        ],
+        "latlon": [
+          40.8,
+          71.55
+        ]
+      },
+      {
+        "id": "ming-yangigulbog",
+        "name": "Yangi Gulbog' MFY",
+        "area": "153 ga",
+        "spec": "Eksportbop poliz va sholi",
+        "poorFamilies": 110,
+        "parcels": [
+          {
+            "id": "MNG-YGB-01",
+            "contourNumber": "21-kontur",
+            "farmerName": "Abdullayev Ravshanbek",
+            "familyStatus": "Yoshlar daftari",
+            "allocatedAreaHa": 0.5,
+            "contractYear": "2024 - 2034 (10 yil)",
+            "specialization": "Lazer sholisi va poliz",
+            "soil": {
+              "type": "O'tloqi tuproq",
+              "bonitetScore": 72,
+              "moisture": "72% (Serob)"
+            },
+            "recommendation": {
+              "primaryCrop": "Lazer sholi",
+              "secondaryCrop": "Takroriy mosh"
+            },
+            "economics": {
+              "netProfitUzs": 38000000,
+              "expectedYield": "45 s / ga"
+            }
+          }
+        ],
+        "latlon": [
+          40.8,
+          71.55
+        ]
+      }
+    ]
+  },
+  "toraqorgon": {
+    "name": "To'raqo'rg'on tumani",
+    "shortName": "To'raqo'rg'on",
+    "number": 4,
+    "boshYerHa": "3 100 ga",
+    "tuproqQatlami": "Sug'oriladigan serunum o'tloqi tuproq (Bonitet: 76 ball)",
+    "mosEkinlar": "Ertapishar sabzi, baqlajon, bodring, bulg'or qalampiri",
+    "kutilayotganDaromad": "34.8 mln so'm / 50 sotix",
+    "tuproqNamligi": "72% - 78% (Yuqori optimal namlik)",
+    "hosilTonna": "35 - 50 tonna / ga",
+    "textPos": [
+      382,
+      305
+    ],
+    "fontSize": 9.5,
+    "color": "#7a5aa6",
+    "points": "395,217 392,218 392,233 386,243 387,259 382,264 376,266 378,277 378,288 370,296 369,301 362,301 361,300 360,314 354,321 351,322 354,325 358,323 378,324 387,322 402,322 411,326 415,326 419,322 421,310 419,305 414,303 414,298 412,295 412,288 417,281 417,265 405,256 406,238 401,232 399,232 397,230",
+    "center": [
+      393,
+      287
+    ],
+    "bbox": {
+      "minX": 351.0,
+      "minY": 217.0,
+      "maxX": 421.0,
+      "maxY": 326.0,
+      "w": 70.0,
+      "h": 109.0
+    },
+    "mfys": [
+      {
+        "id": "tora-shaxand",
+        "name": "Shohand MFY",
+        "area": "120 ga",
+        "spec": "Ertapishar Sabzavotchilik",
+        "poorFamilies": 110,
+        "parcels": [
+          {
+            "id": "TOR-SHO-01",
+            "contourNumber": "34-kontur",
+            "farmerName": "Karimov Anvar Jo'rayevich",
+            "familyStatus": "Ishsiz oila boshlig'i, Ijtimoiy daftarda",
+            "allocatedAreaHa": 0.5,
+            "contractYear": "2024 - 2034 (10 yil)",
+            "specialization": "Sabzavotchilik (Sabzi, Baqlajon, Karam)",
+            "soil": {
+              "type": "Sug'oriladigan o'tloqi bo'z tuproq",
+              "bonitetScore": 76,
+              "moisture": "72% (Juda yaxshi ta'minlangan)",
+              "salinity": "Sho'rlanmagan",
+              "groundwaterDepth": "1.8 metr",
+              "waterSource": "Katta Farg'ona kanali tarmog'i"
+            },
+            "recommendation": {
+              "primaryCrop": "Ertapishar Sabzi va Baqlajon",
+              "secondaryCrop": "Makkajo'xori (don va silos)",
+              "rationale": "Gumus miqdori yuqori, suv serob. Yilda 2-3 marta hosil olish imkoni mavjud.",
+              "cycleMonths": "Mart - Iyul, Avgust - Noyabr"
+            },
+            "economics": {
+              "expensesUzs": 6200000,
+              "expectedYield": "15 tonna sabzi + 8 tonna silos",
+              "grossRevenueUzs": 41000000,
+              "netProfitUzs": 34800000,
+              "paybackMonths": 3.5
+            }
+          }
+        ],
+        "latlon": [
+          40.985,
+          71.492
+        ]
+      },
+      {
+        "id": "tora-yordon",
+        "name": "Yordon MFY",
+        "area": "135 ga",
+        "spec": "Issiqxona Pomidori va Bodring",
+        "poorFamilies": 125,
+        "parcels": [
+          {
+            "id": "TOR-YOR-01",
+            "contourNumber": "51-kontur",
+            "farmerName": "Sultonov Murodjon Oripovich",
+            "familyStatus": "Temir daftar",
+            "allocatedAreaHa": 0.35,
+            "contractYear": "2024 - 2034 (10 yil)",
+            "specialization": "Pomidor, Bodring va Shirin qalampir",
+            "soil": {
+              "type": "Sergumus qora bo'z tuproq",
+              "bonitetScore": 78,
+              "moisture": "74% (A'lo namlik)",
+              "salinity": "Sho'rlanmagan",
+              "groundwaterDepth": "1.7 metr",
+              "waterSource": "Kosonsoy arig'i"
+            },
+            "recommendation": {
+              "primaryCrop": "Yangi navli Pushti Pomidor",
+              "secondaryCrop": "Ko'katlar va rediska",
+              "rationale": "Pushti pomidorlar ichki bozorda qimmat yuradi, tez yetiladi.",
+              "cycleMonths": "Mart - Avgust, Sentyabr - Dekabr"
+            },
+            "economics": {
+              "expensesUzs": 6900000,
+              "expectedYield": "11 tonna pomidor",
+              "grossRevenueUzs": 47000000,
+              "netProfitUzs": 40100000,
+              "paybackMonths": 3
+            }
+          }
+        ],
+        "latlon": [
+          41.015,
+          71.532
+        ]
+      },
+      {
+        "id": "tora-qatagon",
+        "name": "Qatag'on MFY",
+        "area": "110 ga",
+        "spec": "Mosh va Makkajo'xori",
+        "poorFamilies": 98,
+        "parcels": [
+          {
+            "id": "TOR-QAT-01",
+            "contourNumber": "73-kontur",
+            "farmerName": "Sobirova Gulchehra Ilhomovna",
+            "familyStatus": "Ayollar daftari",
+            "allocatedAreaHa": 0.4,
+            "contractYear": "2023 - 2033 (10 yil)",
+            "specialization": "Eksportbop mosh va poliz",
+            "soil": {
+              "type": "O'tloqi bo'z tuproq",
+              "bonitetScore": 73,
+              "moisture": "70%",
+              "salinity": "Sho'rlanmagan",
+              "groundwaterDepth": "1.9 metr",
+              "waterSource": "Kanal tarmog'i"
+            },
+            "recommendation": {
+              "primaryCrop": "Yashil Mosh va Shirin Qovun",
+              "secondaryCrop": "Kuzgi arpa/silos",
+              "rationale": "Mosh yerga tabiiy azot to'playdi, qo'shimcha mineral o'g'it talab qilmaydi.",
+              "cycleMonths": "May - Oktyabr"
+            },
+            "economics": {
+              "expensesUzs": 4800000,
+              "expectedYield": "900 kg mosh + 8 tonna qovun",
+              "grossRevenueUzs": 35000000,
+              "netProfitUzs": 30200000,
+              "paybackMonths": 4
+            }
+          }
+        ],
+        "latlon": [
+          40.995,
+          71.472
+        ]
+      },
+      {
+        "id": "tora-axsi",
+        "name": "Axsi MFY",
+        "area": "410 ga",
+        "spec": "Tarixiy bog'dorchilik va ertaki sabzavot",
+        "poorFamilies": 82,
+        "parcels": [
+          {
+            "id": "TRQ-AXS-01",
+            "contourNumber": "15-kontur",
+            "farmerName": "Usmonov Sobirjon",
+            "familyStatus": "Temir daftar",
+            "allocatedAreaHa": 0.5,
+            "contractYear": "2023 - 2033 (10 yil)",
+            "specialization": "Ertapishar sabzi va pomidor",
+            "soil": {
+              "type": "Serunum o'tloqi",
+              "bonitetScore": 77,
+              "moisture": "76% (Optimal)"
+            },
+            "recommendation": {
+              "primaryCrop": "Ertapishar sabzi",
+              "secondaryCrop": "Kuzgi gulkaram"
+            },
+            "economics": {
+              "netProfitUzs": 39000000,
+              "expectedYield": "38 tonna / ga"
+            }
+          }
+        ],
+        "latlon": [
+          40.98,
+          71.55
+        ]
+      }
+    ]
+  },
+  "kosonsoy": {
+    "name": "Kosonsoy tumani",
+    "shortName": "Kosonsoy",
+    "number": 5,
+    "boshYerHa": "3 950 ga",
+    "tuproqQatlami": "Tog'oldi toshloq-unumdor tuproq (Bonitet: 69 ball)",
+    "mosEkinlar": "Kosonsoy qora olxo'risi, shaftoli, sabzi, dukkaklilar",
+    "kutilayotganDaromad": "38.0 mln so'm / 50 sotix",
+    "tuproqNamligi": "63% - 70% (Buloq va soy suvlari)",
+    "hosilTonna": "26 - 38 tonna / ga",
+    "textPos": [
+      412,
+      195
+    ],
+    "fontSize": 10,
+    "color": "#427055",
+    "points": "417,127 411,127 406,131 395,129 387,140 389,148 388,159 394,162 398,167 398,174 393,186 393,200 388,216 379,227 374,227 373,236 377,243 375,261 383,256 382,241 387,233 387,219 390,214 400,215 401,229 404,229 411,238 409,255 415,258 418,258 423,253 432,254 438,248 444,248 451,235 451,225 446,216 446,207 453,204 454,180 434,150 429,140 429,136",
+    "center": [
+      418,
+      193
+    ],
+    "bbox": {
+      "minX": 373.0,
+      "minY": 127.0,
+      "maxX": 454.0,
+      "maxY": 261.0,
+      "w": 81.0,
+      "h": 134.0
+    },
+    "mfys": [
+      {
+        "id": "kos-kushon",
+        "name": "Kushon MFY",
+        "area": "175 ga",
+        "spec": "Kosonsoy Olxo'risi va Zira",
+        "poorFamilies": 140,
+        "parcels": [
+          {
+            "id": "KOS-KUS-01",
+            "contourNumber": "62-kontur",
+            "farmerName": "Mirzayev Javlon Botirovich",
+            "familyStatus": "Temir daftar",
+            "allocatedAreaHa": 0.45,
+            "contractYear": "2023 - 2033 (10 yil)",
+            "specialization": "Olxo'ri, Loviya va Dorivor o'simliklar",
+            "soil": {
+              "type": "Tog' oldi toshloq-bo'z tuprog'i",
+              "bonitetScore": 69,
+              "moisture": "60% (Salqin iqlim tufayli namlik yaxshi saqlanadi)",
+              "salinity": "Sho'rlanmagan",
+              "groundwaterDepth": "3.8 metr",
+              "waterSource": "Kosonsoy daryosi va tog' soylari"
+            },
+            "recommendation": {
+              "primaryCrop": "Kosonsoy olxo'risi va Zira/Dorivor giyohlar",
+              "secondaryCrop": "Loviya va no'xat",
+              "rationale": "Tog' havosi va toza daryo suvi dorivor o'simliklar va eksportbop mevalar uchun eng yaxshi sharoit yaratadi.",
+              "cycleMonths": "Aprel - Oktyabr"
+            },
+            "economics": {
+              "expensesUzs": 5600000,
+              "expectedYield": "5 tonna olxo'ri + 600 kg loviya",
+              "grossRevenueUzs": 39000000,
+              "netProfitUzs": 33400000,
+              "paybackMonths": 4
+            }
+          }
+        ],
+        "latlon": [
+          41.265,
+          71.538
+        ]
+      },
+      {
+        "id": "kos-chindovul",
+        "name": "Chindovul MFY",
+        "area": "160 ga",
+        "spec": "Dorivor Giyohlar va Sabzavot",
+        "poorFamilies": 130,
+        "parcels": [
+          {
+            "id": "KOS-CHI-01",
+            "contourNumber": "44-kontur",
+            "farmerName": "Toshmatov Omonjon G'aniyevich",
+            "familyStatus": "Ijtimoiy reyestr",
+            "allocatedAreaHa": 0.4,
+            "contractYear": "2024 - 2034 (10 yil)",
+            "specialization": "Zira, Qizilmiya, Sarimsoq",
+            "soil": {
+              "type": "Serquyuq tog' tuprog'i",
+              "bonitetScore": 71,
+              "moisture": "62%",
+              "salinity": "Sho'rlanmagan",
+              "groundwaterDepth": "3.6 metr",
+              "waterSource": "Tog' bulog'i"
+            },
+            "recommendation": {
+              "primaryCrop": "Zira va Tog' sarimsoqpiyozi",
+              "secondaryCrop": "Qizil sabzi",
+              "rationale": "Dorivor zira narxi yuqori (kg si 80-100 ming so'm), oz maydonda katta daromad beradi.",
+              "cycleMonths": "Aprel - Sentyabr"
+            },
+            "economics": {
+              "expensesUzs": 5200000,
+              "expectedYield": "450 kg zira + 6 tonna sabzi",
+              "grossRevenueUzs": 41000000,
+              "netProfitUzs": 35800000,
+              "paybackMonths": 3.5
+            }
+          }
+        ],
+        "latlon": [
+          41.285,
+          71.565
+        ]
+      },
+      {
+        "id": "kos-bogbon",
+        "name": "Bog'bon MFY",
+        "area": "380 ga",
+        "spec": "Qora olxo'ri va shaftoli",
+        "poorFamilies": 76,
+        "parcels": [
+          {
+            "id": "KSS-BGB-01",
+            "contourNumber": "09-kontur",
+            "farmerName": "Yoqubov Mansurxon",
+            "familyStatus": "Kam ta'minlangan",
+            "allocatedAreaHa": 0.5,
+            "contractYear": "2023 - 2033 (10 yil)",
+            "specialization": "Kosonsoy olxo'risi",
+            "soil": {
+              "type": "Tog'oldi toshloq-unumdor",
+              "bonitetScore": 70,
+              "moisture": "66% (Buloq suvi)"
+            },
+            "recommendation": {
+              "primaryCrop": "Kosonsoy qora olxo'risi",
+              "secondaryCrop": "Zira va dorivorlar"
+            },
+            "economics": {
+              "netProfitUzs": 43000000,
+              "expectedYield": "24 tonna / ga"
+            }
+          }
+        ],
+        "latlon": [
+          41.07,
+          71.56
+        ]
+      }
+    ]
+  },
+  "yangiqorgon": {
+    "name": "Yangiqo'rg'on tumani",
+    "shortName": "Yangiqo'rg'on",
+    "number": 6,
+    "boshYerHa": "4 400 ga",
+    "tuproqQatlami": "Tog' va tog'oldi serunum jigar-rang tuproq (Bonitet: 74 ball)",
+    "mosEkinlar": "Mashhur Nanay kartoshkasi, tog' olmasi, malina, uzum",
+    "kutilayotganDaromad": "42.5 mln so'm / 50 sotix",
+    "tuproqNamligi": "68% - 75% (Tog' iqlimi sernam)",
+    "hosilTonna": "30 - 45 tonna / ga",
+    "textPos": [
+      460,
+      120
+    ],
+    "fontSize": 10,
+    "color": "#335b80",
+    "points": "467,18 455,18 448,31 436,39 436,42 449,43 456,52 453,75 458,81 458,88 452,96 450,107 443,109 433,129 433,137 441,146 442,155 459,180 458,205 450,209 455,223 455,240 445,254 437,254 433,259 423,259 449,259 451,255 462,255 466,252 466,247 479,236 479,224 486,217 485,210 478,205 478,194 482,189 483,180 487,175 493,175 497,169 498,160 495,151 497,135 494,131 489,131 481,120 470,114 470,108 477,105 477,100 482,98 482,95 476,86 478,74 476,58 471,59 472,72 466,72 461,67 461,57 468,45",
+    "center": [
+      465,
+      144
+    ],
+    "bbox": {
+      "minX": 423.0,
+      "minY": 18.0,
+      "maxX": 498.0,
+      "maxY": 259.0,
+      "w": 75.0,
+      "h": 241.0
+    },
+    "mfys": [
+      {
+        "id": "yq-nanay",
+        "name": "Nanay MFY",
+        "area": "195 ga",
+        "spec": "Mashhur Nanay Kartoshkasi",
+        "poorFamilies": 160,
+        "parcels": [
+          {
+            "id": "YQ-NAN-01",
+            "contourNumber": "11-kontur",
+            "farmerName": "Holiqov Mansurjon G'ulomovich",
+            "familyStatus": "Ijtimoiy reyestr (boquvchisi yo'q)",
+            "allocatedAreaHa": 0.5,
+            "contractYear": "2023 - 2033 (10 yil)",
+            "specialization": "Elita tog' kartoshkasi va Malina",
+            "soil": {
+              "type": "Qora-qo'ng'ir tog' tuprog'i (Gumusga boy)",
+              "bonitetScore": 82,
+              "moisture": "76% (Tabiiy salqin va nam)",
+              "salinity": "Mutlaqo sho'rlanmagan",
+              "groundwaterDepth": "3.5 metr",
+              "waterSource": "Podshota soyi (Toza tog' chashmalari)"
+            },
+            "recommendation": {
+              "primaryCrop": "Tog' kartoshkasi (Nanay kartoshkasi)",
+              "secondaryCrop": "Malina va Qulupnay",
+              "rationale": "Mashhur Nanay kartoshkasi O'zbekistonda eng xaridorgir hisoblanadi, kraxmalga boy va narxi baland.",
+              "cycleMonths": "Aprel - Sentyabr"
+            },
+            "economics": {
+              "expensesUzs": 8200000,
+              "expectedYield": "16 tonna elita tog' kartoshkasi",
+              "grossRevenueUzs": 56000000,
+              "netProfitUzs": 47800000,
+              "paybackMonths": 4
+            }
+          }
+        ],
+        "latlon": [
+          41.235,
+          71.745
+        ]
+      },
+      {
+        "id": "yq-zarkent",
+        "name": "Zarkent MFY",
+        "area": "180 ga",
+        "spec": "Tog' Uzumi va Olmazorlar",
+        "poorFamilies": 145,
+        "parcels": [
+          {
+            "id": "YQ-ZAR-01",
+            "contourNumber": "29-kontur",
+            "farmerName": "Ergashev Tohirjon Aliyevich",
+            "familyStatus": "Temir daftar",
+            "allocatedAreaHa": 0.5,
+            "contractYear": "2023 - 2033 (10 yil)",
+            "specialization": "Uzum (Xusayni, Rizamat) va Olma",
+            "soil": {
+              "type": "Tog' yonbag'ri unumdor tuproq",
+              "bonitetScore": 80,
+              "moisture": "71%",
+              "salinity": "Sho'rlanmagan",
+              "groundwaterDepth": "3.2 metr",
+              "waterSource": "Zarkent soyi"
+            },
+            "recommendation": {
+              "primaryCrop": "Eksportbop Uzum va Qizil Olma",
+              "secondaryCrop": "Qator oralariga mosh va sarimsoq",
+              "rationale": "Zarkent uzumlari o'z shiraliligi va chidamliligi bilan mashhur.",
+              "cycleMonths": "Aprel - Oktyabr"
+            },
+            "economics": {
+              "expensesUzs": 7100000,
+              "expectedYield": "7 tonna uzum + 4 tonna olma",
+              "grossRevenueUzs": 48000000,
+              "netProfitUzs": 40900000,
+              "paybackMonths": 4
+            }
+          }
+        ],
+        "latlon": [
+          41.215,
+          71.715
+        ]
+      },
+      {
+        "id": "yq-poromon",
+        "name": "Poromon MFY",
+        "area": "390 ga",
+        "spec": "Nanay elita kartoshkasi",
+        "poorFamilies": 80,
+        "parcels": [
+          {
+            "id": "YQ-PRM-01",
+            "contourNumber": "11-kontur",
+            "farmerName": "Eshonov Alisher Muxtorovich",
+            "familyStatus": "Yoshlar daftari",
+            "allocatedAreaHa": 0.5,
+            "contractYear": "2023 - 2033 (10 yil)",
+            "specialization": "Elita urug'lik kartoshka",
+            "soil": {
+              "type": "Tog' jigar-rang",
+              "bonitetScore": 75,
+              "moisture": "74% (Mo'tadil sernam)"
+            },
+            "recommendation": {
+              "primaryCrop": "Nanay kartoshkasi",
+              "secondaryCrop": "Kuzgi ko'katlar"
+            },
+            "economics": {
+              "netProfitUzs": 46000000,
+              "expectedYield": "34 tonna / ga"
+            }
+          }
+        ],
+        "latlon": [
+          41.15,
+          71.63
+        ]
+      }
+    ]
+  },
+  "chortoq": {
+    "name": "Chortoq tumani",
+    "shortName": "Chortoq",
+    "number": 7,
+    "boshYerHa": "3 700 ga",
+    "tuproqQatlami": "Tog' etagi to'q bo'z va o'tloqi tuproq (Bonitet: 75 ball)",
+    "mosEkinlar": "Eksportbop gilos, qulupnay, pomidor, o'rik, shaftoli",
+    "kutilayotganDaromad": "39.0 mln so'm / 50 sotix",
+    "tuproqNamligi": "70% - 76% (Mineral boy buloq suvlari)",
+    "hosilTonna": "28 - 42 tonna / ga",
+    "textPos": [
+      512,
+      160
+    ],
+    "fontSize": 10.5,
+    "color": "#9e5b32",
+    "points": "487,52 487,61 484,65 484,71 480,80 480,84 485,92 485,99 483,104 476,109 475,112 482,115 491,127 499,132 503,166 500,173 495,178 488,180 487,188 483,194 483,205 489,211 489,219 484,224 484,234 480,240 521,237 535,218 545,216 548,211 541,199 542,183 534,176 534,172 528,167 528,154 535,138 542,129 545,116 540,114 529,103 527,89 517,88 508,76 493,63",
+    "center": [
+      510,
+      156
+    ],
+    "bbox": {
+      "minX": 475.0,
+      "minY": 52.0,
+      "maxX": 548.0,
+      "maxY": 240.0,
+      "w": 73.0,
+      "h": 188.0
+    },
+    "mfys": [
+      {
+        "id": "chor-alixon",
+        "name": "Alixon MFY",
+        "area": "160 ga",
+        "spec": "Eksportbop Gilos va Qulupnay",
+        "poorFamilies": 130,
+        "parcels": [
+          {
+            "id": "CHO-ALI-01",
+            "contourNumber": "93-kontur",
+            "farmerName": "G'aniyev Dilshodbek Ergashovich",
+            "familyStatus": "Yoshlar daftari ro'yxatida",
+            "allocatedAreaHa": 0.4,
+            "contractYear": "2024 - 2034 (10 yil)",
+            "specialization": "Gilos, Qulupnay va Sarimsoq",
+            "soil": {
+              "type": "Tipik sug'oriladigan bo'z tuproq",
+              "bonitetScore": 73,
+              "moisture": "67%",
+              "salinity": "Sho'rlanmagan",
+              "groundwaterDepth": "2.4 metr",
+              "waterSource": "Chortoqsoy va artezian quduq"
+            },
+            "recommendation": {
+              "primaryCrop": "Eksportbop Gilos va Qulupnay",
+              "secondaryCrop": "Qator oralariga sarimsoqpiyoz",
+              "rationale": "Chortoqning iqlimi erta pishar eksportbop gilos uchun ideal, qator oralari qo'shimcha daromad beradi.",
+              "cycleMonths": "Aprel - Iyun (Gilos/Qulupnay), Kuz (Sarimsoq)"
+            },
+            "economics": {
+              "expensesUzs": 6500000,
+              "expectedYield": "3.5 tonna gilos + 2 tonna qulupnay",
+              "grossRevenueUzs": 52000000,
+              "netProfitUzs": 45500000,
+              "paybackMonths": 3
+            }
+          }
+        ],
+        "latlon": [
+          41.075,
+          71.825
+        ]
+      },
+      {
+        "id": "chor-koroskon",
+        "name": "Koroskon MFY",
+        "area": "145 ga",
+        "spec": "Ertapishar Sabzavot va Meva",
+        "poorFamilies": 120,
+        "parcels": [
+          {
+            "id": "CHO-KOR-01",
+            "contourNumber": "67-kontur",
+            "farmerName": "Ismoilova Nilufar Vohidovna",
+            "familyStatus": "Ijtimoiy reyestr",
+            "allocatedAreaHa": 0.35,
+            "contractYear": "2024 - 2034 (10 yil)",
+            "specialization": "Pomidor, Qalampir va Shaftoli",
+            "soil": {
+              "type": "Bo'z tuproq",
+              "bonitetScore": 72,
+              "moisture": "68%",
+              "salinity": "Sho'rlanmagan",
+              "groundwaterDepth": "2.2 metr",
+              "waterSource": "Chortoq kanali"
+            },
+            "recommendation": {
+              "primaryCrop": "Sabzavotlar (Pomidor va bolgarskiy)",
+              "secondaryCrop": "Kuzgi sabzi",
+              "rationale": "Tuproq mineral moddalarga boy bo'lgani sababli sabzavotlar erta pishadi.",
+              "cycleMonths": "Aprel - Noyabr"
+            },
+            "economics": {
+              "expensesUzs": 5400000,
+              "expectedYield": "9 tonna pomidor/qalampir",
+              "grossRevenueUzs": 38000000,
+              "netProfitUzs": 32600000,
+              "paybackMonths": 3.5
+            }
+          }
+        ],
+        "latlon": [
+          41.055,
+          71.805
+        ]
+      },
+      {
+        "id": "chor-peshkorgon",
+        "name": "Peshqo'rg'on MFY",
+        "area": "410 ga",
+        "spec": "Gilos va intensiv meva",
+        "poorFamilies": 88,
+        "parcels": [
+          {
+            "id": "CRT-PSK-01",
+            "contourNumber": "23-kontur",
+            "farmerName": "G'oziyev Baxtiyor",
+            "familyStatus": "Temir daftar",
+            "allocatedAreaHa": 0.5,
+            "contractYear": "2023 - 2033 (10 yil)",
+            "specialization": "Gilos va qulupnay",
+            "soil": {
+              "type": "Tog'oldi to'q bo'z",
+              "bonitetScore": 76,
+              "moisture": "73% (Buloq suvi)"
+            },
+            "recommendation": {
+              "primaryCrop": "Eksportbop Gilos",
+              "secondaryCrop": "Remontant qulupnay"
+            },
+            "economics": {
+              "netProfitUzs": 48000000,
+              "expectedYield": "26 tonna / ga"
+            }
+          }
+        ],
+        "latlon": [
+          41.07,
+          71.73
+        ]
+      }
+    ]
+  },
+  "uychi": {
+    "name": "Uychi tumani",
+    "shortName": "Uychi",
+    "number": 8,
+    "boshYerHa": "3 300 ga",
+    "tuproqQatlami": "Sug'oriladigan qadimiy madaniy bo'z tuproq (Bonitet: 79 ball)",
+    "mosEkinlar": "Uch faslli sabzavotchilik: ertagi kartoshka, mosh, sholg'om",
+    "kutilayotganDaromad": "37.5 mln so'm / 50 sotix",
+    "tuproqNamligi": "75% - 82% (Yuqori serob)",
+    "hosilTonna": "35 - 52 tonna / ga",
+    "textPos": [
+      560,
+      225
+    ],
+    "fontSize": 9.5,
+    "color": "#6c5391",
+    "points": "587,183 583,181 573,181 572,180 567,180 561,186 552,186 551,185 547,185 547,190 546,191 546,201 551,207 551,215 546,221 537,221 534,225 534,232 530,234 530,259 532,259 535,257 544,257 563,237 567,228 577,219 586,205 586,198 587,197",
+    "center": [
+      558,
+      215
+    ],
+    "bbox": {
+      "minX": 530.0,
+      "minY": 180.0,
+      "maxX": 587.0,
+      "maxY": 259.0,
+      "w": 57.0,
+      "h": 79.0
+    },
+    "mfys": [
+      {
+        "id": "uy-mashad",
+        "name": "Mashad MFY",
+        "area": "150 ga",
+        "spec": "3 Mavsumli Sabzavotchilik",
+        "poorFamilies": 125,
+        "parcels": [
+          {
+            "id": "UY-MAS-01",
+            "contourNumber": "48-kontur",
+            "farmerName": "Nazarov Shuhratbek Tolibovich",
+            "familyStatus": "Nogironligi bor oila a'zosi",
+            "allocatedAreaHa": 0.35,
+            "contractYear": "2024 - 2034 (10 yil)",
+            "specialization": "Ertapishar Sabzi, Karam va Mosh",
+            "soil": {
+              "type": "Qadimiy sug'oriladigan o'tloqi tuproq",
+              "bonitetScore": 78,
+              "moisture": "74% (A'lo darajada)",
+              "salinity": "Sho'rlanmagan",
+              "groundwaterDepth": "1.9 metr",
+              "waterSource": "Norin-Farg'ona kanali tarmog'i"
+            },
+            "recommendation": {
+              "primaryCrop": "Ertapishar Sabzi va Karam",
+              "secondaryCrop": "Mosh va Ko'katlar",
+              "rationale": "Uychi sabzavotkorlari tajribasi va unumdor tuproq sababli yiliga 3 marta hosil olinadi.",
+              "cycleMonths": "Fevral - May, Iyun - Avgust, Sentyabr - Dekabr"
+            },
+            "economics": {
+              "expensesUzs": 6100000,
+              "expectedYield": "16 tonna sabzavotlar (3 mavsum)",
+              "grossRevenueUzs": 46000000,
+              "netProfitUzs": 39900000,
+              "paybackMonths": 3
+            }
+          }
+        ],
+        "latlon": [
+          41.105,
+          71.842
+        ]
+      },
+      {
+        "id": "uy-jiydakapa",
+        "name": "Jiydakapa MFY",
+        "area": "130 ga",
+        "spec": "Ertapishar Kartoshka va Piyoz",
+        "poorFamilies": 110,
+        "parcels": [
+          {
+            "id": "UY-JIY-01",
+            "contourNumber": "63-kontur",
+            "farmerName": "Isomiddinov Botirjon Komilovich",
+            "familyStatus": "Temir daftar",
+            "allocatedAreaHa": 0.4,
+            "contractYear": "2024 - 2034 (10 yil)",
+            "specialization": "Bahorgi kartoshka va piyoz",
+            "soil": {
+              "type": "Yumshoq unumdor bo'z tuproq",
+              "bonitetScore": 76,
+              "moisture": "72%",
+              "salinity": "Sho'rlanmagan",
+              "groundwaterDepth": "1.8 metr",
+              "waterSource": "Norin kanali"
+            },
+            "recommendation": {
+              "primaryCrop": "Ertapishar Kartoshka",
+              "secondaryCrop": "Osh lavlagi va ko'kat",
+              "rationale": "Plyonka ostida erta bahorda ekilib, may oyida bozorga yuqori narxda sotiladi.",
+              "cycleMonths": "Fevral - Iyun, Iyul - Oktyabr"
+            },
+            "economics": {
+              "expensesUzs": 6400000,
+              "expectedYield": "12 tonna kartoshka",
+              "grossRevenueUzs": 43000000,
+              "netProfitUzs": 36600000,
+              "paybackMonths": 3
+            }
+          }
+        ],
+        "latlon": [
+          41.118,
+          71.865
+        ]
+      },
+      {
+        "id": "uy-yorqishloq",
+        "name": "Yorqishloq MFY",
+        "area": "360 ga",
+        "spec": "3 mavsumli sabzavot",
+        "poorFamilies": 72,
+        "parcels": [
+          {
+            "id": "UY-YRQ-01",
+            "contourNumber": "16-kontur",
+            "farmerName": "Sattorov Jamoliddin",
+            "familyStatus": "Temir daftar",
+            "allocatedAreaHa": 0.5,
+            "contractYear": "2023 - 2033 (10 yil)",
+            "specialization": "3 faslli poliz va sabzavot",
+            "soil": {
+              "type": "Madaniy bo'z",
+              "bonitetScore": 80,
+              "moisture": "78% (Serob)"
+            },
+            "recommendation": {
+              "primaryCrop": "Ertaki kartoshka",
+              "secondaryCrop": "Takroriy mosh va sholg'om"
+            },
+            "economics": {
+              "netProfitUzs": 42000000,
+              "expectedYield": "45 tonna / ga"
+            }
+          }
+        ],
+        "latlon": [
+          41.09,
+          71.82
+        ]
+      }
+    ]
+  },
+  "uchqorgon": {
+    "name": "Uchqo'rg'on tumani",
+    "shortName": "Uchqo'rg'on",
+    "number": 9,
+    "boshYerHa": "3 800 ga",
+    "tuproqQatlami": "Norin daryo qayiri serunum allyuvial tuprog'i (Bonitet: 82 ball)",
+    "mosEkinlar": "Anjir shaftoli, gilos, ertapishar piyoz, soya, mosh",
+    "kutilayotganDaromad": "44.0 mln so'm / 50 sotix",
+    "tuproqNamligi": "82% - 88% (Norin daryosi suvi mo'l)",
+    "hosilTonna": "40 - 60 tonna / ga",
+    "textPos": [
+      600,
+      215
+    ],
+    "fontSize": 10,
+    "color": "#2a6375",
+    "points": "643,182 638,178 619,179 606,189 598,189 593,187 591,205 581,221 571,230 565,241 544,262 546,274 551,274 557,266 567,258 569,250 572,247 579,247 580,249 583,249 585,247 600,245 610,257 611,271 612,253 614,250 627,250 631,252 631,258 638,258 643,247 642,236 652,232 656,225 649,208 648,198",
+    "center": [
+      610,
+      222
+    ],
+    "bbox": {
+      "minX": 544.0,
+      "minY": 178.0,
+      "maxX": 656.0,
+      "maxY": 274.0,
+      "w": 112.0,
+      "h": 96.0
+    },
+    "mfys": [
+      {
+        "id": "uch-qayqi",
+        "name": "Qayqi MFY",
+        "area": "170 ga",
+        "spec": "Anjir Shaftoli va Mosh",
+        "poorFamilies": 145,
+        "parcels": [
+          {
+            "id": "UCH-QAY-01",
+            "contourNumber": "41-kontur",
+            "farmerName": "Sobirov Akmalxon Tohirovich",
+            "familyStatus": "Temir daftar (kam ta'minlangan oila)",
+            "allocatedAreaHa": 0.5,
+            "contractYear": "2024 - 2034 (10 yil)",
+            "specialization": "Anjir shaftoli va Dukkakli mosh",
+            "soil": {
+              "type": "O'tloqi-allyuvial unumdor tuproq",
+              "bonitetScore": 80,
+              "moisture": "77% (Norin daryosi hisobiga a'lo)",
+              "salinity": "Sho'rlanmagan",
+              "groundwaterDepth": "1.7 metr",
+              "waterSource": "Norin daryosi kanali (Kafolatlangan oqim suv)"
+            },
+            "recommendation": {
+              "primaryCrop": "Shaftoli (Anjir shaftoli) va Mosh",
+              "secondaryCrop": "Kuzgi karam va ko'katlar",
+              "rationale": "Norin daryosi suvi minerallarga boy va doimiy oqadi. Shaftoli juda xaridorgir va serhosil bo'ladi.",
+              "cycleMonths": "May - Sentyabr"
+            },
+            "economics": {
+              "expensesUzs": 7000000,
+              "expectedYield": "8 tonna shaftoli + 800 kg mosh",
+              "grossRevenueUzs": 48000000,
+              "netProfitUzs": 41000000,
+              "paybackMonths": 3.5
+            }
+          }
+        ],
+        "latlon": [
+          41.125,
+          72.085
+        ]
+      },
+      {
+        "id": "uch-yangiobod",
+        "name": "Yangiobod MFY",
+        "area": "155 ga",
+        "spec": "Eksportbop Piyoz va Sabzi",
+        "poorFamilies": 130,
+        "parcels": [
+          {
+            "id": "UCH-YAN-01",
+            "contourNumber": "55-kontur",
+            "farmerName": "Mavlonov Baxtiyor G'ulomovich",
+            "familyStatus": "Ijtimoiy reyestr",
+            "allocatedAreaHa": 0.45,
+            "contractYear": "2024 - 2034 (10 yil)",
+            "specialization": "Qizil piyoz va sabzi",
+            "soil": {
+              "type": "Daryo bo'yi allyuvial tuprog'i",
+              "bonitetScore": 79,
+              "moisture": "76%",
+              "salinity": "Sho'rlanmagan",
+              "groundwaterDepth": "1.6 metr",
+              "waterSource": "Norin daryosi tarmog'i"
+            },
+            "recommendation": {
+              "primaryCrop": "Eksportbop Zarafshon Piyozi",
+              "secondaryCrop": "Ertapishar sabzi",
+              "rationale": "Norin daryosi bo'yidagi piyoz uzoq saqlanadi va chirishga chidamli bo'ladi.",
+              "cycleMonths": "Mart - Iyul, Avgust - Noyabr"
+            },
+            "economics": {
+              "expensesUzs": 6200000,
+              "expectedYield": "18 tonna piyoz + 5 tonna sabzi",
+              "grossRevenueUzs": 45000000,
+              "netProfitUzs": 38800000,
+              "paybackMonths": 3.5
+            }
+          }
+        ],
+        "latlon": [
+          41.105,
+          72.055
+        ]
+      },
+      {
+        "id": "uch-kujon",
+        "name": "Ko'g'ay MFY",
+        "area": "440 ga",
+        "spec": "Anjir shaftoli va mosh",
+        "poorFamilies": 84,
+        "parcels": [
+          {
+            "id": "UCH-KGY-01",
+            "contourNumber": "29-kontur",
+            "farmerName": "Mirzayev Farhodjon",
+            "familyStatus": "Ayollar daftari",
+            "allocatedAreaHa": 0.5,
+            "contractYear": "2024 - 2034 (10 yil)",
+            "specialization": "Anjir shaftoli",
+            "soil": {
+              "type": "Allyuvial daryo tuprog'i",
+              "bonitetScore": 83,
+              "moisture": "84% (Norin daryosi)"
+            },
+            "recommendation": {
+              "primaryCrop": "Anjir shaftoli va gilos",
+              "secondaryCrop": "Eksportbop mosh"
+            },
+            "economics": {
+              "netProfitUzs": 52000000,
+              "expectedYield": "36 tonna / ga"
+            }
+          }
+        ],
+        "latlon": [
+          41.08,
+          71.9
+        ]
+      }
+    ]
+  },
+  "norin": {
+    "name": "Norin tumani",
+    "shortName": "Norin",
+    "number": 10,
+    "boshYerHa": "3 650 ga",
+    "tuproqQatlami": "Norin daryosi sernam madaniy tuprog'i (Bonitet: 81 ball)",
+    "mosEkinlar": "Eksportbop Qizil piyoz, sholi, sabzavotlar, tarvuz",
+    "kutilayotganDaromad": "45.2 mln so'm / 50 sotix",
+    "tuproqNamligi": "80% - 86% (Yuqori serob namlik)",
+    "hosilTonna": "45 - 65 tonna / ga",
+    "textPos": [
+      588,
+      276
+    ],
+    "fontSize": 10,
+    "color": "#b5533c",
+    "points": "628,263 626,261 626,255 617,255 616,271 613,274 607,274 605,272 605,257 600,250 595,249 592,252 575,251 572,260 566,263 553,278 549,279 541,278 541,268 537,261 516,282 508,286 507,289 510,293 516,293 532,287 552,287 562,295 584,295 594,297 598,293 606,293 611,298 613,295 620,295 624,281 629,274",
+    "center": [
+      578,
+      276
+    ],
+    "bbox": {
+      "minX": 507.0,
+      "minY": 249.0,
+      "maxX": 629.0,
+      "maxY": 298.0,
+      "w": 122.0,
+      "h": 49.0
+    },
+    "mfys": [
+      {
+        "id": "nor-haqqulobod",
+        "name": "Haqqulobod MFY",
+        "area": "180 ga",
+        "spec": "Eksportbop Qizil Piyoz va Poliz",
+        "poorFamilies": 150,
+        "parcels": [
+          {
+            "id": "NOR-HAQ-01",
+            "contourNumber": "118-kontur",
+            "farmerName": "Madaminov Farhod Rustamovich",
+            "familyStatus": "Ijtimoiy himoya yagona reyestri",
+            "allocatedAreaHa": 0.5,
+            "contractYear": "2023 - 2033 (10 yil)",
+            "specialization": "Qizil piyoz, Tarvuz va Mosh",
+            "soil": {
+              "type": "Qalin madaniy o'tloqi tuproq",
+              "bonitetScore": 81,
+              "moisture": "76% (Yuqori namlik)",
+              "salinity": "Sho'rlanmagan",
+              "groundwaterDepth": "1.5 metr",
+              "waterSource": "Norin daryosi va kollektor-drenaj tarmog'i"
+            },
+            "recommendation": {
+              "primaryCrop": "Eksportbop Qizil piyoz va Tarvuz",
+              "secondaryCrop": "Dukkakli mosh",
+              "rationale": "Norin piyozi o'zining chidamliligi va shirin-achchiq ta'mi bilan mashhur. Daryo bo'yida poliz shirin pishadi.",
+              "cycleMonths": "Mart - Iyul (Piyoz), Avgust - Oktyabr (Mosh)"
+            },
+            "economics": {
+              "expensesUzs": 7800000,
+              "expectedYield": "22 tonna piyoz + 700 kg mosh",
+              "grossRevenueUzs": 53000000,
+              "netProfitUzs": 45200000,
+              "paybackMonths": 4
+            }
+          }
+        ],
+        "latlon": [
+          40.902,
+          72.015
+        ]
+      },
+      {
+        "id": "nor-shorariq",
+        "name": "Sho'rariq MFY",
+        "area": "165 ga",
+        "spec": "Sabzavotchilik va Karam",
+        "poorFamilies": 135,
+        "parcels": [
+          {
+            "id": "NOR-SHO-01",
+            "contourNumber": "92-kontur",
+            "farmerName": "Isroilov Dilshodbek Omonovich",
+            "familyStatus": "Temir daftar",
+            "allocatedAreaHa": 0.45,
+            "contractYear": "2024 - 2034 (10 yil)",
+            "specialization": "Karam, Sabzi va Oshqovoq",
+            "soil": {
+              "type": "O'tloqi tuproq",
+              "bonitetScore": 78,
+              "moisture": "74%",
+              "salinity": "Sho'rlanmagan",
+              "groundwaterDepth": "1.7 metr",
+              "waterSource": "Sho'rariq kanali"
+            },
+            "recommendation": {
+              "primaryCrop": "Oqbosh karam va Sariq sabzi",
+              "secondaryCrop": "Dukkakli no'xat",
+              "rationale": "Suv ta'minoti barqaror bo'lib, karam va sabzi yuqori hosil beradi.",
+              "cycleMonths": "Aprel - Noyabr"
+            },
+            "economics": {
+              "expensesUzs": 5700000,
+              "expectedYield": "15 tonna karam va sabzi",
+              "grossRevenueUzs": 40000000,
+              "netProfitUzs": 34300000,
+              "paybackMonths": 3.5
+            }
+          }
+        ],
+        "latlon": [
+          40.885,
+          71.995
+        ]
+      },
+      {
+        "id": "nor-tuda",
+        "name": "To'da MFY",
+        "area": "370 ga",
+        "spec": "Eksportbop Qizil piyoz",
+        "poorFamilies": 69,
+        "parcels": [
+          {
+            "id": "NOR-TUD-01",
+            "contourNumber": "19-kontur",
+            "farmerName": "Qosimov Shavkatbek",
+            "familyStatus": "Temir daftar",
+            "allocatedAreaHa": 0.5,
+            "contractYear": "2023 - 2033 (10 yil)",
+            "specialization": "Qizil piyoz",
+            "soil": {
+              "type": "Sernam daryo qayiri",
+              "bonitetScore": 82,
+              "moisture": "82% (Serob)"
+            },
+            "recommendation": {
+              "primaryCrop": "Eksportbop Qizil piyoz",
+              "secondaryCrop": "Kuzgi karam"
+            },
+            "economics": {
+              "netProfitUzs": 49000000,
+              "expectedYield": "55 tonna / ga"
+            }
+          }
+        ],
+        "latlon": [
+          40.99,
+          71.85
+        ]
+      }
+    ]
+  },
+  "namangan-tumani": {
+    "name": "Namangan tumani",
+    "shortName": "Namangan t.",
+    "number": 11,
+    "boshYerHa": "3 600 ga",
+    "tuproqQatlami": "Sug'oriladigan serunum o'tloqi bo'z tuproq (Bonitet: 78 ball)",
+    "mosEkinlar": "Erta bahorgi ko'chatchilik, pomidor, baqlajon, ko'katlar",
+    "kutilayotganDaromad": "41.0 mln so'm / 50 sotix",
+    "tuproqNamligi": "74% - 80% (Optimal madaniy sug'orish)",
+    "hosilTonna": "38 - 55 tonna / ga",
+    "textPos": [
+      442,
+      290
+    ],
+    "fontSize": 9.5,
+    "color": "#4f7a74",
+    "points": "478,230 455,230 455,240 452,242 446,253 438,253 433,259 423,258 421,261 422,281 420,283 420,287 416,288 416,295 421,299 425,308 424,323 430,323 437,320 440,317 447,317 454,322 459,323 465,317 468,317 471,311 476,307 488,307 492,301 504,300 506,298 506,294 499,281 493,275 493,269 498,266 499,263 493,265 487,265 485,260 481,260 480,257 476,257 475,263 467,262 467,251 470,250 470,242 479,236",
+    "center": [
+      457,
+      282
+    ],
+    "bbox": {
+      "minX": 416.0,
+      "minY": 230.0,
+      "maxX": 506.0,
+      "maxY": 323.0,
+      "w": 90.0,
+      "h": 93.0
+    },
+    "mfys": [
+      {
+        "id": "namt-toshbuloq",
+        "name": "Toshbuloq MFY",
+        "area": "160 ga",
+        "spec": "Elita Kartoshkachilik va Piyoz",
+        "poorFamilies": 135,
+        "parcels": [
+          {
+            "id": "NTM-TOS-01",
+            "contourNumber": "77-kontur",
+            "farmerName": "Bekmirzayev Ilhom Komilovich",
+            "familyStatus": "Ijtimoiy himoya reyestrida",
+            "allocatedAreaHa": 0.5,
+            "contractYear": "2023 - 2033 (10 yil)",
+            "specialization": "Kartoshka va Zarafshon piyozi",
+            "soil": {
+              "type": "Quyuq bo'z tuproq",
+              "bonitetScore": 77,
+              "moisture": "70% (Optimal)",
+              "salinity": "Sho'rlanmagan",
+              "groundwaterDepth": "2.0 metr",
+              "waterSource": "Kanal suvi (Toshbuloq tarmog'i)"
+            },
+            "recommendation": {
+              "primaryCrop": "Super elit kartoshka va Piyoz",
+              "secondaryCrop": "Kuzgi lavlagi va ko'katlar",
+              "rationale": "Toshbuloq yerlarining unumdorligi kartoshka uchun viloyatda eng maqbul hisoblanadi.",
+              "cycleMonths": "Mart - Iyun (Kartoshka), Iyul - Oktyabr (Lavlagi)"
+            },
+            "economics": {
+              "expensesUzs": 7200000,
+              "expectedYield": "14 tonna kartoshka + 6 tonna sabzavot",
+              "grossRevenueUzs": 48000000,
+              "netProfitUzs": 40800000,
+              "paybackMonths": 3.5
+            }
+          }
+        ],
+        "latlon": [
+          41.052,
+          71.705
+        ]
+      },
+      {
+        "id": "namt-mirishkor",
+        "name": "Mirishkor MFY",
+        "area": "140 ga",
+        "spec": "Karam va Ildizmevalar",
+        "poorFamilies": 118,
+        "parcels": [
+          {
+            "id": "NTM-MIR-01",
+            "contourNumber": "85-kontur",
+            "farmerName": "Yoqubov Dilshod Mirzayevich",
+            "familyStatus": "Temir daftar",
+            "allocatedAreaHa": 0.45,
+            "contractYear": "2024 - 2034 (10 yil)",
+            "specialization": "Oqbosh karam va Sabzi",
+            "soil": {
+              "type": "Unumdor allyuvial o'tloqi tuproq",
+              "bonitetScore": 76,
+              "moisture": "73% (Juda yaxshi)",
+              "salinity": "Sho'rlanmagan",
+              "groundwaterDepth": "1.9 metr",
+              "waterSource": "Mirishkor kanali"
+            },
+            "recommendation": {
+              "primaryCrop": "Oqbosh Karam va Sariq Sabzi",
+              "secondaryCrop": "Kuzgi sarimsoq va rediska",
+              "rationale": "Tuproqda namlik barqaror saqlanadi, karam boshlari zich va vaznli bo'ladi.",
+              "cycleMonths": "Aprel - Noyabr"
+            },
+            "economics": {
+              "expensesUzs": 5900000,
+              "expectedYield": "16 tonna karam va sabzavot",
+              "grossRevenueUzs": 42000000,
+              "netProfitUzs": 36100000,
+              "paybackMonths": 3.5
+            }
+          }
+        ],
+        "latlon": [
+          41.065,
+          71.735
+        ]
+      },
+      {
+        "id": "namt-qoratepa",
+        "name": "Qoratepa MFY",
+        "area": "390 ga",
+        "spec": "Erta bahorgi ko'chatchilik va baqlajon",
+        "poorFamilies": 81,
+        "parcels": [
+          {
+            "id": "NMT-QRT-01",
+            "contourNumber": "33-kontur",
+            "farmerName": "Nazarov Rustamjon",
+            "familyStatus": "Yoshlar daftari",
+            "allocatedAreaHa": 0.45,
+            "contractYear": "2023 - 2033 (10 yil)",
+            "specialization": "Ko'chatchilik va baqlajon",
+            "soil": {
+              "type": "O'tloqi bo'z",
+              "bonitetScore": 79,
+              "moisture": "76% (Optimal)"
+            },
+            "recommendation": {
+              "primaryCrop": "Baqlajon va bulg'ori",
+              "secondaryCrop": "Parhez ko'katlar"
+            },
+            "economics": {
+              "netProfitUzs": 44000000,
+              "expectedYield": "42 tonna / ga"
+            }
+          }
+        ],
+        "latlon": [
+          41.0,
+          71.72
+        ]
+      }
+    ]
+  },
+  "namangan-shahri": {
+    "name": "Namangan shahri",
+    "shortName": "Namangan sh.",
+    "number": 12,
+    "boshYerHa": "1 850 ga",
+    "tuproqQatlami": "Madaniy sug'oriladigan shahar atrofi tuprog'i (Bonitet: 78 ball)",
+    "mosEkinlar": "Issiqxona qulupnayi, limonariya, parhez ko'katlar, gulchilik",
+    "kutilayotganDaromad": "55.0 mln so'm / 50 sotix",
+    "tuproqNamligi": "75% - 80% (Kafolatlangan shahar tarmog'i)",
+    "hosilTonna": "40 - 70 tonna / ga",
+    "textPos": [
+      468,
+      262
+    ],
+    "fontSize": 7.5,
+    "color": "#12427a",
+    "points": "481,249 477,249 475,251 474,251 471,254 470,254 468,256 467,256 467,261 466,262 460,262 459,263 458,263 456,265 454,265 452,267 452,270 453,271 461,271 462,270 464,270 464,265 465,264 476,264 477,263 477,257 478,256 481,256",
+    "center": [
+      467,
+      260
+    ],
+    "bbox": {
+      "minX": 452.0,
+      "minY": 249.0,
+      "maxX": 481.0,
+      "maxY": 271.0,
+      "w": 29.0,
+      "h": 22.0
+    },
+    "mfys": [
+      {
+        "id": "nam-yuksalish",
+        "name": "Yuksalish MFY",
+        "area": "95 ga",
+        "spec": "Issiqxonachilik va Sabzavot",
+        "poorFamilies": 85,
+        "parcels": [
+          {
+            "id": "NSH-YUK-01",
+            "contourNumber": "12-kontur",
+            "farmerName": "Qosimov Bobur Mirzayevich",
+            "familyStatus": "Temir daftar (yosh oila)",
+            "allocatedAreaHa": 0.25,
+            "contractYear": "2024 - 2034 (10 yil)",
+            "specialization": "Issiqxona sabzavotlari va rezavorlar",
+            "soil": {
+              "type": "Madaniy sug'oriladigan o'tloqi tuproq",
+              "bonitetScore": 78,
+              "moisture": "75% (Yuqori namlik)",
+              "salinity": "Sho'rlanmagan",
+              "groundwaterDepth": "1.6 metr",
+              "waterSource": "Shahar sug'orish tizimi (Shimoliy kanal)"
+            },
+            "recommendation": {
+              "primaryCrop": "Issiqxona Qulupnayi va Pomidor",
+              "secondaryCrop": "Ko'katlar (kashnich, ukrop, salat bargi)",
+              "rationale": "Shahar bozoriga juda yaqin. Yangi uzilgan sabzavot va qulupnay eng yuqori baholanadi.",
+              "cycleMonths": "Butun yil davomida (Issiqxona)"
+            },
+            "economics": {
+              "expensesUzs": 9500000,
+              "expectedYield": "3.5 tonna qulupnay + 2 tonna pomidor",
+              "grossRevenueUzs": 58000000,
+              "netProfitUzs": 48500000,
+              "paybackMonths": 3
+            }
+          }
+        ],
+        "latlon": [
+          40.975,
+          71.642
+        ]
+      },
+      {
+        "id": "nam-sihatgoh",
+        "name": "Sihatgoh MFY",
+        "area": "80 ga",
+        "spec": "Gulchilik va Limonariya",
+        "poorFamilies": 72,
+        "parcels": [
+          {
+            "id": "NSH-SIH-01",
+            "contourNumber": "28-kontur",
+            "farmerName": "Valiyev Sherali Odilovich",
+            "familyStatus": "Ijtimoiy reyestr",
+            "allocatedAreaHa": 0.3,
+            "contractYear": "2024 - 2034 (10 yil)",
+            "specialization": "Limonariya va manzarali gulchilik",
+            "soil": {
+              "type": "Gumusga boy unumdor bo'z tuproq",
+              "bonitetScore": 76,
+              "moisture": "72% (Optimal)",
+              "salinity": "Sho'rlanmagan",
+              "groundwaterDepth": "1.8 metr",
+              "waterSource": "Shahar ichki sug'orish arig'i"
+            },
+            "recommendation": {
+              "primaryCrop": "Limon va Bodring (Issiqxonada)",
+              "secondaryCrop": "Rayhon va ko'katlar",
+              "rationale": "Mikroiqlim himoyalangan, shahar aholisi uchun har doim xaridorgir.",
+              "cycleMonths": "To'rt fasl davomida"
+            },
+            "economics": {
+              "expensesUzs": 8200000,
+              "expectedYield": "4 tonna limon + 3 tonna bodring",
+              "grossRevenueUzs": 51000000,
+              "netProfitUzs": 42800000,
+              "paybackMonths": 3.5
+            }
+          }
+        ],
+        "latlon": [
+          40.985,
+          71.658
+        ]
+      },
+      {
+        "id": "nam-afsona",
+        "name": "Afsona MFY",
+        "area": "75 ga",
+        "spec": "Erta pishar Sabzavotchilik",
+        "poorFamilies": 65,
+        "parcels": [
+          {
+            "id": "NSH-AFS-01",
+            "contourNumber": "41-kontur",
+            "farmerName": "Ahmedova Sayyora Rustamovna",
+            "familyStatus": "Ayollar daftari",
+            "allocatedAreaHa": 0.25,
+            "contractYear": "2023 - 2033 (10 yil)",
+            "specialization": "Sabzavot va poliz ekinlari",
+            "soil": {
+              "type": "O'tloqi bo'z tuproq",
+              "bonitetScore": 74,
+              "moisture": "70% (Yaxshi ta'minlangan)",
+              "salinity": "Sho'rlanmagan",
+              "groundwaterDepth": "2.0 metr",
+              "waterSource": "Ariq suvi"
+            },
+            "recommendation": {
+              "primaryCrop": "Pomidor, Baqlajon va Bolgarskiy",
+              "secondaryCrop": "Kuzgi sabzi",
+              "rationale": "Shahar bozoriga to'g'ridan-to'g'ri topshirish orqali yuqori daromad ta'minlanadi.",
+              "cycleMonths": "Aprel - Noyabr"
+            },
+            "economics": {
+              "expensesUzs": 6800000,
+              "expectedYield": "8.5 tonna sabzavotlar",
+              "grossRevenueUzs": 44000000,
+              "netProfitUzs": 37200000,
+              "paybackMonths": 3
+            }
+          }
+        ],
+        "latlon": [
+          41.01,
+          71.685
+        ]
+      },
+      {
+        "id": "dav-oromgoh",
+        "name": "Oromgoh MFY (Davlatobod h.)",
+        "area": "70 ga",
+        "spec": "Gulchilik va Limonariya",
+        "poorFamilies": 62,
+        "parcels": [
+          {
+            "id": "DAV-ORO-01",
+            "contourNumber": "45-kontur",
+            "farmerName": "Rahmonov Sanjarbek Ravshanovich",
+            "familyStatus": "Yoshlar daftari",
+            "allocatedAreaHa": 0.25,
+            "contractYear": "2024 - 2034 (10 yil)",
+            "specialization": "Atirgul, Lolalar va Limon",
+            "soil": {
+              "type": "O'tloqi-bo'z tuproq",
+              "bonitetScore": 71,
+              "moisture": "65% (Optimal)",
+              "salinity": "Sho'rlanmagan",
+              "groundwaterDepth": "2.3 metr",
+              "waterSource": "Soy suvi"
+            },
+            "recommendation": {
+              "primaryCrop": "Gulchilik (Atirgul va lola ko'chatlari)",
+              "secondaryCrop": "Limonariya (yengil issiqxona)",
+              "rationale": "Gullar festivali va shahar ehtiyoji uchun eng yuqori daromadli soha.",
+              "cycleMonths": "Butun mavsum"
+            },
+            "economics": {
+              "expensesUzs": 7500000,
+              "expectedYield": "18 000 dona atirgul/dasta gullar",
+              "grossRevenueUzs": 54000000,
+              "netProfitUzs": 46500000,
+              "paybackMonths": 3
+            }
+          }
+        ],
+        "latlon": [
+          40.989,
+          71.618
+        ]
+      },
+      {
+        "id": "dav-yangitong",
+        "name": "Yangi tong MFY (Davlatobod h.)",
+        "area": "65 ga",
+        "spec": "Bodring va Pomidor Issiqxonasi",
+        "poorFamilies": 58,
+        "parcels": [
+          {
+            "id": "DAV-YAN-01",
+            "contourNumber": "15-kontur",
+            "farmerName": "Karimova Ziyoda Ergashovna",
+            "familyStatus": "Ayollar daftari",
+            "allocatedAreaHa": 0.2,
+            "contractYear": "2024 - 2034 (10 yil)",
+            "specialization": "Issiqxona sabzavotlari",
+            "soil": {
+              "type": "Yumshoq unumdor tuproq",
+              "bonitetScore": 73,
+              "moisture": "68%",
+              "salinity": "Sho'rlanmagan",
+              "groundwaterDepth": "2.1 metr",
+              "waterSource": "Quvur orqali suv"
+            },
+            "recommendation": {
+              "primaryCrop": "Gollandiya navli Bodring va Pomidor",
+              "secondaryCrop": "Ko'katlar",
+              "rationale": "Yuqori hosildor navlar shahar do'konlariga kunlik sotiladi.",
+              "cycleMonths": "Fevral - Iyun, Avgust - Dekabr"
+            },
+            "economics": {
+              "expensesUzs": 6200000,
+              "expectedYield": "6 tonna bodring + 4 tonna pomidor",
+              "grossRevenueUzs": 45000000,
+              "netProfitUzs": 38800000,
+              "paybackMonths": 3
+            }
+          }
+        ],
+        "latlon": [
+          40.981,
+          71.612
+        ]
+      },
+      {
+        "id": "yn-mingchinor",
+        "name": "Mingchinor MFY (Yangi Namangan h.)",
+        "area": "85 ga",
+        "spec": "Parhez sabzavotlar va Karam",
+        "poorFamilies": 78,
+        "parcels": [
+          {
+            "id": "YNT-MIN-01",
+            "contourNumber": "19-kontur",
+            "farmerName": "Saidov Alisher Fayzullayevich",
+            "familyStatus": "Ijtimoiy himoya reyestrida (ko'p bolali)",
+            "allocatedAreaHa": 0.3,
+            "contractYear": "2024 - 2034 (10 yil)",
+            "specialization": "Gulkaram, Brokkoli va Karam",
+            "soil": {
+              "type": "Tipik bo'z tuproq",
+              "bonitetScore": 74,
+              "moisture": "68% (Me'yorda)",
+              "salinity": "Sho'rlanmagan",
+              "groundwaterDepth": "2.1 metr",
+              "waterSource": "Ariq suvi (Nasos ko'magida)"
+            },
+            "recommendation": {
+              "primaryCrop": "Gulkaram va Brokkoli",
+              "secondaryCrop": "Turp, Sholg'om va Ko'kat",
+              "rationale": "Parhez sabzavotlar bozorlarda qimmat narxda sotiladi, vegetatsiya davri qisqa.",
+              "cycleMonths": "Mart - Iyun, Avgust - Oktyabr"
+            },
+            "economics": {
+              "expensesUzs": 4800000,
+              "expectedYield": "7 tonna gulkaram/brokkoli",
+              "grossRevenueUzs": 32000000,
+              "netProfitUzs": 27200000,
+              "paybackMonths": 3.5
+            }
+          }
+        ],
+        "latlon": [
+          41.032,
+          71.641
+        ]
+      },
+      {
+        "id": "yn-mehnatobod",
+        "name": "Mehnatobod MFY (Yangi Namangan h.)",
+        "area": "90 ga",
+        "spec": "Ertapishar Qizil Sabzi",
+        "poorFamilies": 82,
+        "parcels": [
+          {
+            "id": "YNT-MEH-01",
+            "contourNumber": "32-kontur",
+            "farmerName": "Normatov Bahodir Jo'rayevich",
+            "familyStatus": "Temir daftar",
+            "allocatedAreaHa": 0.4,
+            "contractYear": "2024 - 2034 (10 yil)",
+            "specialization": "Sabzi va Oshqovoq",
+            "soil": {
+              "type": "Yengil qumloq unumdor tuproq",
+              "bonitetScore": 75,
+              "moisture": "70% (Yaxshi namlik)",
+              "salinity": "Sho'rlanmagan",
+              "groundwaterDepth": "2.0 metr",
+              "waterSource": "Shimoliy Farg'ona kanali tarmog'i"
+            },
+            "recommendation": {
+              "primaryCrop": "Ertapishar Qizil Sabzi",
+              "secondaryCrop": "Mosh va Oshqovoq",
+              "rationale": "Qumloq tuproqda sabzi to'g'ri va shirin o'sadi, yig'ib olish oson.",
+              "cycleMonths": "Mart - Iyul, Avgust - Oktyabr"
+            },
+            "economics": {
+              "expensesUzs": 5400000,
+              "expectedYield": "12 tonna sabzi + 400 kg mosh",
+              "grossRevenueUzs": 38000000,
+              "netProfitUzs": 32600000,
+              "paybackMonths": 3.5
+            }
+          }
+        ],
+        "latlon": [
+          41.042,
+          71.635
+        ]
+      }
+    ]
+  }
+}
