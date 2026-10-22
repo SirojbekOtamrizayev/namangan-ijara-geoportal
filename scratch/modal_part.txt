@@ -1,0 +1,442 @@
+  </main>
+</div>
+
+<!-- ===================================== -->
+<!--   DRILL-DOWN MODAL WINDOW (VIEWER)    -->
+<!-- ===================================== -->
+<div id="modalOverlay" class="modal-overlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" onclick="event.stopPropagation()">
+
+    <!-- Modal Header -->
+    <div class="modal-header">
+      <div class="modal-title-row">
+        <div id="modalColorDot" class="modal-color-dot" style="background:#357963;"></div>
+        <span id="modalDistrictName" class="modal-district-name">Pop tumani</span>
+        <span id="modalDistrictBadge" class="badge">#1 hudud</span>
+      </div>
+      <button class="modal-close-btn" onclick="closeModal()" title="Yopish (ESC)">✕</button>
+    </div>
+
+    <!-- Left: MFY Sidebar -->
+    <aside class="modal-mfy-panel">
+      <div class="modal-panel-title">🏘️ MFYlar ro'yxati</div>
+      <input type="text" id="mfySearch" class="modal-search" placeholder="MFY qidirish..." oninput="filterModal(this.value)">
+      <div id="modalMfyScroll" class="modal-mfy-scroll"></div>
+    </aside>
+
+    <!-- Center: Interactive Google Maps Iframe -->
+    <section class="modal-map-panel">
+      <div class="card-header">
+        <div class="card-title">🗺️ <span id="modalMapTitle">Google Maps — Sun'iy yo'ldosh xaritasi</span></div>
+        <span id="modalActiveMfy" class="badge">MFY tanlanmagan</span>
+      </div>
+
+      <div class="zoom-map-frame">
+        <!-- Floating status badge -->
+        <div class="gmaps-floating-badge" id="gmapsBadge">
+          <span>🛰️</span>
+          <span id="gmapsBadgeText">Google Maps Satellite</span>
+        </div>
+
+        <!-- Google Maps Satellite View Embed -->
+        <iframe 
+          id="gmapsIframe" 
+          class="gmaps-iframe" 
+          loading="lazy" 
+          allowfullscreen 
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+
+      <div class="map-stats">
+        <div class="map-stat"><span class="ms-k">Tuproq boniteti</span><span id="statBonitet" class="ms-v">—</span></div>
+        <div class="map-stat"><span class="ms-k">Tuproq namligi</span><span id="statMoisture" class="ms-v">—</span></div>
+        <div class="map-stat"><span class="ms-k">Asosiy ekin</span><span id="statCrop" class="ms-v">—</span></div>
+      </div>
+    </section>
+
+    <!-- Right: Parcel Details -->
+    <aside class="modal-parcel-panel">
+      <div class="parcel-panel-header">
+        <div id="parcelTitle" class="parcel-panel-title">Ijara yer maydonlari</div>
+        <div id="parcelSub" class="parcel-panel-sub">MFY tanlang — konturlar ko'rinadi</div>
+      </div>
+      <div id="parcelScroll" class="parcel-scroll">
+        <div class="no-select-msg">
+          <span>🏘️</span>
+          <div>Chap tomondagi MFY ro'yxatidan biron MFYni bosing — o'sha MFY kesimidagi ijara yerlar shu yerda ko'rinadi.</div>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+</div>
+
+<!-- ===================================== -->
+<!--   ADMIN LOGIN MODAL (XAVFSIZLIK)      -->
+<!-- ===================================== -->
+<div id="adminLoginOverlay" class="admin-modal-overlay" onclick="handleAdminLoginOverlayClick(event)">
+  <div class="admin-login-box" onclick="event.stopPropagation()">
+    <div class="login-header">
+      <div class="login-title">
+        <span>🔒</span>
+        <span>Admin Tizimiga Kirish</span>
+      </div>
+      <button class="modal-close-btn" onclick="closeAdminLoginModal()" title="Yopish (ESC)">✕</button>
+    </div>
+
+    <div style="font-size:12px; color:var(--muted);">
+      Geoportal ma'lumotlar bazasiga kirish uchun login va parolni kiriting.
+    </div>
+
+    <form onsubmit="handleAdminLogin(event)" style="display:flex; flex-direction:column; gap:12px;">
+      <div class="form-group">
+        <label class="form-label">Login:</label>
+        <input type="text" id="adminLoginUser" class="form-input" placeholder="admin" required autocomplete="username">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Parol:</label>
+        <input type="password" id="adminLoginPass" class="form-input" placeholder="Parolni kiriting..." required autocomplete="current-password">
+      </div>
+
+      <div id="loginErrorMsg" class="login-error">Login yoki parol noto'g'ri!</div>
+
+      <button type="submit" class="admin-submit-btn" style="width:100%; margin-top:4px;">
+        🔑 Tizimga Kirish
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- ===================================== -->
+<!--   ADMIN PANEL MODAL (MA'LUMOT BAZASI)  -->
+<!-- ===================================== -->
+<div id="adminModalOverlay" class="admin-modal-overlay" onclick="handleAdminOverlayClick(event)">
+  <div class="admin-modal-box" onclick="event.stopPropagation()">
+
+    <!-- Header -->
+    <div class="admin-modal-header">
+      <div class="admin-header-title">
+        <span>⚙️</span>
+        <span class="admin-title-text">Geoportal Ma'lumotlar Bazasi (Admin Boshqaruv)</span>
+        <span class="admin-badge">Baza v2.0</span>
+      </div>
+      <button class="modal-close-btn" onclick="closeAdminModal()" title="Yopish (ESC)">✕</button>
+    </div>
+
+    /* Tabs */
+    <div class="admin-content-tabs">
+      <div class="admin-tab active" id="tabAddMfy" onclick="switchAdminTab('addMfy')">➕ Yangi MFY kiritish</div>
+      <div class="admin-tab" id="tabExcelUpload" onclick="switchAdminTab('excelUpload')">📊 Excel orqali ommaviy yuklash</div>
+      <div class="admin-tab" id="tabViewBase" onclick="switchAdminTab('viewBase')">📋 Barcha Ma'lumotlar Bazasi</div>
+      <div class="admin-tab" id="tabCropBase" onclick="switchAdminTab('cropBase')">🌱 Ekinlar bazasi (AI)</div>
+      <div class="admin-tab" id="tabSecurity" onclick="switchAdminTab('security')">🔐 Xavfsizlik & Parol</div>
+    </div>
+
+    <!-- Body Tab 1: Add Record -->
+    <div class="admin-body" id="adminTabAddMfy">
+      <form id="adminAddForm" onsubmit="handleAdminSubmit(event)">
+        <div class="admin-form-grid">
+          
+          <div class="form-group">
+            <label class="form-label">Tuman yoki Shaharni tanlang: *</label>
+            <select id="admDistrict" class="form-select" required onchange="populateAdminMfyOptions()">
+              <!-- Options populated dynamically -->
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">MFY nomi: *</label>
+            <input type="text" id="admMfyName" class="form-input" placeholder="Masalan: Jomasho'y MFY" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Ajratilgan umumiy maydon (ga):</label>
+            <input type="text" id="admMfyArea" class="form-input" placeholder="Masalan: 230 ga">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Ixtisoslashuv / Asosiy yo'nalish:</label>
+            <input type="text" id="admMfySpec" class="form-input" placeholder="Masalan: Sholichilik va Dukkakli mosh">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Google Maps Kenglik (Latitude): *</label>
+            <input type="number" step="0.000001" id="admLat" class="form-input" placeholder="Masalan: 40.755400" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Google Maps Uzunlik (Longitude): *</label>
+            <input type="number" step="0.000001" id="admLon" class="form-input" placeholder="Masalan: 71.500200" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Kontur raqami:</label>
+            <input type="text" id="admContour" class="form-input" placeholder="Masalan: 105-kontur">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Kontur maydoni (ga):</label>
+            <input type="number" step="0.01" id="admParcelArea" class="form-input" placeholder="Masalan: 0.60">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Ijara oluvchi dehqon / fuqaro F.I.Sh:</label>
+            <input type="text" id="admFarmerName" class="form-input" placeholder="Masalan: Qambarov O'tkir Ne'matovich">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Ijtimoiy toifasi va ijara muddati:</label>
+            <input type="text" id="admFamilyStatus" class="form-input" placeholder="Masalan: Temir daftar · 2024 - 2034 (10 yil)">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Tuproq boniteti (ball):</label>
+            <input type="number" id="admBonitet" class="form-input" placeholder="Masalan: 66">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Kutilayotgan sof daromad (mln so'm):</label>
+            <input type="number" step="0.1" id="admProfit" class="form-input" placeholder="Masalan: 40.6">
+          </div>
+
+        </div>
+
+        <div style="margin-top: 18px; display: flex; justify-content: flex-end; gap: 10px;">
+          <button type="submit" class="admin-submit-btn">
+            💾 Bazaga saqlash va Xaritaga biriktirish
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Body Tab: Excel Upload -->
+    <div class="admin-body" id="adminTabExcelUpload" style="display: none;">
+      <div style="background:var(--inner); border:1px solid var(--border); border-radius:16px; padding:20px; display:flex; flex-direction:column; gap:14px;">
+        <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
+          <div>
+            <h3 style="font-size:15px; font-weight:800; color:var(--text);">📊 Excel (.xlsx, .xls) fayldan ma'lumotlarni import qilish</h3>
+            <p style="font-size:12px; color:var(--muted); margin-top:2px;">
+              Excel jadvalini tanlang, tizim avtomatik barcha qatorlarni o'qib ma'lumotlar bazasiga va xaritaga biriktiradi.
+            </p>
+          </div>
+          <button class="d-btn" onclick="downloadExcelTemplate()" style="background:#0284c7; color:#fff; border:none; padding:8px 14px;">
+            📥 Excel Shablonini yuklab olish (.xlsx)
+          </button>
+        </div>
+
+        <div style="border: 2px dashed var(--primary); border-radius: 12px; padding: 24px; text-align: center; background: rgba(16, 185, 129, 0.03);">
+          <input type="file" id="excelFileInput" accept=".xlsx, .xls, .csv" style="display: none;" onchange="handleExcelFileSelect(event)">
+          <div style="font-size: 32px; margin-bottom: 8px;">📑</div>
+          <div style="font-size: 13.5px; font-weight: 800; color: var(--text); margin-bottom: 4px;">Excel faylingizni yuklang</div>
+          <div style="font-size: 11.5px; color: var(--muted); margin-bottom: 12px;">Qo'llab-quvvatlanadi: .xlsx, .xls, .csv formatlar</div>
+          <button type="button" class="admin-submit-btn" onclick="document.getElementById('excelFileInput').click()">
+            📂 Faylni tanlash...
+          </button>
+        </div>
+
+        <div id="excelPreviewSection" style="display:none; flex-direction:column; gap:10px;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:13px; font-weight:800; color:var(--text);" id="excelPreviewTitle">O'qilgan qatorlar: 0 ta</span>
+            <button class="admin-submit-btn" onclick="confirmExcelImport()" style="background:#059669; padding:8px 16px; font-size:12.5px;">
+              ✅ Barchasini Bazaga Saqlash
+            </button>
+          </div>
+
+          <div class="data-table-container" style="max-height: 250px;">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Tuman</th>
+                  <th>MFY nomi</th>
+                  <th>Maydon</th>
+                  <th>Ixtisoslashuv</th>
+                  <th>Kenglik (Lat)</th>
+                  <th>Uzunlik (Lon)</th>
+                  <th>Kontur raqami</th>
+                  <th>Dehqon F.I.Sh</th>
+                </tr>
+              </thead>
+              <tbody id="excelPreviewTbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Body Tab 2: View Database Records -->
+    <div class="admin-body" id="adminTabViewBase" style="display: none;">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+        <span style="font-size:12.5px; font-weight:700; color:var(--muted);" id="adminTotalRecords">Jami kiritilgan yozuvlar</span>
+        <button class="d-btn" onclick="exportDataToJson()" style="background:var(--primary); color:#fff; border:none;">
+          📥 Bazani JSON fayl qilib yuklab olish
+        </button>
+      </div>
+
+      <div class="data-table-container">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Tuman</th>
+              <th>MFY nomi</th>
+              <th>Maydoni</th>
+              <th>Ixtisoslashuvi</th>
+              <th>Koordinatalar (Sputnik)</th>
+              <th>Kontur & Dehqon</th>
+            </tr>
+          </thead>
+          <tbody id="adminTableBody">
+            <!-- Populated dynamically -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Body Tab: Crop Database (AI) -->
+    <div class="admin-body" id="adminTabCropBase" style="display: none;">
+      <div style="background:var(--inner); border:1px solid var(--border); border-radius:16px; padding:20px; display:flex; flex-direction:column; gap:16px;">
+
+        <!-- Header -->
+        <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
+          <div>
+            <h3 style="font-size:15px; font-weight:800; color:var(--text);">🌱 Dehqon xo'jaligi ekinlari bazasi — AI taqsimlash</h3>
+            <p style="font-size:12px; color:var(--muted); margin-top:3px; line-height:1.5;">
+              Excel jadvaldan ekin mahsulotlari ma'lumotlarini yuklang. Tizim avtomatik har bir MFY tuproq turi, iqlimi va hududiga qarab mos ekinlarni <strong>AI algoritmi</strong> bilan taqsimlaydi.
+            </p>
+          </div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button class="d-btn" onclick="downloadCropTemplate()" style="background:#0284c7; color:#fff; border:none; padding:8px 14px;">
+              📥 Ekin shablonini yuklab olish
+            </button>
+          </div>
+        </div>
+
+        <!-- Upload Zone -->
+        <div style="border: 2px dashed #f59e0b; border-radius: 12px; padding: 22px; text-align: center; background: rgba(245,158,11,0.04);">
+          <input type="file" id="cropExcelInput" accept=".xlsx, .xls, .csv" style="display:none;" onchange="handleCropExcelUpload(event)">
+          <div style="font-size:30px; margin-bottom:6px;">🌾</div>
+          <div style="font-size:13.5px; font-weight:800; color:var(--text); margin-bottom:4px;">Ekinlar jadvalini yuklang (Excel)</div>
+          <div style="font-size:11.5px; color:var(--muted); margin-bottom:12px;">
+            Ustunlar: Mahsulot nomi, Navi, Hosildorlik, Narx, Maydon va boshqalar
+          </div>
+          <button type="button" class="admin-submit-btn" style="background:linear-gradient(135deg,#f59e0b,#d97706);" onclick="document.getElementById('cropExcelInput').click()">
+            📂 Excel faylni tanlash...
+          </button>
+        </div>
+
+        <!-- Preview Table -->
+        <div id="cropPreviewSection" style="display:none; flex-direction:column; gap:10px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+            <span style="font-size:13px; font-weight:800; color:var(--text);" id="cropPreviewTitle">O'qilgan ekinlar: 0 ta</span>
+            <button class="admin-submit-btn" onclick="confirmCropImport()" style="background:#059669; padding:8px 16px; font-size:12.5px;">
+              ✅ Bazaga Saqlash va AI Taqsimlash
+            </button>
+          </div>
+
+          <div class="data-table-container" style="max-height:250px;">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Mahsulot nomi</th>
+                  <th>Nav (sort)</th>
+                  <th>1 ga hosil (tonna)</th>
+                  <th>1 ga daromad</th>
+                  <th>15 sotix hosil</th>
+                  <th>10 sotix hosil</th>
+                  <th>Yangicha usul mahsulot</th>
+                  <th>Narx (UZS/kg)</th>
+                </tr>
+              </thead>
+              <tbody id="cropPreviewTbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- AI Distribution Button -->
+        <div id="cropAiSection" style="display:none; flex-direction:column; gap:12px;">
+          <div style="background:linear-gradient(135deg,rgba(16,185,129,0.08),rgba(56,189,248,0.08)); border:1px solid rgba(16,185,129,0.3); border-radius:14px; padding:16px; display:flex; align-items:center; gap:14px;">
+            <div style="font-size:32px;">🤖</div>
+            <div style="flex:1;">
+              <div style="font-size:14px; font-weight:800; color:var(--text);">AI Taqsimlash Natijasi</div>
+              <div style="font-size:12px; color:var(--muted); margin-top:3px;" id="aiResultText">
+                Tizim har bir MFY ning tuproq boniteti, namligi, iqlimi va mavjud ekin ixtisoslashuviga qarab eng mos ekinlarni avtomatik tanladi.
+              </div>
+            </div>
+          </div>
+
+          <!-- AI Results per District -->
+          <div id="aiDistributionResults" style="display:flex; flex-direction:column; gap:10px; max-height:350px; overflow-y:auto; padding-right:4px;"></div>
+        </div>
+
+        <!-- Current Crop Database -->
+        <div style="border-top:1px solid var(--border); padding-top:14px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <span style="font-size:13px; font-weight:800; color:var(--text);">📊 Saqlangan ekinlar bazasi</span>
+            <span class="badge" id="cropDbCount">0 ta mahsulot</span>
+          </div>
+          <div class="data-table-container" style="max-height:250px;">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Mahsulot</th>
+                  <th>Nav</th>
+                  <th>1 ga hosil</th>
+                  <th>1 ga daromad</th>
+                  <th>Narx/kg</th>
+                  <th>Taqsimlangan MFYlar</th>
+                </tr>
+              </thead>
+              <tbody id="cropDbTbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Body Tab 3: Security & Password Change -->
+    <div class="admin-body" id="adminTabSecurity" style="display: none;">
+      <div class="admin-change-pass-box">
+        <h3 style="font-size:14px; font-weight:800; color:var(--text); margin-bottom:4px;">🔐 Admin Login va Parolini o'zgartirish</h3>
+        <p style="font-size:12px; color:var(--muted); line-height:1.4;">
+          Ushbu bo'limda yangi login va parol kiritishingiz mumkin. Kiritilgan yangi ma'lumotlar brauzerda doimiy saqlanadi.
+        </p>
+
+        <form onsubmit="handleChangeCredentials(event)" style="display:flex; flex-direction:column; gap:10px; margin-top:8px;">
+          <div class="form-group">
+            <label class="form-label">Yangi Login:</label>
+            <input type="text" id="newAdminUser" class="form-input" placeholder="Yangi login..." required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Eski Parol:</label>
+            <input type="password" id="oldAdminPass" class="form-input" placeholder="Hozirgi parolingiz..." required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Yangi Parol:</label>
+            <input type="password" id="newAdminPass" class="form-input" placeholder="Yangi parol..." required minlength="4">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Yangi Parolni qayta kiriting:</label>
+            <input type="password" id="confirmAdminPass" class="form-input" placeholder="Yangi parolni takrorlang..." required minlength="4">
+          </div>
+
+          <div id="changePassMsg" style="font-size:12px; font-weight:700; display:none;"></div>
+
+          <button type="submit" class="admin-submit-btn" style="margin-top:6px;">
+            🔒 Parolni yangilash va Saqlash
+          </button>
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>
+

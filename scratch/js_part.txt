@@ -1,0 +1,1243 @@
+<script>
+  let DATA = {districts_json};
+  let selectedDistrict = 'pop';
+  let selectedMfy = null;
+
+  // Load any previously saved user data from localStorage if exists
+  try {{
+    const saved = localStorage.getItem('namangan_geoportal_custom_data');
+    if (saved) {{
+      const customData = JSON.parse(saved);
+      DATA = Object.assign(DATA, customData);
+    }}
+  }} catch(e) {{
+    console.warn('LocalStorage load error:', e);
+  }}
+
+  /* ---- REGION MAP: Render right panel ---- */
+  function renderInfo(did) {{
+    selectedDistrict = did;
+    const d = DATA[did];
+    if (!d) return;
+
+    document.getElementById('colorDot').style.background = d.color;
+    document.getElementById('distName').textContent = d.name;
+    document.getElementById('distBadge').textContent = '#' + d.number + ' hudud';
+    document.getElementById('mBosh').textContent = d.boshYerHa || '—';
+    document.getElementById('mTuproq').textContent = d.tuproqQatlami || '—';
+    document.getElementById('mEkin').textContent = d.mosEkinlar || '—';
+    document.getElementById('mDaromad').textContent = d.kutilayotganDaromad || '—';
+    document.getElementById('mNamlik').textContent = d.tuproqNamligi || '—';
+    document.getElementById('mHosil').textContent = d.hosilTonna || '—';
+    document.getElementById('openBtnLabel').textContent = d.name + "ning ichki xaritasini va MFYlarini ko'rish ➔";
+
+    const mfys = d.mfys || [];
+    document.getElementById('mfyBadge').textContent = mfys.length + ' ta MFY';
+    const list = document.getElementById('mfyPreview');
+    list.innerHTML = '';
+    mfys.forEach(m => {{
+      const el = document.createElement('div');
+      el.className = 'mfy-item';
+      el.innerHTML = `<div><div class="mfy-name">${{m.name}}</div><div class="mfy-spec">${{m.spec || ''}}</div></div><div class="mfy-area-tag">${{m.area || '—'}}</div>`;
+      el.onclick = () => {{ selectedMfy = m.id; openModal(did); }};
+      list.appendChild(el);
+    }});
+
+    // Highlight polygon & button
+    document.querySelectorAll('.district-poly').forEach(p => p.classList.toggle('active', p.dataset.id === did));
+    document.querySelectorAll('.d-btn').forEach(b => b.classList.toggle('active', b.dataset.id === did));
+  }}
+
+  /* ---- MODAL OPEN / CLOSE (VIEWER) ---- */
+  function openModal(did) {{
+    if (did) selectedDistrict = did;
+    const d = DATA[selectedDistrict];
+    if (!d) return;
+
+    document.getElementById('modalColorDot').style.background = d.color;
+    document.getElementById('modalDistrictName').textContent = d.name;
+    document.getElementById('modalDistrictBadge').textContent = '#' + d.number + ' hudud';
+
+    // Stats
+    const bonitetMatch = (d.tuproqQatlami || '').match(/\\d+\\s*ball/i);
+    document.getElementById('statBonitet').textContent = bonitetMatch ? bonitetMatch[0] : '—';
+    document.getElementById('statMoisture').textContent = d.tuproqNamligi ? d.tuproqNamligi.split(' ')[0] : '—';
+    document.getElementById('statCrop').textContent = d.mosEkinlar ? d.mosEkinlar.split(',')[0] : '—';
+
+    // Render MFY list sidebar
+    const mfys = d.mfys || [];
+    if (!selectedMfy || !mfys.some(m => m.id === selectedMfy)) {{
+      selectedMfy = mfys.length > 0 ? mfys[0].id : null;
+    }}
+
+    const scroll = document.getElementById('modalMfyScroll');
+    scroll.innerHTML = '';
+
+    mfys.forEach((m) => {{
+      const item = document.createElement('div');
+      item.className = 'modal-mfy-item' + (m.id === selectedMfy ? ' active' : '');
+      item.setAttribute('data-id', m.id);
+      item.innerHTML = `
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:4px;">
+          <span class="mmfy-name">📍 ${{m.name}}</span>
+          <span class="mmfy-tag">${{m.area || '—'}}</span>
+        </div>
+        <span class="mmfy-spec">${{m.spec || ''}}</span>
+        <div class="mmfy-meta">
+          <span>📍 ${{(m.parcels || []).length}} kontur</span>
+        </div>
+      `;
+      item.addEventListener('click', () => clickMfy(m.id));
+      scroll.appendChild(item);
+    }});
+
+    // Update Google Maps iframe view with active MFY coordinates
+    updateGoogleMapsView(selectedMfy);
+    renderParcels(selectedMfy);
+
+    document.getElementById('modalOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }}
+
+  function updateGoogleMapsView(mfyId) {{
+    const d = DATA[selectedDistrict];
+    if (!d) return;
+    const mfy = (d.mfys || []).find(m => m.id === mfyId) || (d.mfys || [])[0];
+    const iframe = document.getElementById('gmapsIframe');
+    const badgeText = document.getElementById('gmapsBadgeText');
+    const titleText = document.getElementById('modalMapTitle');
+
+    let lat = 40.998;
+    let lon = 71.672;
+    let zoom = 16;
+
+    if (mfy) {{
+      if (mfy.latlon && mfy.latlon.length >= 2) {{
+        lat = mfy.latlon[0];
+        lon = mfy.latlon[1];
+      }} else if (d.latlon && d.latlon.length >= 2) {{
+        lat = d.latlon[0];
+        lon = d.latlon[1];
+      }}
+      badgeText.textContent = `🛰️ ${{mfy.name}} (Sputnik: ${{lat.toFixed(4)}}, ${{lon.toFixed(4)}})`;
+      titleText.textContent = `${{mfy.name}} sun\\'iy yo\\'ldosh xaritasi`;
+      document.getElementById('modalActiveMfy').textContent = mfy.name;
+    }} else if (d.latlon) {{
+      lat = d.latlon[0];
+      lon = d.latlon[1];
+      badgeText.textContent = `🛰️ ${{d.name}} markazi`;
+      titleText.textContent = `${{d.name}} sun\\'iy yo\\'ldosh xaritasi`;
+    }}
+
+    // Google Maps Satellite Embed URL (t=k sets satellite view, z sets zoom level)
+    const embedUrl = `https://maps.google.com/maps?q=${{lat}},${{lon}}&t=k&z=${{zoom}}&ie=UTF8&iwloc=&output=embed`;
+    iframe.src = embedUrl;
+  }}
+
+  function closeModal() {{
+    document.getElementById('modalOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }}
+
+  function handleOverlayClick(e) {{
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }}
+
+  /* ---- MFY CLICK ---- */
+  function clickMfy(mid) {{
+    selectedMfy = mid;
+
+    // Update sidebar highlight
+    document.querySelectorAll('.modal-mfy-item').forEach(el => el.classList.toggle('active', el.dataset.id === mid));
+
+    // Update Google Maps embedded view to this MFY location
+    updateGoogleMapsView(mid);
+    renderParcels(mid);
+  }}
+
+  /* ---- PARCELS RENDER ---- */
+  function renderParcels(mid) {{
+    const d = DATA[selectedDistrict];
+    if (!d) return;
+    const mfy = (d.mfys || []).find(m => m.id === mid);
+    const scroller = document.getElementById('parcelScroll');
+
+    if (!mfy) {{
+      scroller.innerHTML = `<div class="no-select-msg"><span>🏘️</span><div>Chap paneldan MFY tanlang.</div></div>`;
+      return;
+    }}
+
+    const ll = mfy.latlon || [41.0, 71.67];
+
+    document.getElementById('parcelTitle').textContent = mfy.name + " — ijara yerlari";
+    document.getElementById('parcelSub').innerHTML = `Maydon: ${{mfy.area || '—'}} | ${{mfy.spec || ''}}`;
+
+    const parcels = mfy.parcels || [];
+    if (parcels.length === 0) {{
+      scroller.innerHTML = `<div class="no-select-msg"><span>📋</span><div>Ma'lumotlar tayyorlanmoqda.</div></div>`;
+      return;
+    }}
+
+    scroller.innerHTML = '';
+    parcels.forEach((p, idx) => {{
+      const profit = p.economics?.netProfitUzs ? (p.economics.netProfitUzs / 1_000_000).toFixed(1) + " mln so'm" : '—';
+      const bonitet = p.soil?.bonitetScore ? p.soil.bonitetScore + ' ball' : '—';
+      const moisture = p.soil?.moisture || '—';
+      const crop = p.recommendation?.primaryCrop || '—';
+      
+      const pcoord = p.coordinates || ll;
+      const parcelGmapsUrl = `https://www.google.com/maps/place/${{pcoord[0]}},${{pcoord[1]}}/@${{pcoord[0]}},${{pcoord[1]}},18z/data=!3m1!1e3`;
+
+      const el = document.createElement('div');
+      el.className = 'parcel-card';
+      el.innerHTML = `
+        <div class="parcel-top">
+          <span class="kontur-badge">${{p.contourNumber || (idx+1) + '-kontur'}}</span>
+          <span class="area-green">${{p.allocatedAreaHa || '—'}} ga</span>
+        </div>
+        <div>
+          <div class="farmer-name">${{p.farmerName || '—'}}</div>
+          <div class="farmer-sub">${{p.familyStatus || '—'}} · ${{p.contractYear || '—'}}</div>
+        </div>
+        <div class="parcel-props">
+          <div class="prop-box"><span class="pk">Tuproq boniteti</span><span class="pv green">${{bonitet}}</span></div>
+          <div class="prop-box"><span class="pk">Tuproq namligi</span><span class="pv">${{moisture}}</span></div>
+          <div class="prop-box"><span class="pk">Asosiy ekin</span><span class="pv">${{crop}}</span></div>
+          <div class="prop-box"><span class="pk">Sof daromad</span><span class="pv gold">${{profit}}</span></div>
+        </div>
+        <a href="${{parcelGmapsUrl}}" target="_blank" class="gmaps-link-btn" title="Sun&apos;iy yo&apos;ldosh xaritasida ochish">
+          🛰️ Google Maps to&apos;liq ekranda ↗
+        </a>
+      `;
+      scroller.appendChild(el);
+    }});
+
+    // Show AI crop recommendations for this MFY if available
+    const mfyCrops = mfy.aiCrops || [];
+    if (mfyCrops.length > 0) {{
+      const cropSection = document.createElement('div');
+      cropSection.style.cssText = 'margin-top:8px; background:linear-gradient(135deg,rgba(245,158,11,0.06),rgba(16,185,129,0.06)); border:1px solid rgba(245,158,11,0.25); border-radius:14px; padding:12px; display:flex; flex-direction:column; gap:8px;';
+      
+      cropSection.innerHTML = `
+        <div style="display:flex; align-items:center; gap:6px; border-bottom:1px solid var(--border); padding-bottom:6px;">
+          <span style="font-size:14px;">🤖🌱</span>
+          <span style="font-size:12.5px; font-weight:800; color:var(--text);">AI tavsiya: Mos ekinlar</span>
+          <span class="badge" style="font-size:10px;">${{mfyCrops.length}} ta</span>
+        </div>
+      `;
+
+      mfyCrops.forEach(crop => {{
+        const cropEl = document.createElement('div');
+        cropEl.style.cssText = 'background:var(--card); border:1px solid var(--border); border-radius:10px; padding:8px 10px; display:flex; flex-direction:column; gap:4px;';
+        
+        const fmtIncome = crop.haIncome ? (crop.haIncome / 1000000).toFixed(1) + " mln so'm" : '—';
+        const fmtPrice = crop.price ? crop.price.toLocaleString() + " so'm/kg" : '—';
+
+        cropEl.innerHTML = `
+          <div style="display:flex; align-items:center; justify-content:space-between;">
+            <span style="font-size:12px; font-weight:800; color:var(--text);">🌾 ${{crop.name}}</span>
+            <span style="font-size:10px; font-weight:700; color:#f59e0b;">AI: ${{crop.aiScore}}</span>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:4px; font-size:10.5px;">
+            <div style="color:var(--muted);">Nav: <strong style="color:var(--text);">${{crop.sort || '—'}}</strong></div>
+            <div style="color:var(--muted);">1 ga: <strong style="color:#059669;">${{crop.haYield || '—'}} t</strong></div>
+            <div style="color:var(--muted);">Daromad: <strong style="color:#d97706;">${{fmtIncome}}</strong></div>
+            <div style="color:var(--muted);">Narx: <strong style="color:var(--text);">${{fmtPrice}}</strong></div>
+          </div>
+          ${{crop.newCropName ? `<div style="font-size:10px; color:var(--muted);">Yangicha nav: <strong style="color:#0284c7;">${{crop.newCropName}}</strong> (${{crop.newHaYield || '—'}} t/ga)</div>` : ''}}
+        `;
+        cropSection.appendChild(cropEl);
+      }});
+
+      scroller.appendChild(cropSection);
+    }}
+  }}
+
+  /* ---- MFY SEARCH FILTER ---- */
+  function filterModal(q) {{
+    const t = q.trim().toLowerCase();
+    document.querySelectorAll('.modal-mfy-item').forEach(el => {{
+      const txt = el.textContent.toLowerCase();
+      el.style.display = txt.includes(t) ? '' : 'none';
+    }});
+  }}
+
+  /* ======================================= */
+  /*   ADMIN AUTH & CREDENTIAL MANAGEMENT    */
+  /* ======================================= */
+  let isAdminAuthenticated = false;
+
+  function getStoredCredentials() {{
+    const savedUser = localStorage.getItem('namangan_geoportal_admin_user') || 'admin';
+    const savedPass = localStorage.getItem('namangan_geoportal_admin_pass') || 'admin123';
+    return {{ user: savedUser, pass: savedPass }};
+  }}
+
+  function openAdminModal() {{
+    if (!isAdminAuthenticated) {{
+      openAdminLoginModal();
+    }} else {{
+      showAdminDashboard();
+    }}
+  }}
+
+  function openAdminLoginModal() {{
+    document.getElementById('loginErrorMsg').style.display = 'none';
+    document.getElementById('adminLoginUser').value = '';
+    document.getElementById('adminLoginPass').value = '';
+    document.getElementById('adminLoginOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }}
+
+  function closeAdminLoginModal() {{
+    document.getElementById('adminLoginOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }}
+
+  function handleAdminLoginOverlayClick(e) {{
+    if (e.target === document.getElementById('adminLoginOverlay')) closeAdminLoginModal();
+  }}
+
+  function handleAdminLogin(e) {{
+    e.preventDefault();
+    const u = document.getElementById('adminLoginUser').value.trim();
+    const p = document.getElementById('adminLoginPass').value;
+    const creds = getStoredCredentials();
+
+    if (u === creds.user && p === creds.pass) {{
+      isAdminAuthenticated = true;
+      closeAdminLoginModal();
+      showAdminDashboard();
+    }} else {{
+      document.getElementById('loginErrorMsg').style.display = 'block';
+    }}
+  }}
+
+  function showAdminDashboard() {{
+    populateAdminDistricts();
+    refreshAdminDataTable();
+    document.getElementById('adminModalOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }}
+
+  function handleChangeCredentials(e) {{
+    e.preventDefault();
+    const newUser = document.getElementById('newAdminUser').value.trim();
+    const oldPass = document.getElementById('oldAdminPass').value;
+    const newPass = document.getElementById('newAdminPass').value;
+    const confirmPass = document.getElementById('confirmAdminPass').value;
+    const msg = document.getElementById('changePassMsg');
+    const creds = getStoredCredentials();
+
+    if (oldPass !== creds.pass) {{
+      msg.style.display = 'block';
+      msg.style.color = '#ef4444';
+      msg.textContent = '❌ Amaldagi eski parol noto\\'g\\'ri kiritildi!';
+      return;
+    }}
+
+    if (newPass !== confirmPass) {{
+      msg.style.display = 'block';
+      msg.style.color = '#ef4444';
+      msg.textContent = '❌ Yangi parol va tasdiqlovchi parol mos kelmadi!';
+      return;
+    }}
+
+    localStorage.setItem('namangan_geoportal_admin_user', newUser);
+    localStorage.setItem('namangan_geoportal_admin_pass', newPass);
+
+    msg.style.display = 'block';
+    msg.style.color = '#10b981';
+    msg.textContent = '✅ Login va parol muvaffaqiyatli o\\'zgartirildi!';
+    document.getElementById('oldAdminPass').value = '';
+    document.getElementById('newAdminPass').value = '';
+    document.getElementById('confirmAdminPass').value = '';
+  }}
+
+  /* ======================================= */
+  /*   ADMIN PANEL FUNCTIONS (MA'LUMOT BAZASI) */
+  /* ======================================= */
+  function closeAdminModal() {{
+    document.getElementById('adminModalOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }}
+
+  function handleAdminOverlayClick(e) {{
+    if (e.target === document.getElementById('adminModalOverlay')) closeAdminModal();
+  }}
+
+  function switchAdminTab(tab) {{
+    document.getElementById('tabAddMfy').classList.toggle('active', tab === 'addMfy');
+    document.getElementById('tabExcelUpload').classList.toggle('active', tab === 'excelUpload');
+    document.getElementById('tabViewBase').classList.toggle('active', tab === 'viewBase');
+    document.getElementById('tabCropBase').classList.toggle('active', tab === 'cropBase');
+    document.getElementById('tabSecurity').classList.toggle('active', tab === 'security');
+    document.getElementById('adminTabAddMfy').style.display = tab === 'addMfy' ? 'flex' : 'none';
+    document.getElementById('adminTabExcelUpload').style.display = tab === 'excelUpload' ? 'flex' : 'none';
+    document.getElementById('adminTabViewBase').style.display = tab === 'viewBase' ? 'flex' : 'none';
+    document.getElementById('adminTabCropBase').style.display = tab === 'cropBase' ? 'flex' : 'none';
+    document.getElementById('adminTabSecurity').style.display = tab === 'security' ? 'flex' : 'none';
+    if (tab === 'viewBase') refreshAdminDataTable();
+    if (tab === 'cropBase') refreshCropDbTable();
+    if (tab === 'security') {{
+      document.getElementById('newAdminUser').value = getStoredCredentials().user;
+      document.getElementById('changePassMsg').style.display = 'none';
+    }}
+  }}
+
+  function populateAdminDistricts() {{
+    const sel = document.getElementById('admDistrict');
+    sel.innerHTML = '';
+    Object.keys(DATA).forEach(did => {{
+      const opt = document.createElement('option');
+      opt.value = did;
+      opt.textContent = DATA[did].name;
+      if (did === selectedDistrict) opt.selected = true;
+      sel.appendChild(opt);
+    }});
+  }}
+
+  function handleAdminSubmit(e) {{
+    e.preventDefault();
+    const did = document.getElementById('admDistrict').value;
+    const mfyName = document.getElementById('admMfyName').value.trim();
+    const area = document.getElementById('admMfyArea').value.trim() || '150 ga';
+    const spec = document.getElementById('admMfySpec').value.trim() || 'Sabzavotchilik';
+    const lat = parseFloat(document.getElementById('admLat').value);
+    const lon = parseFloat(document.getElementById('admLon').value);
+    const contour = document.getElementById('admContour').value.trim() || 'Yangi-kontur';
+    const parcelArea = parseFloat(document.getElementById('admParcelArea').value) || 0.5;
+    const farmerName = document.getElementById('admFarmerName').value.trim() || "Dehqon xo'jaligi a'zosi";
+    const familyStatus = document.getElementById('admFamilyStatus').value.trim() || 'Temir daftar · 2024 - 2034';
+    const bonitet = parseInt(document.getElementById('admBonitet').value) || 70;
+    const profit = parseFloat(document.getElementById('admProfit').value) || 35.0;
+
+    if (!DATA[did]) return;
+
+    const newMfyId = `${{did}}-${{Date.now()}}`;
+    const newParcel = {{
+      id: `P-${{Date.now()}}`,
+      contourNumber: contour,
+      allocatedAreaHa: parcelArea,
+      farmerName: farmerName,
+      familyStatus: familyStatus,
+      contractYear: "2024 - 2034 (10 yil)",
+      coordinates: [lat, lon],
+      soil: {{
+        bonitetScore: bonitet,
+        moisture: "70% (Yaxshi)"
+      }},
+      recommendation: {{
+        primaryCrop: spec
+      }},
+      economics: {{
+        netProfitUzs: profit * 1000000
+      }}
+    }};
+
+    const newMfy = {{
+      id: newMfyId,
+      name: mfyName,
+      area: area,
+      spec: spec,
+      poorFamilies: 75,
+      latlon: [lat, lon],
+      parcels: [newParcel]
+    }};
+
+    if (!DATA[did].mfys) DATA[did].mfys = [];
+    DATA[did].mfys.unshift(newMfy);
+
+    // Save in LocalStorage
+    try {{
+      localStorage.setItem('namangan_geoportal_custom_data', JSON.stringify(DATA));
+    }} catch(err) {{
+      console.warn('LocalStorage save failed:', err);
+    }}
+
+    alert(`✅ "${{mfyName}}" muvaffaqiyatli saqlandi va ${{DATA[did].name}} ma'lumotlar bazasiga qo'shildi!`);
+    
+    // Reset Form
+    document.getElementById('adminAddForm').reset();
+
+    // Re-render
+    renderInfo(did);
+    refreshAdminDataTable();
+    switchAdminTab('viewBase');
+  }}
+
+  /* ======================================= */
+  /*   EXCEL IMPORT & TEMPLATE EXPORT        */
+  /* ======================================= */
+  let parsedExcelRows = [];
+
+  function downloadExcelTemplate() {{
+    const templateData = [
+      {{
+        "Tuman": "Mingbuloq",
+        "MFY nomi": "Jomasho'y MFY",
+        "Umumiy maydon": "230 ga",
+        "Ixtisoslashuv": "Sholichilik va Dukkakli mosh",
+        "Kenglik (Latitude)": 40.7554,
+        "Uzunlik (Longitude)": 71.5002,
+        "Kontur raqami": "105-kontur",
+        "Kontur maydoni (ga)": 0.60,
+        "Dehqon F.I.Sh": "Qambarov O'tkir Ne'matovich",
+        "Ijtimoiy toifasi": "Temir daftar · 2024 - 2034",
+        "Tuproq boniteti": 66,
+        "Sof daromad (mln)": 40.6
+      }},
+      {{
+        "Tuman": "Pop",
+        "MFY nomi": "G'urumsaroy MFY",
+        "Umumiy maydon": "185 ga",
+        "Ixtisoslashuv": "Poliz va Eksportbop Mosh",
+        "Kenglik (Latitude)": 40.8920,
+        "Uzunlik (Longitude)": 71.0850,
+        "Kontur raqami": "142-kontur",
+        "Kontur maydoni (ga)": 0.50,
+        "Dehqon F.I.Sh": "Rustamov Jamshid Qodirovich",
+        "Ijtimoiy toifasi": "Ijtimoiy himoya reyestrida",
+        "Tuproq boniteti": 64,
+        "Sof daromad (mln)": 31.5
+      }}
+    ];
+
+    if (typeof XLSX !== 'undefined') {{
+      const ws = XLSX.utils.json_to_sheet(templateData);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Ijara_Yerlar");
+      XLSX.writeFile(wb, "Ijara_yerlar_shablon.xlsx");
+    }} else {{
+      alert("XLSX kutubxonasi yuklanmoqda, iltimos qayta urinib ko'ring.");
+    }}
+  }}
+
+  function handleExcelFileSelect(event) {{
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {{
+      try {{
+        const data = new Uint8Array(e.target.result);
+        const workbook = XLSX.read(data, {{ type: 'array' }});
+        const firstSheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[firstSheetName];
+        const json = XLSX.utils.sheet_to_json(worksheet);
+
+        if (!json || json.length === 0) {{
+          alert("Excel faylida ma'lumot topilmadi!");
+          return;
+        }}
+
+        parsedExcelRows = json;
+        renderExcelPreview(json);
+      }} catch(err) {{
+        console.error("Excel o'qishda xatolik:", err);
+        alert("Excel faylini o'qishda xatolik yuz berdi: " + err.message);
+      }}
+    }};
+    reader.readAsArrayBuffer(file);
+  }}
+
+  function matchDistrictId(tumanName) {{
+    if (!tumanName) return 'pop';
+    const norm = tumanName.toString().toLowerCase().replace(/[^a-z0-9]/g, '');
+    for (let did of Object.keys(DATA)) {{
+      const dnorm = DATA[did].name.toLowerCase().replace(/[^a-z0-9]/g, '');
+      const snorm = DATA[did].shortName.toLowerCase().replace(/[^a-z0-9]/g, '');
+      if (dnorm.includes(norm) || norm.includes(snorm) || did.replace(/[^a-z0-9]/g, '').includes(norm)) {{
+        return did;
+      }}
+    }}
+    return 'pop';
+  }}
+
+  function renderExcelPreview(rows) {{
+    const previewSection = document.getElementById('excelPreviewSection');
+    const tbody = document.getElementById('excelPreviewTbody');
+    const title = document.getElementById('excelPreviewTitle');
+    
+    tbody.innerHTML = '';
+    title.textContent = `O'qilgan qatorlar: ${{rows.length}} ta`;
+
+    rows.forEach((r, idx) => {{
+      const tuman = r['Tuman'] || r['tuman'] || r['Hudud'] || 'Pop';
+      const mfy = r['MFY nomi'] || r['MFY'] || r['mfy'] || 'MFY';
+      const area = r['Umumiy maydon'] || r['Maydon'] || '150 ga';
+      const spec = r['Ixtisoslashuv'] || r['Mos ekin'] || 'Sabzavotchilik';
+      const lat = r['Kenglik (Latitude)'] || r['Latitude'] || r['Lat'] || 40.9;
+      const lon = r['Uzunlik (Longitude)'] || r['Longitude'] || r['Lon'] || 71.6;
+      const contour = r['Kontur raqami'] || r['Kontur'] || (idx + 1) + '-kontur';
+      const farmer = r['Dehqon F.I.Sh'] || r['Dehqon'] || 'Ijarachi';
+
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${{idx + 1}}</td>
+        <td><strong>${{tuman}}</strong></td>
+        <td>${{mfy}}</td>
+        <td>${{area}}</td>
+        <td>${{spec}}</td>
+        <td><code>${{lat}}</code></td>
+        <td><code>${{lon}}</code></td>
+        <td>${{contour}}</td>
+        <td>${{farmer}}</td>
+      `;
+      tbody.appendChild(tr);
+    }});
+
+    previewSection.style.display = 'flex';
+  }}
+
+  function confirmExcelImport() {{
+    if (!parsedExcelRows || parsedExcelRows.length === 0) {{
+      alert("Yuklash uchun ma'lumot yo'q!");
+      return;
+    }}
+
+    let importedCount = 0;
+
+    parsedExcelRows.forEach((r, idx) => {{
+      const tuman = r['Tuman'] || r['tuman'] || r['Hudud'] || 'Pop';
+      const did = matchDistrictId(tuman);
+      const mfyName = r['MFY nomi'] || r['MFY'] || r['mfy'] || 'Yangi MFY';
+      const area = (r['Umumiy maydon'] || r['Maydon'] || '150 ga').toString();
+      const spec = (r['Ixtisoslashuv'] || r['Mos ekin'] || 'Sabzavotchilik').toString();
+      const lat = parseFloat(r['Kenglik (Latitude)'] || r['Latitude'] || r['Lat'] || (DATA[did]?.latlon?.[0] || 40.9));
+      const lon = parseFloat(r['Uzunlik (Longitude)'] || r['Longitude'] || r['Lon'] || (DATA[did]?.latlon?.[1] || 71.6));
+      const contour = (r['Kontur raqami'] || r['Kontur'] || (idx + 1) + '-kontur').toString();
+      const parcelArea = parseFloat(r['Kontur maydoni (ga)'] || r['Kontur maydoni'] || 0.5);
+      const farmer = (r['Dehqon F.I.Sh'] || r['Dehqon'] || "Dehqon xo'jaligi").toString();
+      const status = (r['Ijtimoiy toifasi'] || r['Toifa'] || 'Ijtimoiy reyestr').toString();
+      const bonitet = parseInt(r['Tuproq boniteti'] || 70);
+      const profit = parseFloat(r['Sof daromad (mln)'] || 35.0);
+
+      if (!DATA[did]) return;
+
+      const newParcel = {{
+        id: `P-${{Date.now()}}-${{idx}}`,
+        contourNumber: contour,
+        allocatedAreaHa: parcelArea,
+        farmerName: farmer,
+        familyStatus: status,
+        contractYear: "2024 - 2034 (10 yil)",
+        coordinates: [lat, lon],
+        soil: {{
+          bonitetScore: bonitet,
+          moisture: "70% (Optimal)"
+        }},
+        recommendation: {{
+          primaryCrop: spec
+        }},
+        economics: {{
+          netProfitUzs: profit * 1000000
+        }}
+      }};
+
+      const newMfy = {{
+        id: `${{did}}-xl-${{Date.now()}}-${{idx}}`,
+        name: mfyName,
+        area: area.includes('ga') ? area : (area + ' ga'),
+        spec: spec,
+        poorFamilies: 80,
+        latlon: [lat, lon],
+        parcels: [newParcel]
+      }};
+
+      if (!DATA[did].mfys) DATA[did].mfys = [];
+      DATA[did].mfys.unshift(newMfy);
+      importedCount++;
+    }});
+
+    // Save in LocalStorage
+    try {{
+      localStorage.setItem('namangan_geoportal_custom_data', JSON.stringify(DATA));
+    }} catch(err) {{
+      console.warn('LocalStorage save failed:', err);
+    }}
+
+    alert(`🎉 Tabriklaymiz! Excel fayldan jami ${{importedCount}} ta qator ma'lumotlar bazasiga muvaffaqiyatli yuklandi va xaritaga biriktirildi!`);
+
+    document.getElementById('excelFileInput').value = '';
+    document.getElementById('excelPreviewSection').style.display = 'none';
+    parsedExcelRows = [];
+
+    renderInfo(selectedDistrict);
+    refreshAdminDataTable();
+    switchAdminTab('viewBase');
+  }}
+
+  function refreshAdminDataTable() {{
+    const tbody = document.getElementById('adminTableBody');
+    tbody.innerHTML = '';
+    let counter = 0;
+
+    Object.keys(DATA).forEach(did => {{
+      const d = DATA[did];
+      (d.mfys || []).forEach(m => {{
+        counter++;
+        const tr = document.createElement('tr');
+        const coords = m.latlon ? `${{m.latlon[0].toFixed(4)}}, ${{m.latlon[1].toFixed(4)}}` : '—';
+        const pCount = (m.parcels || []).length;
+        const firstFarmer = pCount > 0 ? (m.parcels[0].farmerName || '—') : '—';
+        
+        tr.innerHTML = `
+          <td><strong>${{counter}}</strong></td>
+          <td>${{d.name}}</td>
+          <td><strong>${{m.name}}</strong></td>
+          <td><span class="badge" style="background:#ecfdf5;color:#065f46;">${{m.area || '—'}}</span></td>
+          <td>${{m.spec || '—'}}</td>
+          <td><code>${{coords}}</code></td>
+          <td>${{pCount}} ta kontur (${{firstFarmer}})</td>
+        `;
+        tbody.appendChild(tr);
+      }});
+    }});
+
+    document.getElementById('adminTotalRecords').textContent = `Jami bazada mavjud: ${{counter}} ta MFY va ijara uchastkalari`;
+  }}
+
+  function exportDataToJson() {{
+    const blob = new Blob([JSON.stringify(DATA, null, 2)], {{ type: 'application/json' }});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'namangan_ijara_yerlar_bazasi.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  }}
+
+  /* ======================================= */
+  /*   CROP DATABASE & AI DISTRIBUTION       */
+  /* ======================================= */
+  let cropDatabase = [];
+  let parsedCropRows = [];
+
+  // Load saved crop database
+  try {{
+    const savedCrops = localStorage.getItem('namangan_crop_database');
+    if (savedCrops) cropDatabase = JSON.parse(savedCrops);
+  }} catch(e) {{ console.warn('Crop DB load error:', e); }}
+
+  function downloadCropTemplate() {{
+    const templateData = [
+      {{
+        "Mahsulot nomi": "shalg'om",
+        "Mahalliy nav (sort)": "Petrovskaya 1",
+        "1 ga etishtiriladigan (tonna)": 20,
+        "1 ga olinadigan daromad": 60000000,
+        "15 sotix etishtiriladigan (tonna)": 3.0,
+        "15 sotix olinadigan daromad": 9000000,
+        "10 sotix etishtiriladigan (tonna)": 2.0,
+        "10 sotix olinadigan daromad": 6000000,
+        "Yangicha usul mahsulot nomi": "Geytsin",
+        "Yangicha usul 1 ga (tonna)": 35,
+        "Yangicha usul 1 ga daromad": 105000000,
+        "Yangicha usul 15 sotix (tonna)": 5.3,
+        "Yangicha usul 15 sotix daromad": 15750000,
+        "Yangicha usul 10 sotix (tonna)": 3.5,
+        "Yangicha usul 10 sotix daromad": 10500000,
+        "Narx (UZS/kg)": 3000
+      }},
+      {{
+        "Mahsulot nomi": "turp",
+        "Mahalliy nav (sort)": "Dunganskiy 12/8",
+        "1 ga etishtiriladigan (tonna)": 20,
+        "1 ga olinadigan daromad": 60000000,
+        "15 sotix etishtiriladigan (tonna)": 3.0,
+        "15 sotix olinadigan daromad": 9000000,
+        "10 sotix etishtiriladigan (tonna)": 2.0,
+        "10 sotix olinadigan daromad": 6000000,
+        "Yangicha usul mahsulot nomi": "Rinam",
+        "Yangicha usul 1 ga (tonna)": 35,
+        "Yangicha usul 1 ga daromad": 105000000,
+        "Yangicha usul 15 sotix (tonna)": 5.3,
+        "Yangicha usul 15 sotix daromad": 15750000,
+        "Yangicha usul 10 sotix (tonna)": 3.5,
+        "Yangicha usul 10 sotix daromad": 10500000,
+        "Narx (UZS/kg)": 3000
+      }},
+      {{
+        "Mahsulot nomi": "karam",
+        "Mahalliy nav (sort)": "Pekinskaya rannyaya",
+        "1 ga etishtiriladigan (tonna)": 30,
+        "1 ga olinadigan daromad": 90000000,
+        "15 sotix etishtiriladigan (tonna)": 4.5,
+        "15 sotix olinadigan daromad": 13500000,
+        "10 sotix etishtiriladigan (tonna)": 3.0,
+        "10 sotix olinadigan daromad": 9000000,
+        "Yangicha usul mahsulot nomi": "May Kvin F1",
+        "Yangicha usul 1 ga (tonna)": 30,
+        "Yangicha usul 1 ga daromad": 150000000,
+        "Yangicha usul 15 sotix (tonna)": 7.5,
+        "Yangicha usul 15 sotix daromad": 22500000,
+        "Yangicha usul 10 sotix (tonna)": 5.0,
+        "Yangicha usul 10 sotix daromad": 15000000,
+        "Narx (UZS/kg)": 3000
+      }}
+    ];
+
+    if (typeof XLSX !== 'undefined') {{
+      const ws = XLSX.utils.json_to_sheet(templateData);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Ekinlar_Bazasi");
+      XLSX.writeFile(wb, "Ekinlar_bazasi_shablon.xlsx");
+    }} else {{
+      alert("XLSX kutubxonasi yuklanmoqda, qayta urinib ko'ring.");
+    }}
+  }}
+
+  function handleCropExcelUpload(event) {{
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {{
+      try {{
+        const data = new Uint8Array(e.target.result);
+        const workbook = XLSX.read(data, {{ type: 'array' }});
+        const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+        
+        // Read as array of arrays to handle any header language
+        const aoa = XLSX.utils.sheet_to_json(firstSheet, {{ header: 1 }});
+        
+        if (!aoa || aoa.length < 2) {{
+          alert("Excel faylida yetarli ma'lumot topilmadi!");
+          return;
+        }}
+
+        // Find the header row (first row with 3+ non-empty cells)
+        let headerRowIdx = -1;
+        for (let i = 0; i < Math.min(5, aoa.length); i++) {{
+          const row = aoa[i] || [];
+          const nonEmpty = row.filter(c => c !== undefined && c !== null && c.toString().trim() !== '').length;
+          if (nonEmpty >= 3) {{
+            headerRowIdx = i;
+            break;
+          }}
+        }}
+        if (headerRowIdx === -1) headerRowIdx = 0;
+
+        // Safe headers mapping
+        const headers = (aoa[headerRowIdx] || []).map(h => (h !== null && h !== undefined ? h.toString().trim() : ''));
+        
+        // Smart column detection by keyword patterns (works for both Cyrillic and Latin)
+        function findCol(patterns) {{
+          for (let i = 0; i < headers.length; i++) {{
+            const h = (headers[i] || '').toLowerCase();
+            if (patterns.some(p => p && h.includes(p.toLowerCase()))) return i;
+          }}
+          return -1;
+        }}
+        
+        // Detect columns using multilingual keywords
+        const colName = findCol(['\u043c\u0430\u04b3\u0441\u0443\u043b\u043e\u0442 \u043d\u043e\u043c', '\u043c\u0430\u0445\u0441\u0443\u043b\u043e\u0442 \u043d\u043e\u043c', 'mahsulot nom', 'mahsulot', '\u043d\u043e\u043c\u0438', 'nomi', '\u043c\u0430\u04b3\u0441\u0443\u043b\u043e\u0442']);
+        const colSort = findCol(['\u043d\u0430\u0432\u0438 \u043d\u043e\u043c', '\u043c\u0430\u04b3\u0430\u043b\u043b\u0438\u0439', '\u043c\u0430\u0445\u0430\u043b\u043b\u0438\u0439', 'mahalliy', 'nav', 'sort', '\u044d\u0442\u0438\u0448\u0442\u0438\u0440\u0438\u0448']);
+        const colHaYield = findCol(['1 \u0433\u0435\u043a\u0442\u0430\u0440', '1 \u0433\u0430', '1 ga', '1 gektar', '\u0442\u043e\u043d\u043d\u0430']);
+        const colHaIncome = findCol(['1 \u0433\u0435\u043a\u0442\u0430\u0440\u0434\u0430\u043d \u043e\u043b\u0438\u043d', '1 \u0433\u0430 \u043e\u043b\u0438\u043d', '\u0434\u0430\u0440\u043e\u043c\u0430\u0434']);
+        const colNewCrop = findCol(['\u044f\u043d\u0433\u0438\u0447\u0430', 'yangicha', '\u044f\u043d\u0433\u0438']);
+        const colPrice = findCol(['\u043d\u0430\u0440\u0445', 'narx', '\u0441\u045e\u043c', 'uzs', '\u0432\u0430\u0437\u043d']);
+
+        // Parse data rows
+        const dataRows = aoa.slice(headerRowIdx + 1).filter(row => {{
+          if (!row || row.length < 2) return false;
+          const firstCell = (row[0] || '').toString().trim();
+          const secondCell = (row[1] || '').toString().trim();
+          return firstCell !== '' || secondCell !== '';
+        }});
+
+        if (dataRows.length === 0) {{
+          alert("Ma'lumot qatorlari topilmadi!");
+          return;
+        }}
+
+        // Check if first column is row number (all numeric)
+        const firstColIsNum = dataRows.every(r => !isNaN(parseFloat(r[0])));
+        const offset = firstColIsNum ? 1 : 0;
+
+        // Map data using detected columns or positional fallback
+        parsedCropRows = dataRows.map((row, idx) => {{
+          const getVal = (colIdx, fallbackIdx) => {{
+            if (colIdx >= 0 && row[colIdx] !== undefined) return row[colIdx];
+            if (fallbackIdx !== undefined && row[fallbackIdx] !== undefined) return row[fallbackIdx];
+            return '';
+          }};
+
+          return {{
+            '_name': getVal(colName >= 0 ? colName : offset, offset),
+            '_sort': getVal(colSort >= 0 ? colSort : offset + 1, offset + 1),
+            '_haYield': getVal(colHaYield >= 0 ? colHaYield : offset + 2, offset + 2),
+            '_haIncome': getVal(colHaIncome >= 0 ? colHaIncome : offset + 3, offset + 3),
+            '_s15Yield': getVal(-1, offset + 4),
+            '_s15Income': getVal(-1, offset + 5),
+            '_s10Yield': getVal(-1, offset + 6),
+            '_s10Income': getVal(-1, offset + 7),
+            '_newCrop': getVal(colNewCrop >= 0 ? colNewCrop : offset + 8, offset + 8),
+            '_newHaYield': getVal(-1, offset + 9),
+            '_newHaIncome': getVal(-1, offset + 10),
+            '_newS15Yield': getVal(-1, offset + 11),
+            '_newS15Income': getVal(-1, offset + 12),
+            '_newS10Yield': getVal(-1, offset + 13),
+            '_newS10Income': getVal(-1, offset + 14),
+            '_price': getVal(colPrice >= 0 ? colPrice : offset + 15, offset + 15),
+            '_rawRow': row
+          }};
+        }});
+
+        renderCropPreview(parsedCropRows);
+      }} catch(err) {{
+        console.error("Excel ekin o'qishda xatolik:", err);
+        alert("Excel faylini o'qishda xatolik: " + err.message);
+      }}
+    }};
+    reader.readAsArrayBuffer(file);
+  }}
+
+  function renderCropPreview(rows) {{
+    const tbody = document.getElementById('cropPreviewTbody');
+    const title = document.getElementById('cropPreviewTitle');
+    tbody.innerHTML = '';
+    title.textContent = `O'qilgan ekinlar: ${{rows.length}} ta`;
+
+    rows.forEach((r, idx) => {{
+      const name = r._name || r['Mahsulot nomi'] || r['mahsulot'] || r['Nomi'] || '—';
+      const sort = r._sort || r['Mahalliy nav (sort)'] || r['Nav'] || r['Mahalliy usulda mahsulot etishtirish (navi nomi)'] || '—';
+      const haYield = r._haYield !== '' && r._haYield !== undefined ? r._haYield : (r['1 ga etishtiriladigan (tonna)'] || '—');
+      const haIncome = r._haIncome !== '' && r._haIncome !== undefined ? r._haIncome : (r['1 ga olinadigan daromad'] || '—');
+      const s15Yield = r._s15Yield !== '' && r._s15Yield !== undefined ? r._s15Yield : (r['15 sotix etishtiriladigan (tonna)'] || '—');
+      const s10Yield = r._s10Yield !== '' && r._s10Yield !== undefined ? r._s10Yield : (r['10 sotix etishtiriladigan (tonna)'] || '—');
+      const newCrop = r._newCrop || r['Yangicha usul mahsulot nomi'] || '—';
+      const price = r._price !== '' && r._price !== undefined ? r._price : (r['Narx (UZS/kg)'] || '—');
+
+      const numIncome = parseFloat(haIncome);
+      const fmtIncome = !isNaN(numIncome) && numIncome > 1000 ? (numIncome / 1000000).toFixed(1) + ' mln' : (haIncome || '—');
+
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${{idx + 1}}</td>
+        <td><strong>${{name}}</strong></td>
+        <td>${{sort}}</td>
+        <td>${{haYield !== '—' ? haYield + ' t' : '—'}}</td>
+        <td>${{fmtIncome}}</td>
+        <td>${{s15Yield !== '—' ? s15Yield + ' t' : '—'}}</td>
+        <td>${{s10Yield !== '—' ? s10Yield + ' t' : '—'}}</td>
+        <td>${{newCrop}}</td>
+        <td>${{price}}</td>
+      `;
+      tbody.appendChild(tr);
+    }});
+
+    document.getElementById('cropPreviewSection').style.display = 'flex';
+  }}
+
+  function confirmCropImport() {{
+    if (!parsedCropRows || parsedCropRows.length === 0) {{
+      alert("Yuklash uchun ekin ma'lumoti yo'q!");
+      return;
+    }}
+
+    // Parse and normalize crop data
+    cropDatabase = parsedCropRows.map((r, idx) => {{
+      const name = (r._name || r['Mahsulot nomi'] || r['mahsulot'] || r['Nomi'] || 'Ekin ' + (idx+1)).toString();
+      const sort = (r._sort || r['Mahalliy nav (sort)'] || r['Nav'] || '').toString();
+      const haYield = parseFloat(r._haYield || r['1 ga etishtiriladigan (tonna)'] || 0) || 0;
+      const haIncome = parseFloat(r._haIncome || r['1 ga olinadigan daromad'] || 0) || 0;
+      const s15Yield = parseFloat(r._s15Yield || r['15 sotix etishtiriladigan (tonna)'] || 0) || 0;
+      const s15Income = parseFloat(r._s15Income || r['15 sotix olinadigan daromad'] || 0) || 0;
+      const s10Yield = parseFloat(r._s10Yield || r['10 sotix etishtiriladigan (tonna)'] || 0) || 0;
+      const s10Income = parseFloat(r._s10Income || r['10 sotix olinadigan daromad'] || 0) || 0;
+      const newCropName = (r._newCrop || r['Yangicha usul mahsulot nomi'] || '').toString();
+      const newHaYield = parseFloat(r._newHaYield || r['Yangicha usul 1 ga (tonna)'] || 0) || 0;
+      const newHaIncome = parseFloat(r._newHaIncome || r['Yangicha usul 1 ga daromad'] || 0) || 0;
+      const price = parseFloat(r._price || r['Narx (UZS/kg)'] || 0) || 0;
+
+      return {{
+        id: 'crop-' + Date.now() + '-' + idx,
+        name, sort, haYield, haIncome, s15Yield, s15Income, s10Yield, s10Income,
+        newCropName, newHaYield, newHaIncome, price,
+        assignedMfys: []
+      }};
+    }});
+
+    // Save crop database
+    try {{
+      localStorage.setItem('namangan_crop_database', JSON.stringify(cropDatabase));
+    }} catch(e) {{ console.warn('Crop DB save error:', e); }}
+
+    // Run AI distribution
+    runAiDistribution();
+
+    alert(`🎉 ${{cropDatabase.length}} ta ekin muvaffaqiyatli bazaga saqlandi va AI taqsimlash bajarildi!`);
+
+    document.getElementById('cropExcelInput').value = '';
+    document.getElementById('cropPreviewSection').style.display = 'none';
+    parsedCropRows = [];
+
+    refreshCropDbTable();
+  }}
+
+  /* ---- AI DISTRIBUTION ALGORITHM ---- */
+  function runAiDistribution() {{
+    // Smart matching: each crop is assigned to MFYs based on soil, specialization keywords, and bonitet
+    const cropKeywords = {{
+      "poliz": ["tarvuz", "qovun", "poliz"],
+      "sabzavot": ["pomidor", "baqlajon", "karam", "sabzi", "piyoz", "sarimsoq", "qalampir", "bodring", "rediska", "salat", "turp", "shalgom", "lavlagi", "kartoshka", "ko'katlar", "shivit", "ukrop", "petruska"],
+      "dukkakli": ["mosh", "loviya", "no'xat", "fasol", "yasmiq"],
+      "mevali": ["uzum", "olma", "o'rik", "shaftoli", "anor", "anjir", "gilos", "behi", "nok", "bodom"],
+      "donli": ["bug'doy", "arpa", "makkajo'xori", "sholi", "suli"],
+      "texnik": ["paxta", "kungaboqar", "zig'ir"],
+      "rezavor": ["kartoshka"],
+      "ildizmeva": ["sabzi", "turp", "lavlagi", "rediska", "shalgom"],
+      "boshqa": ["kunjut", "yeryong'oq", "yabulat"]
+    }};
+
+    // Classify each crop
+    cropDatabase.forEach(crop => {{
+      const cname = (crop.name || '').toString().toLowerCase();
+      crop.categories = [];
+
+      // Check if crop name matches any category keywords
+      Object.entries(cropKeywords).forEach(([cat, keywords]) => {{
+        if (keywords.some(kw => cname.includes(kw))) {{
+          crop.categories.push(cat);
+        }}
+      }});
+
+      // Default: sabzavot
+      if (crop.categories.length === 0) crop.categories.push('sabzavot');
+    }});
+
+    // Assign crops to MFYs based on their specialization and soil quality
+    const results = [];
+
+    Object.keys(DATA).forEach(did => {{
+      const d = DATA[did];
+      const mfys = d.mfys || [];
+
+      mfys.forEach(mfy => {{
+        const mfySpec = (mfy.spec || '').toString().toLowerCase();
+        const mfySoilBonitet = (mfy.parcels && mfy.parcels[0] && mfy.parcels[0].soil) ? (mfy.parcels[0].soil.bonitetScore || 65) : 65;
+        const assignedCrops = [];
+
+        cropDatabase.forEach(crop => {{
+          let score = 0;
+          const cname = (crop.name || '').toString().toLowerCase();
+
+          // 1. Check if MFY specialization mentions this crop or related category
+          if (mfySpec.includes(cname)) score += 40;
+          crop.categories.forEach(cat => {{
+            if (mfySpec.includes(cat)) score += 20;
+          }});
+
+          // 2. Check if MFY spec mentions related words
+          const specWords = ["poliz", "sabzavot", "mosh", "uzum", "sholi", "paxta", "meva", "bodom", "kartoshka", "pomidor", "baqlajon", "karam", "eksport", "dukkakli", "loviya", "ko'chatchilik"];
+          specWords.forEach(sw => {{
+            if (mfySpec.includes(sw) && (cname.includes(sw) || crop.categories.some(c => c.includes(sw)))) {{
+              score += 15;
+            }}
+          }});
+
+          // 3. Soil bonitet matching (higher bonitet = more crops suitable)
+          if (mfySoilBonitet >= 75) score += 10; // excellent soil
+          else if (mfySoilBonitet >= 65) score += 5; // good soil
+
+          // 4. Randomized variety factor (to distribute different crops)
+          score += Math.floor(Math.random() * 8);
+
+          // 5. General crop compatibility  
+          if (crop.categories.includes('sabzavot')) score += 5; // vegetables go everywhere
+          if (crop.categories.includes('ildizmeva') && mfySoilBonitet >= 60) score += 7;
+
+          if (score >= 15) {{
+            assignedCrops.push({{ ...crop, aiScore: score }});
+          }}
+        }});
+
+        // Sort by score and take top crops
+        assignedCrops.sort((a, b) => b.aiScore - a.aiScore);
+        const topCrops = assignedCrops.slice(0, Math.min(8, assignedCrops.length));
+
+        if (topCrops.length > 0) {{
+          results.push({{
+            district: d.name,
+            districtId: did,
+            mfyName: mfy.name,
+            mfyId: mfy.id,
+            crops: topCrops
+          }});
+
+          // Also store assigned crops reference in crop database
+          topCrops.forEach(tc => {{
+            const originalCrop = cropDatabase.find(c => c.id === tc.id);
+            if (originalCrop && !originalCrop.assignedMfys.includes(mfy.name)) {{
+              originalCrop.assignedMfys.push(mfy.name);
+            }}
+          }});
+
+          // Update MFY data with crop recommendations
+          mfy.aiCrops = topCrops.map(c => ({{
+            name: c.name,
+            sort: c.sort,
+            haYield: c.haYield,
+            haIncome: c.haIncome,
+            newCropName: c.newCropName,
+            newHaYield: c.newHaYield,
+            price: c.price,
+            aiScore: c.aiScore
+          }}));
+        }}
+      }});
+    }});
+
+    // Save updated data
+    try {{
+      localStorage.setItem('namangan_geoportal_custom_data', JSON.stringify(DATA));
+      localStorage.setItem('namangan_crop_database', JSON.stringify(cropDatabase));
+    }} catch(e) {{ console.warn('Save error:', e); }}
+
+    // Render AI results
+    renderAiDistributionResults(results);
+  }}
+
+  function renderAiDistributionResults(results) {{
+    const container = document.getElementById('aiDistributionResults');
+    const section = document.getElementById('aiSection');
+    container.innerHTML = '';
+
+    if (results.length === 0) {{
+      document.getElementById('aiSection').style.display = 'none';
+      return;
+    }}
+
+    document.getElementById('aiSection').style.display = 'flex';
+    document.getElementById('aiResultText').textContent = `Jami ${{results.length}} ta MFY ga ekinlar taqsimlandi. Har bir MFY uchun tuproq va iqlim sharoitiga mos ekinlar tanlandi.`;
+
+    results.forEach(r => {{
+      const card = document.createElement('div');
+      card.style.cssText = 'background:var(--inner); border:1px solid var(--border); border-radius:12px; padding:12px; display:flex; flex-direction:column; gap:6px;';
+
+      const cropTags = r.crops.map(c => `<span style="background:var(--badge-bg); color:var(--badge-text); padding:2px 8px; border-radius:6px; font-size:11px; font-weight:700; border:1px solid rgba(16,185,129,0.2);">${{c.name}} (AI: ${{c.aiScore}})</span>`).join(' ');
+
+      card.innerHTML = `
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:6px;">
+          <div>
+            <div style="font-size:12.5px; font-weight:800; color:var(--text);">📍 ${{r.mfyName}}</div>
+            <div style="font-size:11px; color:var(--muted);">${{r.district}}</div>
+          </div>
+          <span class="badge">${{r.crops.length}} ta ekin</span>
+        </div>
+        <div style="display:flex; flex-wrap:wrap; gap:4px; margin-top:2px;">
+          ${{cropTags}}
+        </div>
+      `;
+      container.appendChild(card);
+    }});
+  }}
+
+  function refreshCropDbTable() {{
+    const tbody = document.getElementById('cropDbTbody');
+    const countEl = document.getElementById('cropDbCount');
+    tbody.innerHTML = '';
+
+    if (cropDatabase.length === 0) {{
+      countEl.textContent = '0 ta mahsulot';
+      tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:var(--muted); padding:20px;">Hali ekin ma\\'lumoti yuklanmagan. Yuqoridagi Excel yuklash orqali boshlang.</td></tr>';
+      return;
+    }}
+
+    countEl.textContent = cropDatabase.length + ' ta mahsulot';
+
+    cropDatabase.forEach((c, idx) => {{
+      const fmtIncome = c.haIncome ? (c.haIncome / 1000000).toFixed(1) + ' mln' : '—';
+      const fmtPrice = c.price ? c.price.toLocaleString() + " so'm" : '—';
+      const mfyList = c.assignedMfys && c.assignedMfys.length > 0 ? c.assignedMfys.slice(0, 3).join(', ') + (c.assignedMfys.length > 3 ? ` (+${{c.assignedMfys.length - 3}})` : '') : 'Taqsimlanmagan';
+
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${{idx + 1}}</td>
+        <td><strong>${{c.name}}</strong></td>
+        <td>${{c.sort || '—'}}</td>
+        <td>${{c.haYield || '—'}} t</td>
+        <td>${{fmtIncome}}</td>
+        <td>${{fmtPrice}}</td>
+        <td style="font-size:11px;">${{mfyList}}</td>
+      `;
+      tbody.appendChild(tr);
+    }});
+  }}
+
+  document.addEventListener('keydown', e => {{
+    if (e.key === 'Escape') {{
+      closeModal();
+      closeAdminModal();
+    }}
+  }});
+
+  /* ---- EVENTS ---- */
+  document.querySelectorAll('.district-poly').forEach(poly => {{
+    poly.addEventListener('click', () => {{
+      const id = poly.dataset.id;
+      renderInfo(id);
+      openModal(id);
+    }});
+  }});
+
+  document.querySelectorAll('.d-btn').forEach(btn => {{
+    btn.addEventListener('click', () => {{
+      const id = btn.dataset.id;
+      renderInfo(id);
+      openModal(id);
+    }});
+  }});
+
+  document.getElementById('openModalBtn').addEventListener('click', () => openModal(selectedDistrict));
+
+  /* ---- THEME TOGGLE ---- */
+  document.getElementById('themeBtn').addEventListener('click', () => {{
+    const dark = document.documentElement.classList.toggle('dark');
+    document.getElementById('themeIcon').textContent = dark ? '☀️' : '🌙';
+  }});
+
+  /* ---- LIVE WEATHER FETCH (OPEN-METEO API) ---- */
+  async function fetchLiveWeather() {{
+    try {{
+      // Namangan city coordinates: lat=40.998, lon=71.672
+      const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=40.998&longitude=71.672&current=temperature_2m,relative_humidity_2m,weather_code&daily=temperature_2m_max,temperature_2m_min&timezone=Asia%2FTashkent');
+      if (res.ok) {{
+        const data = await res.json();
+        if (data.daily && data.daily.temperature_2m_min && data.daily.temperature_2m_max) {{
+          const minT = Math.round(data.daily.temperature_2m_min[0]);
+          const maxT = Math.round(data.daily.temperature_2m_max[0]);
+          const signMin = minT > 0 ? '+' : '';
+          const signMax = maxT > 0 ? '+' : '';
+          document.getElementById('weatherTemp').textContent = `${{signMin}}${{minT}}° — ${{signMax}}${{maxT}}°`;
+        }}
+        const code = data.current ? data.current.weather_code : 0;
+        let icon = '☀️';
+        if (code >= 1 && code <= 3) icon = '⛅';
+        else if (code >= 45 && code <= 48) icon = '🌫️';
+        else if (code >= 51 && code <= 67) icon = '🌧️';
+        else if (code >= 71) icon = '🌨️';
+        document.getElementById('weatherIcon').textContent = icon;
+      }}
+    }} catch(e) {{
+      console.warn('Weather fetch error:', e);
+    }}
+  }}
+  fetchLiveWeather();
+
+  /* ---- INIT ---- */
+  renderInfo('pop');
+</script>
+</body>
+</html>
+"""
+
+with open('namangan_interaktiv_xarita.html', 'w', encoding='utf-8') as f:
+    f.write(html)
+
+with open('public/namangan_interaktiv_xarita.html', 'w', encoding='utf-8') as f:
+    f.write(html)
+
+print(f"Build complete! File size: {len(html)} chars ({len(html)/1024:.1f} KB)")
