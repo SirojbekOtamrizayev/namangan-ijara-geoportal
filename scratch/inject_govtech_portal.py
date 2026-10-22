@@ -26,38 +26,44 @@ sidebar_css = """
     }
 
     .sidebar-brand {
-      padding: 16px 18px;
+      padding: 14px 12px;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 12px;
+      justify-content: center;
       border-bottom: 1px solid var(--border);
+      background: rgba(2, 132, 199, 0.03);
+    }
+
+    .sidebar-logo-card {
+      background: rgba(2, 132, 199, 0.07);
+      border: 1px solid rgba(2, 132, 199, 0.22);
+      border-radius: 14px;
+      padding: 12px 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 8px;
+      width: 100%;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     }
 
     .sidebar-gerb {
-      width: 36px;
-      height: 36px;
+      width: 44px;
+      height: 44px;
       object-fit: contain;
+      filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.15));
       flex-shrink: 0;
     }
 
-    .sidebar-org-text {
-      display: flex;
-      flex-direction: column;
-      line-height: 1.15;
-    }
-    .sidebar-org-title {
-      font-size: 8.5px;
-      font-weight: 800;
-      color: #0284c7;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-    .sidebar-org-sub {
-      font-size: 10.5px;
+    .sidebar-brand-name {
+      font-size: 10px;
       font-weight: 800;
       color: var(--text);
-      line-height: 1.25;
-      margin-top: 2px;
+      line-height: 1.35;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
     }
 
     .sidebar-menu {
@@ -486,10 +492,11 @@ body_prefix = """<body>
   <!-- LEFT SIDEBAR -->
   <aside class="app-sidebar" id="appSidebar">
     <div class="sidebar-brand">
-      <img src="gerb.svg" alt="Gerb" class="sidebar-gerb" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/7/77/Emblem_of_Uzbekistan.svg'">
-      <div class="sidebar-org-text">
-        <span class="sidebar-org-title">O'ZBEKISTON RESPUBLIKASI</span>
-        <span class="sidebar-org-sub">Kambag'allikni qisqartirish va bandlik vazirligi</span>
+      <div class="sidebar-logo-card">
+        <img src="gerb.svg" alt="Gerb" class="sidebar-gerb" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/7/77/Emblem_of_Uzbekistan.svg'">
+        <span class="sidebar-brand-name">
+          NAMANGAN VILOYATI<br>KAMBAG'ALLIKNI QISQARTIRISH<br>VA BANDLIK BOSHQARMASI
+        </span>
       </div>
     </div>
 
