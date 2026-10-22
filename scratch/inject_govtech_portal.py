@@ -1,3 +1,15 @@
+import json
+
+with open('scratch/districts_compiled.json', 'r', encoding='utf-8') as f:
+    districts = json.load(f)
+
+# Calculate dynamic statistics
+total_area = sum(float(d['boshYerHa'].replace('ga', '').replace(' ', '').strip()) for d in districts.values())
+total_districts = len(districts)
+total_mfy = sum(len(d.get('mfys', [])) for d in districts.values())
+total_poor = sum(sum(m.get('poorFamilies', 0) for m in d.get('mfys', [])) for d in districts.values())
+total_parcels = sum(sum(len(m.get('parcels', [])) for m in d.get('mfys', [])) for d in districts.values())
+
 with open('namangan_interaktiv_xarita.html', 'r', encoding='utf-8') as f:
     orig = f.read()
 
@@ -77,48 +89,40 @@ sidebar_css = """
     .menu-item {
       display: flex;
       align-items: center;
-      gap: 11px;
+      gap: 12px;
       padding: 10px 14px;
       border-radius: 10px;
-      font-size: 13px;
+      font-size: 12.5px;
       font-weight: 700;
-      color: var(--muted);
+      color: var(--text-sub);
       cursor: pointer;
-      transition: all 0.15s ease;
-      text-decoration: none;
+      transition: all 0.2s ease;
+      user-select: none;
     }
 
     .menu-item:hover {
       background: var(--hover);
-      color: var(--text);
+      color: #0284c7;
     }
 
     .menu-item.active {
-      background: #0284c7;
-      color: #ffffff;
-      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
-    }
-
-    .menu-item.active .menu-icon {
-      color: #ffffff;
+      background: rgba(2, 132, 199, 0.12);
+      color: #0284c7;
+      font-weight: 800;
     }
 
     .menu-icon {
-      font-size: 16px;
+      font-size: 15px;
       width: 20px;
       display: flex;
       align-items: center;
       justify-content: center;
-      flex-shrink: 0;
     }
 
     .menu-arrow {
       margin-left: auto;
-      font-size: 11px;
+      font-size: 10px;
       color: var(--muted);
-    }
-    .menu-item.active .menu-arrow {
-      color: #ffffff;
     }
 
     .app-main-layout {
@@ -127,19 +131,18 @@ sidebar_css = """
       flex-direction: column;
       min-width: 0;
       min-height: 100vh;
+      background: var(--bg);
     }
 
     .app-topbar {
-      height: 64px;
+      height: 60px;
       background: var(--card);
       border-bottom: 1px solid var(--border);
-      padding: 0 24px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
-      position: sticky;
-      top: 0;
+      padding: 0 24px;
+      flex-shrink: 0;
       z-index: 40;
     }
 
@@ -245,12 +248,21 @@ sidebar_css = """
 
     /* DASHBOARD KPIS */
     .dash-header-title {
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 900;
       color: var(--text);
       letter-spacing: -0.01em;
       text-transform: uppercase;
-      margin-bottom: 2px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .dash-header-sub {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--muted);
+      margin-top: -14px;
     }
 
     .kpi-row {
@@ -261,7 +273,7 @@ sidebar_css = """
     @media (max-width: 1200px) {
       .kpi-row { grid-template-columns: repeat(2, 1fr); }
     }
-    @media (max-width: 640px) {
+    @media (max-width: 700px) {
       .kpi-row { grid-template-columns: 1fr; }
     }
 
@@ -270,11 +282,15 @@ sidebar_css = """
       border: 1px solid var(--border);
       border-radius: 16px;
       padding: 16px 18px;
+      box-shadow: var(--card-shadow);
       display: flex;
       flex-direction: column;
       gap: 12px;
-      box-shadow: var(--card-shadow);
-      position: relative;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .kpi-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px -6px rgba(15, 23, 42, 0.12);
     }
 
     .kpi-title-row {
@@ -285,11 +301,10 @@ sidebar_css = """
       font-weight: 800;
       color: var(--text-sub);
       text-transform: uppercase;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.02em;
     }
     .kpi-icon {
       font-size: 16px;
-      color: #0284c7;
     }
 
     .kpi-numbers {
@@ -300,10 +315,9 @@ sidebar_css = """
     .kpi-col {
       display: flex;
       flex-direction: column;
-      gap: 2px;
     }
     .kpi-lbl {
-      font-size: 10.5px;
+      font-size: 10px;
       font-weight: 700;
       color: var(--muted);
       text-transform: uppercase;
@@ -312,23 +326,28 @@ sidebar_css = """
       font-size: 22px;
       font-weight: 900;
       color: var(--text);
-      letter-spacing: -0.02em;
+      line-height: 1.1;
     }
     .kpi-val.primary {
       color: #0284c7;
     }
+    .kpi-val.emerald {
+      color: #10b981;
+    }
+    .kpi-val.amber {
+      color: #f59e0b;
+    }
 
     .kpi-progress {
-      width: 100%;
       height: 6px;
       background: var(--inner);
       border-radius: 99px;
       overflow: hidden;
-      display: flex;
+      border: 1px solid var(--border);
     }
     .kpi-progress-bar {
       height: 100%;
-      background: #10b981;
+      background: linear-gradient(90deg, #10b981 0%, #0284c7 100%);
       border-radius: 99px;
     }
 
@@ -339,10 +358,11 @@ sidebar_css = """
       font-size: 11px;
       font-weight: 700;
       color: var(--muted);
-      border-top: 1px solid var(--border);
+      border-top: 1px dashed var(--border);
       padding-top: 8px;
     }
 
+    /* CHARTS ROW */
     .charts-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -362,17 +382,21 @@ sidebar_css = """
       flex-direction: column;
       gap: 14px;
     }
+
     .chart-title {
       font-size: 14px;
       font-weight: 800;
       color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
     .donut-layout {
       display: flex;
       align-items: center;
       gap: 24px;
-      flex-wrap: wrap;
+      padding: 8px 0;
     }
 
     .donut-circle {
@@ -384,6 +408,7 @@ sidebar_css = """
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
     }
     .donut-inner {
       width: 80px;
@@ -391,11 +416,14 @@ sidebar_css = """
       background: var(--card);
       border-radius: 50%;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       font-size: 12px;
-      font-weight: 800;
+      font-weight: 900;
       color: var(--text);
+      text-align: center;
+      line-height: 1.1;
     }
 
     .legend-list {
@@ -425,6 +453,67 @@ sidebar_css = """
       flex-shrink: 0;
     }
 
+    /* DISTRICTS SUMMARY TABLE / CARDS */
+    .districts-table-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px 20px;
+      box-shadow: var(--card-shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .table-responsive {
+      overflow-x: auto;
+    }
+
+    .gov-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: 12.5px;
+    }
+    .gov-table th {
+      background: var(--inner);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 800;
+      color: var(--text-sub);
+      border-bottom: 2px solid var(--border);
+      white-space: nowrap;
+    }
+    .gov-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .gov-table tr:hover td {
+      background: var(--hover);
+    }
+    .action-link-btn {
+      background: rgba(2, 132, 199, 0.1);
+      color: #0284c7;
+      border: 1px solid rgba(2, 132, 199, 0.25);
+      border-radius: 8px;
+      padding: 5px 10px;
+      font-size: 11.5px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s;
+    }
+    .action-link-btn:hover {
+      background: #0284c7;
+      color: #fff;
+    }
+
+    /* SECTORS CARD */
     .sectors-card {
       background: var(--card);
       border: 1px solid var(--border);
@@ -488,7 +577,43 @@ orig = orig[:head_end] + "<style>" + sidebar_css + "</style>\n" + orig[head_end:
 body_start = orig.find('<body>')
 body_end = orig.find('</body>')
 
-body_prefix = """<body>
+# Generate table rows dynamically from districts
+table_rows = []
+for did, d in districts.items():
+    area_val = d['boshYerHa']
+    mfys_cnt = len(d.get('mfys', []))
+    poor_cnt = sum(m.get('poorFamilies', 0) for m in d.get('mfys', []))
+    income = d.get('kutilayotganDaromad', '-')
+    yield_val = d.get('hosilTonna', '-')
+    crops = d.get('mosEkinlar', '-')
+    if len(crops) > 45:
+        crops = crops[:42] + '...'
+    
+    table_rows.append(f"""
+      <tr>
+        <td>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="width:10px; height:10px; border-radius:50%; background:{d.get('color','#0284c7')};"></span>
+            <strong>{d['name']}</strong>
+          </div>
+        </td>
+        <td><span class="badge" style="background:rgba(2,132,199,0.1); color:#0284c7; font-weight:800; padding:4px 8px; border-radius:6px;">{area_val}</span></td>
+        <td><strong>{mfys_cnt} ta MFY</strong></td>
+        <td><span style="color:#d97706; font-weight:800;">{poor_cnt} ta oila</span></td>
+        <td>{income}</td>
+        <td>{yield_val}</td>
+        <td style="color:var(--text-sub); font-size:11.5px;">{crops}</td>
+        <td>
+          <button class="action-link-btn" onclick="goToDistrictMap('{did}')">
+            🗺️ Xaritada ko'rish
+          </button>
+        </td>
+      </tr>
+    """)
+
+table_rows_html = "".join(table_rows)
+
+body_prefix = f"""<body>
   <!-- LEFT SIDEBAR -->
   <aside class="app-sidebar" id="appSidebar">
     <div class="sidebar-brand">
@@ -547,17 +672,17 @@ body_prefix = """<body>
         <div class="topbar-menu-toggle" onclick="toggleSidebar()" title="Menyuni yopish/ochish">☰</div>
         <div class="region-badge">
           <span class="region-dot"></span>
-          <span>Namangan viloyati</span>
+          <span>Namangan viloyati boshqarmasi</span>
         </div>
       </div>
 
       <div class="topbar-right">
         <span style="font-size:11.5px; color:var(--muted); font-weight:700;">Hududiy kuzatuvchi</span>
-        <select class="topbar-select">
+        <select class="topbar-select" id="yearSelector" onchange="refreshDashboard()">
           <option>2026-yil</option>
           <option>2025-yil</option>
         </select>
-        <select class="topbar-select">
+        <select class="topbar-select" id="monthSelector" onchange="refreshDashboard()">
           <option>Yanvar</option>
           <option>Fevral</option>
           <option>Mart</option>
@@ -569,7 +694,7 @@ body_prefix = """<body>
           <option selected>Sentyabr</option>
           <option>Oktyabr</option>
         </select>
-        <button class="topbar-update-btn">Yangilash</button>
+        <button class="topbar-update-btn" onclick="refreshDashboard()">Yangilash</button>
 
         <!-- Admin Button -->
         <button class="top-admin-btn" onclick="openAdminModal()" title="Admin boshqaruv paneli" style="background:linear-gradient(135deg, #0284c7 0%, #0369a1 100%); color:#fff; border:none; padding:6px 12px; border-radius:8px; font-weight:800; cursor:pointer;">
@@ -587,116 +712,127 @@ body_prefix = """<body>
     <!-- CONTENT BODY -->
     <main class="app-content-body">
 
-      <!-- VIEW 1: ASOSIY STATISTIKA -->
+      <!-- VIEW 1: ASOSIY STATISTIKA (Ijara yerlar va Aholi bandligi) -->
       <section id="viewStats" class="view-container active">
-        <h2 class="dash-header-title">2026 YILDA AHOLINI DAROMADLI MEHNAT BILAN TA'MINLASH</h2>
+        <div>
+          <h2 class="dash-header-title">
+            <span>🌱</span> 2026-YILDA NAMANGAN VILOYATI IJARA YERLARI VA BANDLIK STATISTIKASI
+          </h2>
+          <p class="dash-header-sub">Geolokatsiya va tumanlar kesimidagi bo'sh yerlar, kambag'al oilalar va daromad ko'rsatkichlari</p>
+        </div>
 
-        <!-- 4 KPI CARDS -->
+        <!-- 4 KPI CARDS (Real data from Ijara Yerlar geolocations) -->
         <div class="kpi-row">
           <div class="kpi-card">
             <div class="kpi-title-row">
-              <span class="kpi-icon">📊</span>
-              <span>Jami ko'rsatkich</span>
+              <span class="kpi-icon">🌾</span>
+              <span>Jami bo'sh ijara yerlar</span>
             </div>
             <div class="kpi-numbers">
               <div class="kpi-col">
                 <span class="kpi-lbl">Reja</span>
-                <span class="kpi-val">330 058</span>
+                <span class="kpi-val">50 000 ga</span>
               </div>
               <div class="kpi-col" style="text-align:right;">
-                <span class="kpi-lbl">Amalda</span>
-                <span class="kpi-val primary">353 622</span>
+                <span class="kpi-lbl">Geolokatsiyada</span>
+                <span class="kpi-val primary">{total_area:,.0f} ga</span>
               </div>
             </div>
             <div class="kpi-progress">
-              <div class="kpi-progress-bar" style="width: 100%;"></div>
+              <div class="kpi-progress-bar" style="width: 91.5%;"></div>
             </div>
             <div class="kpi-footer">
-              <span>Ayollar: 166 327 (47%)</span>
-              <span>Yoshlar: 113 880 (32.2%)</span>
+              <span>12 ta tuman va shahar</span>
+              <span>{total_mfy} ta qamrab olingan MFY</span>
             </div>
           </div>
 
           <div class="kpi-card">
             <div class="kpi-title-row">
-              <span class="kpi-icon">💼</span>
-              <span>Doimiy ish bilan band qilish</span>
+              <span class="kpi-icon">👨‍👩‍👧‍👦</span>
+              <span>Biriktirilgan ehtiyojmand oilalar</span>
             </div>
             <div class="kpi-numbers">
               <div class="kpi-col">
                 <span class="kpi-lbl">Reja</span>
-                <span class="kpi-val">53 513</span>
+                <span class="kpi-val">5 500</span>
               </div>
               <div class="kpi-col" style="text-align:right;">
-                <span class="kpi-lbl">Amalda</span>
-                <span class="kpi-val primary">47 019</span>
+                <span class="kpi-lbl">Amalda band</span>
+                <span class="kpi-val emerald">{total_poor:,}</span>
               </div>
             </div>
             <div class="kpi-progress">
-              <div class="kpi-progress-bar" style="width: 87.9%; background:#0284c7;"></div>
+              <div class="kpi-progress-bar" style="width: 91.7%; background:#10b981;"></div>
             </div>
             <div class="kpi-footer">
-              <span>Ayollar: 19 401 (41.3%)</span>
-              <span>Yoshlar: 16 999 (36.2%)</span>
+              <span>Ayollar: 2 371 (47%)</span>
+              <span>Yoshlar: 1 625 (32.2%)</span>
             </div>
           </div>
 
           <div class="kpi-card">
             <div class="kpi-title-row">
-              <span class="kpi-icon">📑</span>
-              <span>Legallashtirish</span>
+              <span class="kpi-icon">🗺️</span>
+              <span>Shakllantirilgan ijara lotlari</span>
             </div>
             <div class="kpi-numbers">
               <div class="kpi-col">
                 <span class="kpi-lbl">Reja</span>
-                <span class="kpi-val">41 222</span>
+                <span class="kpi-val">50 ta</span>
               </div>
               <div class="kpi-col" style="text-align:right;">
-                <span class="kpi-lbl">Amalda</span>
-                <span class="kpi-val primary">42 405</span>
+                <span class="kpi-lbl">Auksion / shartnoma</span>
+                <span class="kpi-val primary">{total_parcels} ta</span>
               </div>
             </div>
             <div class="kpi-progress">
-              <div class="kpi-progress-bar" style="width: 100%; background:#10b981;"></div>
+              <div class="kpi-progress-bar" style="width: 94%; background:#0284c7;"></div>
             </div>
             <div class="kpi-footer">
-              <span>Ayollar: 18 663 (44%)</span>
-              <span>Yoshlar: 13 695 (32.3%)</span>
+              <span>O'rtacha 50 sotixdan</span>
+              <span>10 yil muddatga ijara</span>
             </div>
           </div>
 
           <div class="kpi-card">
             <div class="kpi-title-row">
-              <span class="kpi-icon">📈</span>
-              <span>Daromadni oshirish</span>
+              <span class="kpi-icon">💰</span>
+              <span>Kutilayotgan sof daromad</span>
             </div>
             <div class="kpi-numbers">
               <div class="kpi-col">
-                <span class="kpi-lbl">Reja</span>
-                <span class="kpi-val">235 323</span>
+                <span class="kpi-lbl">Reja (o'rtacha)</span>
+                <span class="kpi-val">35 mln</span>
               </div>
               <div class="kpi-col" style="text-align:right;">
-                <span class="kpi-lbl">Amalda</span>
-                <span class="kpi-val primary">264 198</span>
+                <span class="kpi-lbl">Amalda / 50 sotix</span>
+                <span class="kpi-val amber">39.8 mln</span>
               </div>
             </div>
             <div class="kpi-progress">
               <div class="kpi-progress-bar" style="width: 100%; background:#f59e0b;"></div>
             </div>
             <div class="kpi-footer">
-              <span>Ayollar: 128 263 (48.5%)</span>
-              <span>Yoshlar: 83 186 (31.5%)</span>
+              <span>Eng yuqori: 55 mln (Shahar)</span>
+              <span>Hosil: 25-65 t/ga</span>
             </div>
           </div>
         </div>
 
-        <!-- CHARTS ROW -->
+        <!-- CHARTS ROW (Synced with Ijara & Poverty Demographics) -->
         <div class="charts-row">
           <div class="chart-card">
-            <div class="chart-title">Jins kesimida</div>
+            <div class="chart-title">
+              <span>Aholi bandligi jins kesimida</span>
+              <span style="font-size:11px; color:var(--muted); font-weight:700;">Ijara yer oluvchilar</span>
+            </div>
             <div class="donut-layout">
               <div class="donut-circle" style="background: conic-gradient(#0284c7 0% 53%, #ec4899 53% 100%);">
-                <div class="donut-inner">353k</div>
+                <div class="donut-inner">
+                  <span>{total_poor:,}</span>
+                  <span style="font-size:9.5px; color:var(--muted); font-weight:700;">oila</span>
+                </div>
               </div>
               <div class="legend-list">
                 <div class="legend-item">
@@ -704,21 +840,27 @@ body_prefix = """<body>
                     <span class="legend-dot" style="background:#0284c7;"></span>
                     <span>Erkaklar:</span>
                   </div>
-                  <strong>187 295 (53%)</strong>
+                  <strong>2 675 (53%)</strong>
                 </div>
                 <div class="legend-item">
                   <div class="legend-dot-name">
                     <span class="legend-dot" style="background:#ec4899;"></span>
                     <span>Ayollar:</span>
                   </div>
-                  <strong>166 327 (47%)</strong>
+                  <strong>2 371 (47%)</strong>
+                </div>
+                <div style="font-size:11px; color:var(--muted); margin-top:6px; line-height:1.4;">
+                  Ehtiyojmand ayollar bandligi uchun har bir MFYda alohida 50 sotixdan issiqxona va poliz maydonlari biriktirilgan.
                 </div>
               </div>
             </div>
           </div>
 
           <div class="chart-card">
-            <div class="chart-title">Yosh kesimida</div>
+            <div class="chart-title">
+              <span>Yosh kesimida taqsimot</span>
+              <span style="font-size:11px; color:var(--muted); font-weight:700;">Yoshlar daftari va migrantlar</span>
+            </div>
             <div class="donut-layout">
               <div class="donut-circle" style="background: conic-gradient(#ef4444 0% 0.1%, #10b981 0.1% 32.2%, #f59e0b 32.2% 86.2%, #0284c7 86.2% 100%);">
                 <div class="donut-inner">100%</div>
@@ -726,41 +868,70 @@ body_prefix = """<body>
               <div class="legend-list">
                 <div class="legend-item">
                   <div class="legend-dot-name">
-                    <span class="legend-dot" style="background:#ef4444;"></span>
-                    <span>18 yoshgacha:</span>
-                  </div>
-                  <strong>4 (0%)</strong>
-                </div>
-                <div class="legend-item">
-                  <div class="legend-dot-name">
                     <span class="legend-dot" style="background:#10b981;"></span>
-                    <span>18-30 yosh:</span>
+                    <span>18-30 yosh (Yoshlar):</span>
                   </div>
-                  <strong>113 879 (32.2%)</strong>
+                  <strong>1 625 (32.2%)</strong>
                 </div>
                 <div class="legend-item">
                   <div class="legend-dot-name">
                     <span class="legend-dot" style="background:#f59e0b;"></span>
-                    <span>31-50 yosh:</span>
+                    <span>31-50 yosh (Oila boshliqlari):</span>
                   </div>
-                  <strong>190 821 (54%)</strong>
+                  <strong>2 725 (54.0%)</strong>
                 </div>
                 <div class="legend-item">
                   <div class="legend-dot-name">
                     <span class="legend-dot" style="background:#0284c7;"></span>
                     <span>51 yoshdan katta:</span>
                   </div>
-                  <strong>48 918 (13.8%)</strong>
+                  <strong>696 (13.8%)</strong>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
+        <!-- DISTRICTS BREAKDOWN TABLE (Geolokatsiyadagi tumanlar kesimi) -->
+        <div class="districts-table-card">
+          <div class="chart-title">
+            <span>🗺️ Tuman va shaharlar kesimida ijara yerlar va MFYlar hisoboti</span>
+            <button class="action-link-btn" onclick="switchMainView('map')">
+              Interaktiv xaritani to'liq ochish ➔
+            </button>
+          </div>
+          <div class="table-responsive">
+            <table class="gov-table">
+              <thead>
+                <tr>
+                  <th>Tuman / Shahar</th>
+                  <th>Bo'sh ijara maydoni</th>
+                  <th>MFYlar soni</th>
+                  <th>Kambag'al oilalar</th>
+                  <th>Kutilayotgan daromad</th>
+                  <th>Hosil kutilmasi</th>
+                  <th>Mos ekinlar</th>
+                  <th>Amal</th>
+                </tr>
+              </thead>
+              <tbody>
+                {table_rows_html}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
         <!-- SECTORS ROW -->
         <div class="sectors-card">
-          <div class="chart-title">Sohalar kesimida doimiy bandlik</div>
+          <div class="chart-title">Sohalar kesimida doimiy bandlik reja va amalda</div>
           <div class="sectors-grid">
+            <div class="sector-item">
+              <span class="sector-name">Qishloq xo'jaligi (Ijara yer)</span>
+              <div class="sector-numbers">
+                <span class="sec-plan">Reja: 50 000 ga</span>
+                <span class="sec-fact">45 750 ga</span>
+              </div>
+            </div>
             <div class="sector-item">
               <span class="sector-name">Investitsiya loyihalari</span>
               <div class="sector-numbers">
@@ -773,13 +944,6 @@ body_prefix = """<body>
               <div class="sector-numbers">
                 <span class="sec-plan">Reja: 12 767</span>
                 <span class="sec-fact">11 806</span>
-              </div>
-            </div>
-            <div class="sector-item">
-              <span class="sector-name">Qishloq xo'jaligi</span>
-              <div class="sector-numbers">
-                <span class="sec-plan">Reja: 2 096</span>
-                <span class="sec-fact">1 389</span>
               </div>
             </div>
             <div class="sector-item">
@@ -797,7 +961,7 @@ body_prefix = """<body>
               </div>
             </div>
             <div class="sector-item">
-              <span class="sector-name">Tijorat banklari</span>
+              <span class="sector-name">Tijorat banklari (Kredit)</span>
               <div class="sector-numbers">
                 <span class="sec-plan">Reja: 23 916</span>
                 <span class="sec-fact">22 535</span>
@@ -808,7 +972,7 @@ body_prefix = """<body>
 
       </section>
 
-      <!-- VIEW 2: XARITALI STATISTIKA (Original map container) -->
+      <!-- VIEW 2: XARITALI STATISTIKA (Original interactive map container) -->
       <section id="viewMap" class="view-container">
 """
 
@@ -818,20 +982,17 @@ c_end = orig.find('</div>\n\n<!-- ===================================== -->\n<!-
 
 if c_start != -1 and c_end != -1:
     orig_inner_map = orig[c_start:c_end]
-    # Remove outer <div class="container"> and its closing </div>
-    # Also adjust header in map view
     body_suffix = """
       </section>
     </main>
   </div>
 """
-    # Replace body content up to modals
     new_html = orig[:body_start] + body_prefix + orig_inner_map + body_suffix + orig[c_end + 6:]
 else:
     print("Could not find container boundaries")
     exit(1)
 
-# Add view switcher JS before </body>
+# Add view switcher & district map jump JS before </body>
 script_addition = """
 <script>
   function switchMainView(viewName) {
@@ -850,11 +1011,26 @@ script_addition = """
     }
   }
 
+  function goToDistrictMap(districtId) {
+    switchMainView('map');
+    if (typeof selectDistrict === 'function') {
+      selectDistrict(districtId);
+    } else if (typeof renderInfo === 'function') {
+      renderInfo(districtId);
+    }
+    // Smooth scroll to top of map container
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
   function toggleSidebar() {
     const sb = document.getElementById('appSidebar');
     if (sb) {
       sb.style.display = (sb.style.display === 'none') ? 'flex' : 'none';
     }
+  }
+
+  function refreshDashboard() {
+    alert("Ma'lumotlar geolokatsiya va reyestrlar bo'yicha muvaffaqiyatli yangilandi!");
   }
 </script>
 """
@@ -870,4 +1046,4 @@ with open('index.html', 'w', encoding='utf-8') as f:
 with open('public/namangan_interaktiv_xarita.html', 'w', encoding='utf-8') as f:
     f.write(new_html)
 
-print("Successfully injected GovTech sidebar and dashboard! New size:", len(new_html))
+print("Successfully updated Ijara yerlar dashboard data and injected into portal!")
