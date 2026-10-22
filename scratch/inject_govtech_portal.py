@@ -696,16 +696,7 @@ body_prefix = f"""<body>
         </select>
         <button class="topbar-update-btn" onclick="refreshDashboard()">Yangilash</button>
 
-        <!-- Admin Button -->
-        <button class="top-admin-btn" onclick="openAdminModal()" title="Admin boshqaruv paneli" style="background:linear-gradient(135deg, #0284c7 0%, #0369a1 100%); color:#fff; border:none; padding:6px 12px; border-radius:8px; font-weight:800; cursor:pointer;">
-          <span>⚙️ Admin</span>
-        </button>
 
-        <!-- User Profile -->
-        <div class="user-pill">
-          <div class="user-avatar">👤</div>
-          <span>ZAFAR IKRAMOV</span>
-        </div>
       </div>
     </header>
 
