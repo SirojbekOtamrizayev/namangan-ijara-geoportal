@@ -1466,10 +1466,9 @@
         <span class="menu-icon">🗺️</span>
         <span>Xaritali statistika</span>
       </div>
-      <div class="menu-item" onclick="switchMainView('stats')">
-        <span class="menu-icon">📈</span>
-        <span>Hisobotlar</span>
-        <span class="menu-arrow">⌄</span>
+      <div class="menu-item" id="menuAiService" onclick="switchMainView('aiService')">
+        <span class="menu-icon">🌱</span>
+        <span>Hosil olish bo'yicha AI xizmati</span>
       </div>
       <div class="menu-item" onclick="openAdminModal()">
         <span class="menu-icon">👥</span>
@@ -1987,6 +1986,253 @@
       </section>
 
       <!-- VIEW 2: XARITALI STATISTIKA (Original interactive map container) -->
+      
+      <!-- VIEW 3: HOSIL OLISH BO'YICHA AI XIZMATI -->
+      <section id="viewAiService" class="view-container">
+        
+        <!-- Header banner -->
+        <div style="background: linear-gradient(135deg, #0284c7 0%, #0369a1 50%, #0f172a 100%); border-radius: 18px; padding: 22px 28px; color: #fff; box-shadow: var(--card-shadow); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+          <div>
+            <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.15); padding: 4px 12px; border-radius: 99px; font-size: 11.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;">
+              <span>🤖</span> Aqlli Agrotexnologik AI Platforma
+            </div>
+            <h2 style="font-size: 22px; font-weight: 900; margin: 0; line-height: 1.2;">Hosil olish bo'yicha AI xizmati</h2>
+            <p style="font-size: 13px; color: #e0f2fe; margin: 6px 0 0 0; max-width: 650px;">
+              Qishloq xo'jaligi va ijara yerlari uchun ekinlar ma'lumotlar bazasi, sarf-xarajatlar (rasxod), kutilayotgan hosildorlik hamda sof daromadni interaktiv tahlil qiluvchi sun'iy intellekt xizmati.
+            </p>
+          </div>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <button class="d-btn" onclick="downloadCropTemplate()" style="background: rgba(255,255,255,0.2); color: #fff; border: 1px solid rgba(255,255,255,0.35); padding: 9px 16px; font-size: 12.5px; backdrop-filter: blur(8px);">
+              📥 Excel shablonini olish
+            </button>
+            <button class="d-btn" onclick="document.getElementById('aiViewExcelInput').click()" style="background: #10b981; color: #fff; border: none; padding: 9px 18px; font-size: 12.5px; box-shadow: 0 4px 12px rgba(16,185,129,0.35);">
+              📤 Yangi jadval yuklash
+            </button>
+            <input type="file" id="aiViewExcelInput" accept=".xlsx, .xls, .csv" style="display:none;" onchange="handleAiViewExcelUpload(event)">
+          </div>
+        </div>
+
+        <!-- 4 Stat Metric Cards -->
+        <div class="kpi-row" style="grid-template-columns: repeat(4, 1fr);">
+          <div class="kpi-card">
+            <div class="kpi-title-row">
+              <span class="kpi-icon">🌾</span>
+              <span>Bazadagi ekin turlari</span>
+            </div>
+            <div class="kpi-numbers">
+              <div class="kpi-col">
+                <span class="kpi-lbl">Jami ekinlar</span>
+                <span class="kpi-val primary" id="aiTotalCropsCount">8 ta</span>
+              </div>
+            </div>
+            <div class="kpi-footer">
+              <span>Sabzavot, poliz, dukkakli</span>
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-title-row">
+              <span class="kpi-icon">💰</span>
+              <span>O'rtacha daromad (1 ga)</span>
+            </div>
+            <div class="kpi-numbers">
+              <div class="kpi-col">
+                <span class="kpi-lbl">Gektariga sof foyda</span>
+                <span class="kpi-val emerald" id="aiAvgIncomeVal">72.5 mln</span>
+              </div>
+            </div>
+            <div class="kpi-footer">
+              <span>Eng yuqori: 150 mln so'm</span>
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-title-row">
+              <span class="kpi-icon">🚜</span>
+              <span>O'rtacha xarajat (rasxod)</span>
+            </div>
+            <div class="kpi-numbers">
+              <div class="kpi-col">
+                <span class="kpi-lbl">1 ga urug'+o'g'it+suv</span>
+                <span class="kpi-val amber" id="aiAvgExpenseVal">16.8 mln</span>
+              </div>
+            </div>
+            <div class="kpi-footer">
+              <span>Rentabellik: 320% - 450%</span>
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-title-row">
+              <span class="kpi-icon">⚡</span>
+              <span>AI Tavsiya aniqligi</span>
+            </div>
+            <div class="kpi-numbers">
+              <div class="kpi-col">
+                <span class="kpi-lbl">Bonitet & iqlim mosligi</span>
+                <span class="kpi-val primary">96.4%</span>
+              </div>
+            </div>
+            <div class="kpi-footer">
+              <span>Namangan 12 hududi bo'yicha</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- MAIN 2-COLUMN LAYOUT: Left (Interactive Table & DB) / Right (AI Advisor Chat & Simulator) -->
+        <div style="display: grid; grid-template-columns: 1.4fr 1fr; gap: 20px;">
+
+          <!-- LEFT COLUMN: Crop Database Table with Filter & Upload -->
+          <div style="display: flex; flex-direction: column; gap: 16px;">
+            
+            <div class="districts-table-card" style="padding: 20px;">
+              <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 6px;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <span style="font-size: 20px;">📊</span>
+                  <div>
+                    <h3 style="font-size: 15px; font-weight: 800; color: var(--text); margin: 0;">Ekinlar va Iqtisodiy Ko'rsatkichlar Bazasi</h3>
+                    <p style="font-size: 11.5px; color: var(--muted); margin: 2px 0 0 0;">Jadvaldagi istalgan ekin ustiga bosing — AI uning rasxodi, hosili va foydasini tahlil qiladi</p>
+                  </div>
+                </div>
+
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <input type="text" id="aiCropSearchInput" oninput="filterAiCropsTable()" placeholder="Ekin nomini qidirish..." style="background: var(--inner); border: 1px solid var(--border); border-radius: 8px; padding: 6px 12px; font-size: 12px; color: var(--text); outline: none;">
+                </div>
+              </div>
+
+              <!-- Data table -->
+              <div class="table-responsive" style="max-height: 480px; overflow-y: auto;">
+                <table class="gov-table" id="aiCropsGovTable">
+                  <thead>
+                    <tr>
+                      <th>Ekin nomi</th>
+                      <th>Navi (sort)</th>
+                      <th>1 ga hosildorlik</th>
+                      <th>Kutilayotgan daromad</th>
+                      <th>10/50 sotix daromad</th>
+                      <th>Bozor narxi (kg)</th>
+                      <th>AI Tahlil</th>
+                    </tr>
+                  </thead>
+                  <tbody id="aiCropsTableBody">
+                    <!-- Dynamically rendered -->
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Quick Upload banner below table -->
+              <div style="margin-top: 14px; border: 1.5px dashed rgba(2, 132, 199, 0.4); border-radius: 12px; padding: 12px 16px; background: rgba(2, 132, 199, 0.03); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <span style="font-size: 22px;">📁</span>
+                  <div>
+                    <div style="font-size: 12px; font-weight: 800; color: var(--text);">Yangi ma'lumotlar bazasini yuklash (Excel / CSV)</div>
+                    <div style="font-size: 11px; color: var(--muted);">Yangi fayl yuklasangiz, ushbu jadval va AI tahlili avtomatik yangilanadi</div>
+                  </div>
+                </div>
+                <button onclick="document.getElementById('aiViewExcelInput').click()" class="action-link-btn" style="padding: 6px 14px;">
+                  Fayl tanlash
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- RIGHT COLUMN: AI MASLAHAT VA TAHLIL OYNACHASI (Interactive AI Agro Advisor) -->
+          <div style="display: flex; flex-direction: column; gap: 16px;">
+            
+            <!-- AI Advisor Panel -->
+            <div style="background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 20px; box-shadow: var(--card-shadow); display: flex; flex-direction: column; gap: 14px;">
+              
+              <!-- AI Box Header -->
+              <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 12px;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <div style="width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, #10b981 0%, #0284c7 100%); display: flex; align-items: center; justify-content: center; font-size: 20px; box-shadow: 0 4px 10px rgba(16,185,129,0.3);">
+                    🤖
+                  </div>
+                  <div>
+                    <div style="font-size: 14px; font-weight: 800; color: var(--text); display: flex; align-items: center; gap: 6px;">
+                      <span>AI Agromaslahatchi</span>
+                      <span style="background: #ecfdf5; color: #047857; font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 99px; border: 1px solid rgba(16,185,129,0.3);">Online</span>
+                    </div>
+                    <div style="font-size: 11px; color: var(--muted);">Namangan iqlimi va tuproq boniteti tahlili</div>
+                  </div>
+                </div>
+                <button class="d-btn" onclick="resetAiConsultant()" style="font-size: 11px; padding: 4px 8px;" title="Tahlilni yangilash">
+                  🔄 Qayta hisoblash
+                </button>
+              </div>
+
+              <!-- Interactive Simulator Inputs -->
+              <div style="background: var(--inner); border: 1px solid var(--border); border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 10px;">
+                <div style="font-size: 11.5px; font-weight: 800; color: var(--text-sub); text-transform: uppercase; letter-spacing: 0.04em;">
+                  ⚡ Tezkor AI Simulyator (Hosil & Xarajat)
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                  <div>
+                    <label style="font-size: 10.5px; font-weight: 700; color: var(--muted); display: block; margin-bottom: 3px;">Ekin turini tanlang:</label>
+                    <select id="aiSimCropSelect" onchange="runAiCropAnalysis()" class="topbar-select" style="width: 100%;">
+                      <!-- Populated dynamically -->
+                    </select>
+                  </div>
+                  <div>
+                    <label style="font-size: 10.5px; font-weight: 700; color: var(--muted); display: block; margin-bottom: 3px;">Yer maydoni:</label>
+                    <select id="aiSimAreaSelect" onchange="runAiCropAnalysis()" class="topbar-select" style="width: 100%;">
+                      <option value="0.1">10 sotix (0.1 ga)</option>
+                      <option value="0.15">15 sotix (0.15 ga)</option>
+                      <option value="0.5" selected>50 sotix (0.5 ga - standart ijara)</option>
+                      <option value="1.0">1 gektar (1.0 ga)</option>
+                      <option value="2.0">2 gektar (2.0 ga)</option>
+                      <option value="5.0">5 gektar (5.0 ga)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label style="font-size: 10.5px; font-weight: 700; color: var(--muted); display: block; margin-bottom: 3px;">Tuman/Hudud tanlang:</label>
+                  <select id="aiSimDistrictSelect" onchange="runAiCropAnalysis()" class="topbar-select" style="width: 100%;">
+                    <option value="pop">Pop tumani (Qumloq-bo'z tuproq, bonitet: 64)</option>
+                    <option value="chust">Chust tumani (Qalampir & Sabzi, bonitet: 68)</option>
+                    <option value="mingbuloq">Mingbuloq tumani (Poliz & Dukkakli, bonitet: 66)</option>
+                    <option value="toraqorgon">To'raqo'rg'on tumani (Sabzavotchilik, bonitet: 72)</option>
+                    <option value="kosonsoy">Kosonsoy tumani (Bog'dorchilik & Sabzi, bonitet: 67)</option>
+                    <option value="yangiqorgon">Yangiqo'rg'on tumani (Kartoshkachilik, bonitet: 70)</option>
+                    <option value="chortoq">Chortoq tumani (Meva & Gilos, bonitet: 69)</option>
+                    <option value="uychi">Uychi tumani (Uch faslli sabzavot, bonitet: 73)</option>
+                    <option value="uchqorgon">Uchqo'rg'on tumani (Sholi & Mevalar, bonitet: 74)</option>
+                    <option value="norin">Norin tumani (Piyoz & Sabzavot, bonitet: 71)</option>
+                    <option value="namangan-tumani">Namangan tumani (Ko'chatchilik, bonitet: 72)</option>
+                    <option value="namangan-shahri">Namangan shahri (Issiqxona & Gullar, bonitet: 75)</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- AI Analysis Output Box -->
+              <div id="aiAdvisorOutput" style="background: linear-gradient(135deg, rgba(2, 132, 199, 0.05) 0%, rgba(16, 185, 129, 0.05) 100%); border: 1.5px solid rgba(2, 132, 199, 0.25); border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+                <!-- Populated by JS runAiCropAnalysis -->
+              </div>
+
+              <!-- AI Agromaslahatchiga savol berish (Quick Chat) -->
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                <label style="font-size: 11px; font-weight: 800; color: var(--text-sub);">💬 AI Agromaslahatchiga erkin savol bering:</label>
+                <div style="display: flex; gap: 8px;">
+                  <input type="text" id="aiCustomQuestionInput" placeholder="Masalan: 50 sotixga nima eksam ko'p foyda olaman?" style="flex: 1; background: var(--inner); border: 1px solid var(--border); border-radius: 10px; padding: 8px 12px; font-size: 12px; color: var(--text); outline: none;" onkeydown="if(event.key==='Enter') sendAiQuestion()">
+                  <button class="topbar-update-btn" onclick="sendAiQuestion()" style="padding: 8px 14px; border-radius: 10px;">
+                    Yuborish ➔
+                  </button>
+                </div>
+                <div id="aiQuickAnswersBox" style="display: none; background: var(--inner); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; font-size: 12px; line-height: 1.5; color: var(--text);">
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
       <section id="viewMap" class="view-container">
 <div class="container">
   <!-- Header -->
@@ -3775,16 +4021,24 @@
   function switchMainView(viewName) {
     const statsEl = document.getElementById('viewStats');
     const mapEl = document.getElementById('viewMap');
+    const aiEl = document.getElementById('viewAiService');
     const menuStats = document.getElementById('menuStats');
     const menuMap = document.getElementById('menuMap');
+    const menuAi = document.getElementById('menuAiService');
 
     if (statsEl) statsEl.classList.toggle('active', viewName === 'stats');
     if (mapEl) mapEl.classList.toggle('active', viewName === 'map');
+    if (aiEl) aiEl.classList.toggle('active', viewName === 'aiService');
+
     if (menuStats) menuStats.classList.toggle('active', viewName === 'stats');
     if (menuMap) menuMap.classList.toggle('active', viewName === 'map');
+    if (menuAi) menuAi.classList.toggle('active', viewName === 'aiService');
 
     if (viewName === 'map' && typeof renderInfo === 'function') {
       renderInfo(typeof selectedDistrict !== 'undefined' ? selectedDistrict : 'pop');
+    }
+    if (viewName === 'aiService' && typeof initAiServiceView === 'function') {
+      initAiServiceView();
     }
   }
 
