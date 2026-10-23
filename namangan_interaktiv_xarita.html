@@ -2621,105 +2621,178 @@
     </div>
 
     <!-- Body Tab: Crop Database (AI) -->
+        <!-- Body Tab: Crop Database (AI) - Modern Database Management Center -->
     <div class="admin-body" id="adminTabCropBase" style="display: none;">
-      <div style="background:var(--inner); border:1px solid var(--border); border-radius:16px; padding:20px; display:flex; flex-direction:column; gap:16px;">
+      <div style="display: flex; flex-direction: column; gap: 14px;">
 
-        <!-- Header -->
-        <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
-          <div>
-            <h3 style="font-size:15px; font-weight:800; color:var(--text);">🌱 Dehqon xo'jaligi ekinlari bazasi — AI taqsimlash</h3>
-            <p style="font-size:12px; color:var(--muted); margin-top:3px; line-height:1.5;">
-              Excel jadvaldan ekin mahsulotlari ma'lumotlarini yuklang. Tizim avtomatik har bir MFY tuproq turi, iqlimi va hududiga qarab mos ekinlarni <strong>AI algoritmi</strong> bilan taqsimlaydi.
-            </p>
-          </div>
-          <div style="display:flex; gap:8px; flex-wrap:wrap;">
-            <button class="d-btn" onclick="downloadCropTemplate()" style="background:#0284c7; color:#fff; border:none; padding:8px 14px;">
-              📥 Ekin shablonini yuklab olish
-            </button>
-          </div>
-        </div>
-
-        <!-- Upload Zone -->
-        <div style="border: 2px dashed #f59e0b; border-radius: 12px; padding: 22px; text-align: center; background: rgba(245,158,11,0.04);">
-          <input type="file" id="cropExcelInput" accept=".xlsx, .xls, .csv" style="display:none;" onchange="handleCropExcelUpload(event)">
-          <div style="font-size:30px; margin-bottom:6px;">🌾</div>
-          <div style="font-size:13.5px; font-weight:800; color:var(--text); margin-bottom:4px;">Ekinlar jadvalini yuklang (Excel)</div>
-          <div style="font-size:11.5px; color:var(--muted); margin-bottom:12px;">
-            Ustunlar: Mahsulot nomi, Navi, Hosildorlik, Narx, Maydon va boshqalar
-          </div>
-          <button type="button" class="admin-submit-btn" style="background:linear-gradient(135deg,#f59e0b,#d97706);" onclick="document.getElementById('cropExcelInput').click()">
-            📂 Excel faylni tanlash...
-          </button>
-        </div>
-
-        <!-- Preview Table -->
-        <div id="cropPreviewSection" style="display:none; flex-direction:column; gap:10px;">
-          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
-            <span style="font-size:13px; font-weight:800; color:var(--text);" id="cropPreviewTitle">O'qilgan ekinlar: 0 ta</span>
-            <button class="admin-submit-btn" onclick="confirmCropImport()" style="background:#059669; padding:8px 16px; font-size:12.5px;">
-              ✅ Bazaga Saqlash va AI Taqsimlash
-            </button>
-          </div>
-
-          <div class="data-table-container" style="max-height:250px;">
-            <table class="admin-table">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Mahsulot nomi</th>
-                  <th>Nav (sort)</th>
-                  <th>1 ga hosil (tonna)</th>
-                  <th>1 ga daromad</th>
-                  <th>15 sotix hosil</th>
-                  <th>10 sotix hosil</th>
-                  <th>Yangicha usul mahsulot</th>
-                  <th>Narx (UZS/kg)</th>
-                </tr>
-              </thead>
-              <tbody id="cropPreviewTbody"></tbody>
-            </table>
-          </div>
-        </div>
-
-        <!-- AI Distribution Button -->
-        <div id="cropAiSection" style="display:none; flex-direction:column; gap:12px;">
-          <div style="background:linear-gradient(135deg,rgba(16,185,129,0.08),rgba(56,189,248,0.08)); border:1px solid rgba(16,185,129,0.3); border-radius:14px; padding:16px; display:flex; align-items:center; gap:14px;">
-            <div style="font-size:32px;">🤖</div>
-            <div style="flex:1;">
-              <div style="font-size:14px; font-weight:800; color:var(--text);">AI Taqsimlash Natijasi</div>
-              <div style="font-size:12px; color:var(--muted); margin-top:3px;" id="aiResultText">
-                Tizim har bir MFY ning tuproq boniteti, namligi, iqlimi va mavjud ekin ixtisoslashuviga qarab eng mos ekinlarni avtomatik tanladi.
+        <!-- Top Header & Status Toolbar -->
+        <div style="background: linear-gradient(135deg, rgba(2, 132, 199, 0.08) 0%, rgba(16, 185, 129, 0.08) 100%); border: 1px solid var(--border); border-radius: 14px; padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <div style="width: 40px; height: 40px; border-radius: 10px; background: #0284c7; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 20px; box-shadow: 0 4px 10px rgba(2, 132, 199, 0.3);">
+              🌾
+            </div>
+            <div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <h3 style="font-size: 15px; font-weight: 800; color: var(--text); margin: 0;">Ekinlar va Agrotexnologiya Ma'lumotlar Bazasi Markazi</h3>
+                <span class="badge" id="cropDbCategoryCountBadge" style="background:#0284c7; color:#fff;">Baza faol</span>
               </div>
+              <p style="font-size: 11.5px; color: var(--muted); margin: 2px 0 0 0;">
+                O'ng tarafdagi yo'nalishlar bo'yicha Excel yuklang — tizim avtomatik <strong>"Hosil olish bo'yicha AI xizmati"</strong> jadvaliga va barcha MFY xaritalariga tortib oladi.
+              </p>
             </div>
           </div>
 
-          <!-- AI Results per District -->
-          <div id="aiDistributionResults" style="display:flex; flex-direction:column; gap:10px; max-height:350px; overflow-y:auto; padding-right:4px;"></div>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button class="d-btn" onclick="downloadCropTemplate()" style="background: var(--inner); border: 1px solid var(--border); font-size: 11.5px; padding: 7px 12px;">
+              📥 Shablon (.xlsx)
+            </button>
+            <button class="d-btn" onclick="syncAndRefreshAllAiViews()" style="background: #10b981; color: #fff; border: none; font-size: 11.5px; padding: 7px 14px; box-shadow: 0 2px 8px rgba(16,185,129,0.3);">
+              🔄 AI Xizmatiga Yangilash
+            </button>
+          </div>
         </div>
 
-        <!-- Current Crop Database -->
-        <div style="border-top:1px solid var(--border); padding-top:14px;">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-            <span style="font-size:13px; font-weight:800; color:var(--text);">📊 Saqlangan ekinlar bazasi</span>
-            <span class="badge" id="cropDbCount">0 ta mahsulot</span>
+        <!-- 2-COLUMN DATABASE WORKBENCH: Left (Live Database Table & Search) / Right (Direction-based Upload Panels) -->
+        <div style="display: grid; grid-template-columns: 1.4fr 1fr; gap: 16px;">
+
+          <!-- LEFT: Stored Database Table with category tabs & search -->
+          <div style="background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 10px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 16px;">📋</span>
+                <span style="font-size: 13px; font-weight: 800; color: var(--text);">Joriy Ekinlar Bazasi</span>
+                <span class="badge" id="cropDbCount" style="font-size: 10.5px;">0 ta mahsulot</span>
+              </div>
+              <input type="text" id="adminCropSearchInput" oninput="filterAdminCropDbTable()" placeholder="Ekin nomi bo'yicha..." style="background: var(--inner); border: 1px solid var(--border); border-radius: 8px; padding: 5px 10px; font-size: 11.5px; color: var(--text); outline: none; width: 170px;">
+            </div>
+
+            <!-- Category Pills Filter -->
+            <div style="display: flex; gap: 5px; flex-wrap: wrap;" id="cropCategoryPills">
+              <button class="d-btn active" onclick="filterAdminCropCategory('all', this)" style="font-size: 10.5px; padding: 4px 8px;">Barchasi</button>
+              <button class="d-btn" onclick="filterAdminCropCategory('sabzavot', this)" style="font-size: 10.5px; padding: 4px 8px;">Sabzavotlar</button>
+              <button class="d-btn" onclick="filterAdminCropCategory('poliz', this)" style="font-size: 10.5px; padding: 4px 8px;">Poliz</button>
+              <button class="d-btn" onclick="filterAdminCropCategory('dukkakli', this)" style="font-size: 10.5px; padding: 4px 8px;">Dukkakli</button>
+              <button class="d-btn" onclick="filterAdminCropCategory('ildizmeva', this)" style="font-size: 10.5px; padding: 4px 8px;">Ildizmeva</button>
+              <button class="d-btn" onclick="filterAdminCropCategory('issiqxona', this)" style="font-size: 10.5px; padding: 4px 8px;">Issiqxona</button>
+            </div>
+
+            <!-- Table -->
+            <div class="data-table-container" style="max-height: 380px; overflow-y: auto;">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Ekin nomi</th>
+                    <th>Navi (sort)</th>
+                    <th>1 ga hosil</th>
+                    <th>1 ga daromad</th>
+                    <th>Narx/kg</th>
+                    <th>Taqsimot</th>
+                  </tr>
+                </thead>
+                <tbody id="cropDbTbody"></tbody>
+              </table>
+            </div>
+
+            <div style="font-size: 10.5px; color: var(--muted); border-top: 1px dashed var(--border); padding-top: 6px; display: flex; justify-content: space-between;">
+              <span>⚡ Bazadagi barcha ekinlar <strong>Hosil olish bo'yicha AI xizmati</strong> bo'limida avtomatik tahlil qilinadi</span>
+              <a href="javascript:void(0)" onclick="clearCropDatabase()" style="color: #ef4444; font-weight: 700; text-decoration: none;">Bazani tozalash</a>
+            </div>
           </div>
-          <div class="data-table-container" style="max-height:250px;">
-            <table class="admin-table">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Mahsulot</th>
-                  <th>Nav</th>
-                  <th>1 ga hosil</th>
-                  <th>1 ga daromad</th>
-                  <th>Narx/kg</th>
-                  <th>Taqsimlangan MFYlar</th>
-                </tr>
-              </thead>
-              <tbody id="cropDbTbody"></tbody>
-            </table>
+
+          <!-- RIGHT: Direction-based Data Importer (Har bir yo'nalish bo'yicha yuklash) -->
+          <div style="background: var(--inner); border: 1px solid var(--border); border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 10px;">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <span style="font-size: 12.5px; font-weight: 800; color: var(--text);">📂 Yo'nalishlar Bo'yicha Ma'lumot Yuklash</span>
+              <span style="font-size: 10px; color: var(--muted);">Excel / CSV</span>
+            </div>
+
+            <!-- Direction Selector Cards -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+              <div onclick="selectUploadDirection('sabzavot', 'Sabzavot ekinlari bazasi', this)" class="upload-dir-card active" style="background:var(--card); border:1.5px solid #0284c7; border-radius:10px; padding:8px 10px; cursor:pointer; display:flex; align-items:center; gap:8px;">
+                <span style="font-size: 18px;">🥕</span>
+                <div>
+                  <div style="font-size: 11px; font-weight: 800; color: var(--text);">Sabzavotchilik</div>
+                  <div style="font-size: 9.5px; color: var(--muted);">Sabzi, piyoz, karam, qalampir</div>
+                </div>
+              </div>
+
+              <div onclick="selectUploadDirection('poliz', 'Poliz ekinlari bazasi', this)" class="upload-dir-card" style="background:var(--card); border:1px solid var(--border); border-radius:10px; padding:8px 10px; cursor:pointer; display:flex; align-items:center; gap:8px;">
+                <span style="font-size: 18px;">🍉</span>
+                <div>
+                  <div style="font-size: 11px; font-weight: 800; color: var(--text);">Polizchilik</div>
+                  <div style="font-size: 9.5px; color: var(--muted);">Qovun, tarvuz, qovoq</div>
+                </div>
+              </div>
+
+              <div onclick="selectUploadDirection('dukkakli', 'Dukkakli ekinlar bazasi', this)" class="upload-dir-card" style="background:var(--card); border:1px solid var(--border); border-radius:10px; padding:8px 10px; cursor:pointer; display:flex; align-items:center; gap:8px;">
+                <span style="font-size: 18px;">🌱</span>
+                <div>
+                  <div style="font-size: 11px; font-weight: 800; color: var(--text);">Dukkaklilar</div>
+                  <div style="font-size: 9.5px; color: var(--muted);">Mosh, loviya, no'xat</div>
+                </div>
+              </div>
+
+              <div onclick="selectUploadDirection('issiqxona', 'Issiqxona va Intensiv ekinlar', this)" class="upload-dir-card" style="background:var(--card); border:1px solid var(--border); border-radius:10px; padding:8px 10px; cursor:pointer; display:flex; align-items:center; gap:8px;">
+                <span style="font-size: 18px;">🍋</span>
+                <div>
+                  <div style="font-size: 11px; font-weight: 800; color: var(--text);">Issiqxona</div>
+                  <div style="font-size: 9.5px; color: var(--muted);">Limon, bodring, gullar</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Active Direction Upload Box -->
+            <div style="border: 2px dashed #0284c7; border-radius: 12px; padding: 16px; text-align: center; background: rgba(2, 132, 199, 0.04); display: flex; flex-direction: column; align-items: center; gap: 6px;">
+              <input type="file" id="cropExcelInput" accept=".xlsx, .xls, .csv" style="display:none;" onchange="handleCropExcelUpload(event)">
+              <div style="font-size: 26px;" id="uploadDirIcon">🥕</div>
+              <div style="font-size: 12px; font-weight: 800; color: var(--text);" id="uploadDirTitle">Sabzavot ekinlari bazasini yuklash</div>
+              <div style="font-size: 10.5px; color: var(--muted); margin-bottom: 4px;">
+                Excel faylni tanlang — ma'lumotlar bazaga qo'shiladi va AI xizmatiga avtomatik uzatiladi
+              </div>
+              <button type="button" class="admin-submit-btn" style="background: #0284c7; padding: 8px 16px; font-size: 11.5px;" onclick="document.getElementById('cropExcelInput').click()">
+                📂 Faylni tanlash (.xlsx)...
+              </button>
+            </div>
+
+            <!-- Preview Table Inside Admin -->
+            <div id="cropPreviewSection" style="display:none; flex-direction:column; gap:8px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
+                <span style="font-size:12px; font-weight:800; color:var(--text);" id="cropPreviewTitle">O'qilgan: 0 ta</span>
+                <button class="admin-submit-btn" onclick="confirmCropImport()" style="background:#059669; padding:6px 12px; font-size:11.5px;">
+                  ✅ Bazaga Saqlash va AI ga Tortish
+                </button>
+              </div>
+
+              <div class="data-table-container" style="max-height:160px; overflow-y:auto;">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Mahsulot</th>
+                      <th>Nav</th>
+                      <th>1 ga hosil</th>
+                      <th>1 ga daromad</th>
+                      <th>Narx</th>
+                    </tr>
+                  </thead>
+                  <tbody id="cropPreviewTbody"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Auto-Sync Status Bar -->
+            <div style="background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 8px 10px; font-size: 11px; display: flex; align-items: center; gap: 8px; color: var(--text);">
+              <span style="color: #10b981; font-size: 14px;">⚡</span>
+              <div>
+                <strong>Avtomatik sinxronizatsiya:</strong> Bazaga saqlangan har bir jadval to'g'ridan-to'g'ri <em>"Hosil olish bo'yicha AI xizmati"</em> jadvalini to'ldiradi.
+              </div>
+            </div>
+
           </div>
+
         </div>
+
       </div>
     </div>
 
